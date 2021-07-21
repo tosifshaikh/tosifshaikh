@@ -1,0 +1,24 @@
+[14-May-2017 13:28:52 Asia/Kolkata] PHP Notice:  fputs(): send of 31 bytes failed with errno=32 Broken pipe in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/class.smtp.php on line 494
+[16-May-2017 02:18:14 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/change-password-proc.php on line 50
+[16-May-2017 02:33:23 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/change-password-proc.php on line 50
+[16-May-2017 04:39:35 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[16-May-2017 04:42:26 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[16-May-2017 04:59:35 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[16-May-2017 05:10:23 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/change-password-proc.php on line 50
+[16-May-2017 05:31:20 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[16-May-2017 06:23:53 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[16-May-2017 07:42:11 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/change-password-proc.php on line 50
+[16-May-2017 08:07:16 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[16-May-2017 08:27:01 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[24-May-2017 16:07:44 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[24-May-2017 23:10:53 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/change-password-proc.php on line 50
+[25-May-2017 00:21:51 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[25-May-2017 11:38:29 Asia/Kolkata] PHP Notice:  Undefined index: custname in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/my-account.php on line 160
+[25-May-2017 11:38:29 Asia/Kolkata] PHP Notice:  Undefined index: custname in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/my-account.php on line 181
+[27-May-2017 07:26:13 Asia/Kolkata] PHP Notice:  Use of undefined constant void - assumed 'void' in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/sign-out-proc.php on line 8
+[01-Jun-2017 20:25:43 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/checkzip.php on line 18
+[01-Jun-2017 20:25:49 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/checkzip.php on line 18
+[01-Jun-2017 20:25:57 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/checkzip.php on line 18
+[01-Jun-2017 20:30:16 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/checkzip.php on line 18
+[01-Jun-2017 20:32:11 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/checkzip.php on line 18
+[01-Jun-2017 20:32:17 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/idealinf/public_html/websitedesignpreview.com/zipcroc/checkzip.php on line 18

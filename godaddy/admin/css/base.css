@@ -1,0 +1,62 @@
+﻿/* Common Element Style */
+HTML, BODY {margin:0px; padding:0px; font-size: 11px; font-family: verdana, Arial, Helvetica, sans-serif; line-height:17px; color:#333;} /* Use "#333" if client required darker color */
+TABLE {font-size: 11px; font-family: verdana, Arial, Helvetica, sans-serif; line-height:17px;}
+
+/* Style for ANCOHOR element */
+A {color:#900; text-decoration:none;} 
+A:HOVER {color:#666; text-decoration:none;}
+
+/* Style for FORM elements */
+INPUT, TEXTAREA, SELECT {font:10px verdana;}
+.form_text {font:10px verdana; text-decoration:none;}
+
+/* Style for ERROR MESSAGE */
+.errormessage {color:#900; background:#ffc; border:solid 1px #ccc; width:100%;}
+.highlight {color:#900;}
+
+/* Style for LOGIN AREA */
+#loginarea {border:solid 1px #999; padding:10px;}
+
+/* Style for ADMINISTRATIVE AREA */
+#sidenavigation {width:230px; border:solid 1px #999;padding: 10px; margin:0px; background:#F5F5F5; vertical-align:top;}
+#maintextarea {width:730px; border:solid 1px #999; padding:10px; margin:0px; vertical-align:top;}
+
+/* Style for GRID */
+.heading {font-weight: bold;}
+.gridbdr {border:solid 1px #ccc; border-collapse:collapse;}
+.gridbdr .heading {background:#F0F0F0; height:32px; text-align:left; }
+
+/* Style for GRID 1.0 */
+.PanHeader {padding: 10px; margin-bottom: 20px;	/*background-color: #ffc;*/}
+#pagetitle {float: left;}
+#WelcomePageDescription{margin-top: 30px; padding-top:15px; clear: both;}
+#PageDescription {margin-top: 30px; clear: both;}
+#col2 {float: right;}
+#col1 {float: left; width:auto;}
+
+.PanError { background-color: #ffc; border: solid 1px; padding: 10px 10px 10px 35px; 
+background-image: url('../images/icon_error.gif'); background-repeat: no-repeat; 
+background-position: 10px center; font-weight: 600; color: #C00; margin-bottom: 20px; }
+
+.panstyle {padding-bottom:20px; width:100%;}
+
+.PanSuccess {background-color:#ffc; border:solid 1px; padding: 10px 10px 10px 35px; background-image: url('../images/icon_info.gif');
+	background-repeat: no-repeat; background-position: 10px center; font-weight: 600; color: #060; margin-top: 20px; margin-bottom: 20px;}
+	
+.PanAtoZ {background-color: #ffc; border: solid 1px; padding: 10px 10px 10px 35px; background-image: url('../images/icon_info.gif');
+	background-repeat: no-repeat; background-position: 10px center; font-weight: 600; margin-bottom: 20px;}
+	
+.PanNoRecord {background-color: #ffc; border: solid 1px; padding: 10px 10px 10px 35px; background-image: url('../images/icon_alert.gif');
+	background-repeat: no-repeat; background-position: 10px center; font-weight: 600; color: #666; margin-bottom: 20px;}
+
+.PanSelect {border:1px solid #ccc; padding: 5px; margin-bottom: 20px;}
+.PanAddUpdate {border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;}
+.PanSearch {border-left:1px solid #ccc; border-top:1px solid #ccc; border-right:1px solid #ccc; padding: 5px;}
+.PanGrid {border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;}
+.FormLabel {width: 150px; vertical-align:top;}
+.PanDetailDescription {border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;}
+.special{color:#000000; font-weight:bold;}
+
+#progressBackgroundFilter {position:absolute;top:0px;bottom:0px;left:100px;right:100px;overflow:hidden;padding:0;margin:0;background-color:#222222; filter:alpha(opacity=50); opacity:0.5;z-index:1000;}
+
+#processMessage { position:absolute; top:34%; left:50%;padding:10px; width:14%; z-index:1001; background-color:#fff;} 
