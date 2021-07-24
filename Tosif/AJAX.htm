@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script>
+
+var obj,data,x;
+var url="XML/tree2.xml";
+function loadFile()
+{
+	 if(window.XMLHttpRequest)
+	 {
+		 obj=new XMLHttpRequest();
+	 }
+	 else
+	 {
+		 obj=new ActiveXObeject("Microsoft.XMLHTTP");
+	 }
+	 obj.onreadystatechange=function()
+	 {
+		if(obj.readyState==0)
+		{
+			console.log("Connection is not Intialialize")
+		}
+		if(obj.readyState==1)
+		{
+			console.log("server connection established")
+		}if(obj.readyState==2)
+		{
+			console.log("request received ")
+		}
+		if(obj.readyState==3)
+		{
+			console.log("processing request ")
+		}
+		if(obj.readyState==4 &&obj.status==200) 
+		{
+			x=obj.responseXML;
+			console.log("response")
+			
+		}	 
+	  }
+	 obj.open("GET",url,true);
+	 obj.send();
+}
+</script>
+</head>
+
+<body onLoad="loadFile()">
+<div id="myDiv" ></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<tree>
+		<fruits>
+			<apple>
+				<red></red>
+			</apple>
+		</fruits>
+	</tree>	
+	<tree>
+		<cars>
+			<i10>
+				<black>
+					<central></central>
+				</black>
+			</i10>
+		</cars>
+	</tree>
+</root>

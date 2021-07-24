@@ -1,0 +1,5 @@
+Below is the local GIT login detail.
+ 
+ssh://tosif@192.168.100.21/GitlabDir/ICW/home/DevelopmentSource
+Username : tosif
+Password : T0s!f#836

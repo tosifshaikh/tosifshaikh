@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<details>
+<folder>
+	<id>1</id>
+	<name>zxc</name>
+	<parent>0</parent>
+</folder>
+
+<folder>
+	<id>2</id>
+	<name>mbf</name>
+	<parent>1</parent>
+</folder>
+
+<folder>
+	<id>3</id>
+	<name>xyz</name>
+	<parent>2</parent>
+</folder>
+
+<folder>
+	<id>4</id>
+	<name>abc</name>
+	<parent>0</parent>
+</folder>
+
+<folder>
+	<id>5</id>
+	<name>nmo</name>
+	<parent>4</parent>
+</folder>
+
+<folder>
+	<id>6</id>
+	<name>jkl</name>
+	<parent>5</parent>
+</folder>
+
+<folder>
+	<id>7</id>
+	<name>try</name>
+	<parent>0</parent>
+</folder>
+
+<folder>
+	<id>8</id>
+	<name>Pxc</name>
+	<parent>0</parent>
+</folder>
+
+<folder>
+	<id>9</id>
+	<name>nmo</name>
+	<parent>5</parent>
+</folder>
+
+<folder>
+	<id>10</id>
+	<name>rv</name>
+	<parent>2</parent>
+</folder>
+
+<folder>
+	<id>11</id>
+	<name>x</name>
+	<parent>1</parent>
+</folder>
+
+<folder>
+	<id>12</id>
+	<name>pkl</name>
+	<parent>1</parent>
+</folder>
+
+
+</details>

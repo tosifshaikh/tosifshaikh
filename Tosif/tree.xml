@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+<itemType type="fruit">
+<name>Apple</name>
+<color>Red</color>
+</itemType>
+
+<itemType type="animal">
+<name>Tiger</name>
+<color>white</color>
+</itemType>
+
+<itemType type="watch">
+<name>fastrack</name>
+<color>black</color>
+</itemType>
+</items>

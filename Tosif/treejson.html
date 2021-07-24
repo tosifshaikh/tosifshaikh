@@ -1,0 +1,97 @@
+
+<html>
+<head>
+<script>
+var url="PHP/treeJson.php";
+var obj,id,name,p_id,data,l=0,nodeId,ulNode;
+var tab,temp={},js_Array={};
+function loadAjax()
+{
+
+if(window.XMLHttpRequest)
+{
+	obj = new XMLHttpRequest;
+}
+else
+{
+	obj = new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+obj.onreadystatechange=function()
+{
+	if (obj.readyState==4 && obj.status==200)
+	{
+		
+		data=JSON.parse(obj.responseText);
+		getData();		
+	}
+}
+obj.open("GET",url,true);
+obj.send();
+}
+
+function getData()
+{
+			console.log(data)
+			 for(var y in data) 
+			{	
+				
+			   js_Array[y]=({id:data[y].id,name:data[y].Name,p_id:data[y].p_id});
+			
+			}
+	       
+			 printData();
+}	
+function printData()	
+{
+	tab ="<table border='1' align='center'>";
+	//tab+="<tr><td><input type='button' value='Add Root'></td></tr>";
+	recursionData(0,1);
+	tab +="</table>"
+	document.getElementById('rv').innerHTML=tab;
+}
+function recursionData(id,z)
+{
+	tab+="<tr>";
+	var p=1;
+	for(var k in js_Array)
+	{
+		if(id==js_Array[k].p_id)
+	   {	
+		
+	    if(js_Array[k].p_id==0)
+		{
+			num=z;
+		}
+		else
+		{
+			num=z+"."+p;
+		}
+		for(var j=0;j<l;j++)
+		{
+			tab+="<td> </td>";
+		}
+		nodeId=js_Array[k].id;
+		
+		tab+="<td>"+ num +" "+js_Array[k].name+"   "+"</td>";
+		
+		l++;
+		p++;
+		recursionData(js_Array[k].id,num);
+		l--;
+		if(js_Array[k].p_id==0)
+		{
+			z++;
+			
+		}
+	}
+}
+	tab+="</tr>";
+}
+
+</script>
+</head>
+<body onLoad="loadAjax()">
+<div id="rv"></div>
+</body>
+</html>

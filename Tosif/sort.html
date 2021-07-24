@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script>
+var a,b,k=0;
+//var arr=new Array(30,10,50,70);
+var arr=[],b=[];
+var temp=[];
+function mySort()
+{
+	var data=document.getElementById('txtsort');
+     
+   arr=data.split(",");
+   temp.push(arr);
+for(var i=0;i<arr.length;i++)
+{
+	b=arr[i];
+}
+//var newArray=new Array(80,30,50,40);
+for(i=0;i<b.length;i++)
+{
+	 
+	
+	for(j=i+1;j<b.length;j++)
+   {
+	   if(b[i]>b[j])
+	   {
+		   temp=b[i];
+		   b[i]=b[i+1];
+		   b[i+1]=temp;
+	   }
+	   
+   
+   }
+  document.getElementById('text').innerHTML=b;
+
+}
+
+	
+}
+</script>
+</head>
+
+<body>
+<input type="text" id="txtsort" />
+<div id="text"></div>
+<button onclick="mySort()">submit</button>
+</body>
+</html>

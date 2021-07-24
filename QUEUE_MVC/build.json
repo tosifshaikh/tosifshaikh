@@ -1,0 +1,18 @@
+{
+    "folders": [
+           {
+            "name": "public",
+            "files": [{"name": "file-a.html"},{"name": "file-b.html"}],
+            "folders": [{"name": "js","files": [{"name": "common.js"}]},{"name": "images"}]
+        }
+		,{"name": "framework","folders":[{"name":"core","files": [{"name": "Controller.php","file_type":"classfile"},{"name": "Model.php","file_type":"classfile"},
+		{"name": "View.php","file_type":"classfile"},{"name": "Loader.php","file_type":"classfile"},{"name": "Autoloader.php","file_type":"classfile"},
+		{"name": "singletonClass.php","file_type":"classfile"}]},
+		{"name":"database"},{"name":"helpers"},{"name":"libraries"}]},
+		{"name": "download"},
+		{"name": "application","folders":[{"name":"config"},{"name":"controllers"},
+		{"name":"helpers"},{"name":"models"},{"name":"views"}]},
+		{"name": "logs"}
+        
+    ]
+}

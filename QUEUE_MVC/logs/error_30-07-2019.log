@@ -1,0 +1,3 @@
+[2019-07-30 11:07:11] [ErrorNO=>8, ErrroStr=>Undefined variable: controller1 , ErrorFile=>C:\inetpub\wwwroot\Bhavik_GIT\TRY\QUEUE_MVC\framework\core\Autoloader.php , ErrorLine=>109]
+[2019-07-30 11:07:22] [ErrorLine=>109, ErrroStr=>Undefined variable: controller1 , ErrorFile=>C:\inetpub\wwwroot\Bhavik_GIT\TRY\QUEUE_MVC\framework\core\Autoloader.php]
+[30-07-2019 11:07:38] [ErrorLine=>109, ErrroStr=>Undefined variable: controller1 , ErrorFile=>C:\inetpub\wwwroot\Bhavik_GIT\TRY\QUEUE_MVC\framework\core\Autoloader.php]

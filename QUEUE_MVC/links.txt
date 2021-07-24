@@ -1,0 +1,7 @@
+PDO links
+https://codereview.stackexchange.com/questions/141487/php-pdo-wrapper/
+
+https://github.com/lincanbin/PHP-PDO-MySQL-Class/blob/master/src/PDO.class.php //doesn't have bulk insert
+
+
+https://github.com/neerajsinghsonu/PDO_Class_Wrapper

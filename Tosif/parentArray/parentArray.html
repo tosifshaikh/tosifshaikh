@@ -1,0 +1,255 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+<script>
+var tbl,num,node,cid;
+var l=0;
+var url='treeJson1.php';
+var tmp=[],temp=[],n,data,id,kid;
+var len=0,flag,flg;
+$(document).ready(function() {
+  $.ajax({
+		   type:'GET',
+		   dataType:'json',
+		   url:url,
+		   success: function(dt)
+		   {
+			//data=$.parseJSON(dt); or dataType:'json'
+			  data=dt;
+			 
+			 // temp=data;
+			  fetchData();  
+		   }//end of success function
+	
+		});//ajax end    
+});//ready function end
+function fetchData()
+{  
+	  
+	  len=0;
+	   $('#mydiv').html('');
+	   tbl="<table border='1' align='center' >";
+
+  tbl+="<tr><td><input type='text' id='nodeVal' style='visibility:hidden;'></td><td><input type='button' id='0' value='Add Root' onclick='addNodes(1,id,0)'><input type='button' id='save' value='save' disabled='disable' onclick='saveData(flg)'></td></tr>";
+  dataPrint(0,1);//recursion function initalize id=0;
+	
+	tbl+="</table>";
+	$('#mydiv').html(tbl);
+	
+}
+
+function dataPrint(id,z)
+{
+	
+	
+	tbl+="<tr>";
+	var t=1;
+	 for(var k in data)
+	 {
+         for(var j in data[k])
+		 {
+			
+			
+			
+			if(id==k)
+		{
+			
+			 if(k==0)
+			{
+				num=z;
+			}
+			else
+			{
+			  num=z+"."+t;	
+			} 
+		
+			for(var i=0;i<l;i++)
+		  {
+			tbl+="<td></td>";
+		  }
+			 node=data[k][j];
+			 
+			tbl+="<td>"+num+" "+data[k][j]+"  "+"<input type='button' value='Add' id='add"+j+"' onclick=addNodes("+j+",this.id,"+k+")><input type='button' id='edit"+j+"' value='Edit' onclick='editNodes(this.id,"+k+","+j+")'><input type='button' id="+k+" value='Delete' onclick='delNodes("+k+","+j+",\""+data[k][j]+"\")'></td>";      
+			
+			
+			len++;
+			l++;
+			t++;
+			dataPrint(j,num);
+			l--; 
+			
+			if(k==0)
+			{
+				l=0;
+				z++;
+			}
+			   
+			}	
+			 
+		} 	
+		  
+	}
+	
+	tbl+="</tr>";
+}
+
+function addNodes(nodeId,id,kId)
+{ 
+	
+	$('#nodeVal').css("visibility","visible");
+	$('#save').prop("disabled",false);
+	n=nodeId;
+	kid=kId;
+	
+	flg=1;
+  if(flag==1)
+   {
+		$("#"+id).attr("disabled",true);
+		cid=id;
+		flag=2;		
+   }
+	else if(flag==2)
+	{
+	    $("#"+id).attr("disabled",true)
+		$("#"+cid).attr("disabled",false)
+		 cid=id;
+	}
+ }
+ function editNodes(editId,id1,id2)
+{  
+   n=id1;
+   id=id2;
+  $('#nodeVal').css("visibility","visible");
+  $('#save').attr("disabled",false);
+  $('#nodeVal').val(data[n][id]);
+   
+  if(flag==1)
+   {
+		$("#"+editId).attr("disabled",true);
+		cid=editId;
+		flag=2;
+   }
+	else if(flag==2)
+	{
+	     $("#"+editId).attr("disabled",true);
+	     $("#"+cid).attr("disabled",false);
+		 cid=editId;	
+	}
+	flg=2;
+}
+function del(kId,nodeId,name)
+{	
+	 
+	$('#nodeVal').val("");
+	var y=confirm("Are you sure you want to Delete "+name+" ?");
+	
+	if(y==true)
+	{   
+	  
+		delNodes(kId,nodeId);
+		
+	 }
+	    fetchData();	
+} 
+function delNodes(kId,nodeId)
+{
+       	   
+			for(var i in data[nodeId])
+			 {
+				
+				delNodes(nodeId,i);
+				
+			}
+	      // if(data[kId][nodeId]!=undefined)
+			//{ 
+				 //console.log(data[nodeId])
+			 delete data[kId][nodeId];
+			//}
+		      
+		
+		fetchData();
+}
+ function validate(val,n)
+{
+	   if(val=="")
+	   {
+		   alert("Blank Not Allowed");
+		   return false;
+	   }
+	   else if( /[^a-zA-Z0-9\-\_\/]/.test(val))
+	   {
+		alert("special characters are not allowed")
+		return false;
+	   }
+	   else 
+	   {
+		 
+		  for(var k in data[n])
+		  {
+			if(data[n][k].toLowerCase()==val.toLowerCase())
+			{
+				
+				alert("Duplicate value not alllowed");
+				return false;
+			}
+				
+		  }
+	 	  
+	   }
+}
+ function saveData(flg)
+{
+	
+	
+	val=$('#nodeVal').val().trim();
+	var l=len+1;
+	if(flg==1)
+	{  
+		var data1=validate(val,n);
+		 if(data1==false)
+		{		
+			$('#nodeVal').focus(); 
+			val="";
+		} 
+	  	else
+	 	{		
+			if(data[n])
+			{  
+				
+			  data[n][l]=val;
+			}
+			else
+			{
+				data[n]={};
+				data[n][l]=val;
+			}
+			alert("new node "+val+" added");
+        }
+	}	
+	if(flg==2)
+	{	  
+			 var data1=validate(val,n);
+			 if(data1==false)
+			 {
+				$('#nodeVal').focus(); 
+			 }
+			 else
+			 {	
+				data[n][id]=val;
+				alert("New Name is changed:"+val);	
+			 }
+	}
+   fetchData();
+}
+ 
+ 
+</script>
+</head>
+
+<body>
+<div id="mydiv"></div>
+</body>
+</html>

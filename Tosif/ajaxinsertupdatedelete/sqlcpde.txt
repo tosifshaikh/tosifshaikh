@@ -1,0 +1,12 @@
+CREATE TABLE `karma`.`employee` (
+`employee_id` INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`emp_fname` VARCHAR( 500 ) NOT NULL ,
+`emp_mname` VARCHAR( 500 ) NOT NULL ,
+`emp_lname` VARCHAR( 500 ) NOT NULL ,
+`emp_email` VARCHAR( 500 ) NOT NULL ,
+`emp_contact` VARCHAR( 500 ) NOT NULL ,
+`emp_designation` VARCHAR( 500 ) NOT NULL ,
+`emp_gender` VARCHAR( 100 ) NOT NULL ,
+`emp_country` VARCHAR( 100 ) NOT NULL ,
+`emp_comments` LONGTEXT NOT NULL 
+) ENGINE = MYISAM 

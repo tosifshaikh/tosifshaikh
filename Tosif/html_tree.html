@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script>
+var obj,data,i,x,id=1.0,xx,color;
+var name=[],type=[],color=[];
+function call()
+{
+	if(window.XMLHttpRequest)
+	{
+		obj=new XMLHttpRequest();
+	}
+	else
+	{
+		obj=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	obj.onreadystatechange=function()
+	{
+			if(obj.readyState==4 && obj.status==200)
+			{
+			    
+			   GetData();
+			}
+		}
+	
+	obj.open("GET","tree.xml",true);
+	obj.send();
+}
+
+
+function GetData()
+{
+	//txt="<table align='center' border='1' width='500' ><th>ITEM</th><th>NAME</th><th>ATTRIBUTE</th>";
+	
+	   var data=obj.responseXML.getElementsByTagName('itemType');
+		//var mydiv=document.getElementById('myDiv');
+		var myTableDiv = document.getElementById("myDynamicTable");
+	 	 var tbl=document.createElement("table");
+		 tbl.setAttribute("border","1");
+	 	var tblbody=document.createElement('tbody');
+		tbl.appendChild(tblbody);
+	  /*tbl.style.width = '50%';
+      tbl.setAttribute('border', '1');
+	  for(var i=1;i<4;i++)
+	  {     
+		   var tr=document.createElement("tr");
+		    tbl.appendChild(tr);
+			
+		   for(var j=0;j<i;j++)
+		   {
+			  
+			    var td=document.createElement("td");
+				
+				
+				
+				 
+			    tr.appendChild(td);
+				td.appendChild(document.createTextNode("123"));
+			
+	       }
+		    
+	     tbl.appendChild(tr);
+	  }
+	  mydiv.appendChild(tbl);*/
+	
+		for(var i=0;i<data.length;i++)
+		{
+			var type=data[i].getAttribute('type');
+			
+			//alert(type);
+			var name=data[i].getElementsByTagName('name')[0].firstChild.nodeValue;
+			 //alert(name);
+			var color=data[i].getElementsByTagName('color')[0].firstChild.nodeValue;
+			 
+				for(j=0;j<data.length;j++)
+				{	
+				 	     var tr=document.createElement('tr'); 
+						 if(i==j)
+						 { 			   
+						  tblbody.appendChild(tr);
+						  var td1 = document.createElement("td");
+						  td1.width="200";
+						  td1.appendChild(document.createTextNode(data[j].getAttribute('type')));
+						  //tr.appendChild(td);
+						  
+						  //var tr=document.createElement('tr'); 
+						
+						  //td2.appendChild(document.createTextNode("hello"));
+							//tr.appendChild(td);
+						 // td3.appendChild(document.createTextNode(data[i].getElementsByTagName('name')[0].firstChild.nodeValue));
+						  //tr.appendChild(td);
+						  //tblbody.appendChild(tr);
+						  
+						  tr.appendChild(td1);
+						 tblbody.appendChild(tr);
+						 }
+						 else
+						 {
+							 var td4 = document.createElement("td");
+							 td4.appendChild(document.createTextNode("hello"));
+							// tr.appendChild(td);
+						  tblbody.appendChild(tr);
+							 //var tr=document.createElement('tr');
+						 
+						 }
+						 /* var tr=document.createElement('tr');
+						  td.appendChild(document.createTextNode(name));
+						  tr.appendChild(td);*/
+						 
+					
+						
+				}
+				tblbody.appendChild(tr);
+				
+						/*var tr=document.createElement('tr'); 
+				   		var td = document.createElement("td");
+						var cellText = document.createTextNode("hello");
+					 	td.appendChild(cellText);
+						var td = document.createElement("td");
+						var cellName = document.createTextNode(name);
+						td.appendChild(cellName);
+						tr.appendChild(td);
+						//tr.appendChild(td);
+				
+			
+			tblbody.appendChild(tr);*/
+			
+		}
+		
+		tbl.appendChild(tblbody);
+		//myTableData.appendChild(tbl);
+	   document.getElementById('myDiv').appendChild(tbl);
+		
+}
+
+</script>
+</head>
+
+<body onload="call()">
+
+<div id="myDiv">
+<!--/*<table id="myTableData"  border="1" cellpadding="2">
+    <tr>
+        <td>Type</td>
+        <td><b>Name</b></td>
+        <td><b>Age</b></td>
+    </tr>
+</table>
+*/-->
+
+</div>
+</body>
+</html>

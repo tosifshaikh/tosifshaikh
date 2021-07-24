@@ -1,0 +1,63 @@
+
+<!-- THREE STEPS TO INSTALL TIME OUT:
+
+  1.  Copy the coding into the HEAD of your HTML document
+  2.  Add the onLoad event handler into the BODY tag
+  3.  Put the last coding into the BODY of your HTML document  -->
+
+<!-- STEP ONE: Paste this code into the HEAD of your HTML document  -->
+
+<HEAD>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+var i = 0;
+var done = 0;
+var totalSecs = 16;
+function SecondPast()
+{
+	//if(totalSecs != null) 
+	setTimeout("SecondPast()", 1000);
+if(i < totalSecs) 
+{
+	i += 1;
+	document.clock.seconds.value = totalSecs - i;
+	doSub();
+   }
+}
+function doSub() {
+if(i < totalSecs) {
+done = true;
+}
+else {
+window.location = "https://www.bing.com/"
+//alert("Sorry, you exceeded the time limit.");
+done = false;
+}
+return done;
+}
+//  End -->
+</script>
+
+</HEAD>
+
+<!-- STEP TWO: Insert the onLoad event handler into your BODY tag  -->
+
+<BODY onLoad="SecondPast()">
+
+<!-- STEP THREE: Copy this code into the BODY of your HTML document  -->
+
+<center>
+<form name="clock" onSubmit="return doSub();">
+Time Remaining: 
+<input type=text name="seconds" value="0" size=6>
+<br>
+<br>
+<input type=textbox name="info" value="Test to submit">
+<input type=submit value="Submit">
+</form>
+</center>
+
+
+
+<!-- Script Size:  1.71 KB -->

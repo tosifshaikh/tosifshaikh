@@ -1,0 +1,36 @@
+<?php
+$xmStr ="<?xml version='1.0' encoding='utf-8'  standalone='yes'?>";
+$xmStr .="<root>";
+$xmStr .="<row>";
+$xmStr .="<id>1</id>";
+$xmStr .="<name>Root 1</name>";
+$xmStr .="<parent>0</parent>";
+$xmStr .="</row>";
+$xmStr .="<row>";
+$xmStr .="<id>2</id>";
+$xmStr .="<name>Root 2</name>";
+$xmStr .="<parent>0</parent>";
+$xmStr .="</row>";
+$xmStr .="<row>";
+$xmStr .="<id>3</id>";
+$xmStr .="<name>Root 3</name>";
+$xmStr .="<parent>0</parent>";
+$xmStr .="</row>";
+$xmStr .="<row>";
+$xmStr .="<id>4</id>";
+$xmStr .="<name>Root 1.1</name>";
+$xmStr .="<parent>1</parent>";
+$xmStr .="</row>";
+$xmStr .="<row>";
+$xmStr .="<id>5</id>";
+$xmStr .="<name>Root 1.1.1</name>";
+$xmStr .="<parent>4</parent>";
+$xmStr .="</row>";
+$xmStr .="<row>";
+$xmStr .="<id>6</id>";
+$xmStr .="<name>Root 2.1</name>";
+$xmStr .="<parent>2</parent>";
+$xmStr .="</row>";
+$xmStr .="</root>";
+ echo $xmStr;
+?>

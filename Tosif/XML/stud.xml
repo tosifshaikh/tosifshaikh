@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<details>
+<student>
+<name>Tosif</name>
+<physics>40</physics>
+<maths>60</maths>
+<english>30</english>
+</student>
+<student>
+<name>Bhavik</name>
+<physics>20</physics>
+<maths>10</maths>
+<english>90</english>
+</student>
+<student>
+<name>Ravi</name>
+<physics>30</physics>
+<maths>70</maths>
+<english>80</english>
+</student>
+<student>
+<name>Fly</name>
+<physics>10</physics>
+<maths>90</maths>
+<english>20</english>
+</student>
+</details>

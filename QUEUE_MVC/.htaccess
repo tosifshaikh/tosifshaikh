@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /my/QUEUE_MVC
+DirectoryIndex index.php
+#RewriteBase ^index\.php$ -[L]
+# Remove Trailing Slashes
+#RewriteCond %{THE_REQUEST} \s(.+?)/+[?\s]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.+) /index.php/$1 [L]
+</IfModule>

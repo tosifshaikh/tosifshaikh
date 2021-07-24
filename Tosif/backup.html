@@ -1,0 +1,88 @@
+
+<html>
+<head>
+<script>
+
+var obj;
+var tab;
+if(window.XMLHttpRequest)
+{
+	obj = new XMLHttpRequest;
+}
+else
+{
+	obj = new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+obj.onreadystatechange=function()
+{
+	if (obj.readyState==4 && obj.status==200)
+	{
+		
+		data=JSON.parse(obj.responseText);
+		getData();		
+	}
+}
+obj.open("GET","treeJson.php",true);
+obj.send();
+
+
+function getData()
+{
+	tab ='<table border="1">';
+	
+	recur(0);
+			
+			/*for(var y=0;y<data.length;y++) 
+			{	
+				var cid=data[y].id;
+				var cname=data[y].Name;
+				var cp_id=data[y].p_id;
+				if(cp_id==nid)
+				{
+					var ncid=cid;
+					tab +='<tr><td></td><td>'+cname+'</td><td></td></tr>';
+					for(var z=0;z<data.length;z++) 
+					{
+						var ccid=data[z].id;
+						var ccname=data[z].Name;
+						var ccp_id=data[z].p_id;
+						if(ccp_id==ncid)
+						{
+							tab +='<tr><td></td><td></td><td>'+ccname+'</td></tr>';
+						}
+					}
+					
+				}
+			}*/
+	tab +='</table>'
+	document.getElementById('rv').innerHTML=tab;
+}	
+function recur(m)	
+{
+	alert(m);
+	for(var x=0;x<data.length;x++) 
+	{	
+		var id=data[x].id;
+		var name=data[x].Name;
+		var p_id=data[x].p_id;
+	   
+		if(p_id==m)
+		{
+			tab +='<tr><td>'+name+'</td></tr>';
+			recur(id);
+ 		}
+		/*if(id==p_id)
+		  {
+				tab +='<tr><td></td><td></td><td>'+name+'</td></tr>';
+				
+		  }*/
+	}
+	
+}
+</script>
+</head>
+<body>
+<div id="rv"></div>
+</body>
+</html>
