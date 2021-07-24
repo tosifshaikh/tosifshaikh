@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<script src="../js/jquery.js"></script>
+<script>
+$(document).ready(function(){
+  var table =  $('#myTable');
+ var b = [{"play_id":"1","question1":"135","q1r":"1","question2":"138","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"6","amount":"1.7","bet_amount":"10","winning_amount":"20","no_of_players":"10"},{"play_id":"2","question1":"130","q1r":"1","question2":"","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"3","amount":"1.7","bet_amount":"10","winning_amount":"50","no_of_players":"5"},{"play_id":"3","question1":"114","q1r":"0","question2":"123","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"2","amount":"0.56","bet_amount":"2","winning_amount":"4","no_of_players":"13"},{"play_id":"4","question1":"102","q1r":"1","question2":"107","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"5","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"5","question1":"101","q1r":"0","question2":"106","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"0","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"6","question1":"135","q1r":"1","question2":"138","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"6","amount":"1.7","bet_amount":"10","winning_amount":"20","no_of_players":"10"},{"play_id":"7","question1":"130","q1r":"1","question2":"","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"3","amount":"1.7","bet_amount":"10","winning_amount":"50","no_of_players":"5"},{"play_id":"8","question1":"114","q1r":"0","question2":"123","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"2","amount":"0.56","bet_amount":"2","winning_amount":"4","no_of_players":"13"},{"play_id":"9","question1":"102","q1r":"1","question2":"107","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"5","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"10","question1":"101","q1r":"0","question2":"106","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"0","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"11","question1":"135","q1r":"1","question2":"138","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"6","amount":"1.7","bet_amount":"10","winning_amount":"20","no_of_players":"10"},{"play_id":"12","question1":"130","q1r":"1","question2":"","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"3","amount":"1.7","bet_amount":"10","winning_amount":"50","no_of_players":"5"},{"play_id":"13","question1":"114","q1r":"0","question2":"123","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"2","amount":"0.56","bet_amount":"2","winning_amount":"4","no_of_players":"13"},{"play_id":"14","question1":"102","q1r":"1","question2":"107","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"5","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"15","question1":"101","q1r":"0","question2":"106","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"0","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"16","question1":"101","q1r":"0","question2":"106","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"0","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"17","question1":"135","q1r":"1","question2":"138","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"6","amount":"1.7","bet_amount":"10","winning_amount":"20","no_of_players":"10"},{"play_id":"18","question1":"130","q1r":"1","question2":"","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"3","amount":"1.7","bet_amount":"10","winning_amount":"50","no_of_players":"5"},{"play_id":"19","question1":"114","q1r":"0","question2":"123","q2r":"1","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"2","amount":"0.56","bet_amount":"2","winning_amount":"4","no_of_players":"13"},{"play_id":"20","question1":"102","q1r":"1","question2":"107","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"5","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"},{"play_id":"21","question1":"101","q1r":"0","question2":"106","q2r":"0","question3":"","q3r":"0","question4":"","q4r":"0","total_point":"0","amount":"0.85","bet_amount":"3","winning_amount":"4","no_of_players":"15"}];console.log(b)
+ var max_size=b.length;
+ var sta = 0;
+ var elements_per_page = 4;
+ var limit = elements_per_page;
+ goFun(sta,limit);
+ function goFun(sta,limit) {
+  for (var i =sta ; i < limit; i++) {
+    
+    var $nr = $('<tr><td>A-' + b[i]['play_id'] + '</td><td>B-' + b[i]['question1']  + '</td></tr>');
+    table.append($nr);
+  }
+  }
+  $('#nextValue').click(function(){
+	var next = limit;
+	if(max_size>=next) {
+	limit = limit+elements_per_page;
+	table.empty();console.log(next,limit);
+	goFun(next,limit);
+	}
+  });
+  $('#PreeValue').click(function(){
+	var pre = limit-(2*elements_per_page);
+	if(pre>=0) {
+	limit = limit-elements_per_page;
+	table.empty();
+	goFun(pre,limit); 
+	}
+  });
+
+});
+
+</script>
+</head>
+
+<body>
+
+<div style="width:400px">
+<table class="paginated">
+    <thead>
+        <tr>
+            <th class="col">Play Id</th>
+            <th class="col">Question1</th>  
+       </tr>
+  </thead>
+  <tbody id="myTable">
+ </tbody>
+  
+</table>
+<span id="nextValue">next</span><br><span id="PreeValue">Pre</span>
+</div>
+</body>
+</html>

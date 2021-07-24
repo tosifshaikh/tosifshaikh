@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/Database/vendor/composer" />
+      <path value="$PROJECT_DIR$/Database/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/Database/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/Database/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/Database/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/Database/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/Database/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/Database/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/Database/vendor/symfony/service-contracts" />
+    </include_path>
+  </component>
+</project>
