@@ -24,6 +24,7 @@ class CreateCategoriesTable extends Migration
             $table->string('meta_title');
             $table->string('meta_description');
             $table->string('meta_keywords');
+            $table->tinyInteger('is_delete')->default(0);
             $table->timestamps();
         });
     }
