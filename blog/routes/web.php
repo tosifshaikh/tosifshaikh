@@ -1,4 +1,5 @@
 <?php
+//phpinfo();
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,10 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});*/
+
+Route::get('/', [\App\Http\Controllers\Frontend\FrontendController::class,'index']);
 
 Auth::routes();
 
@@ -27,4 +26,10 @@ Route::group(['middleware' => ['auth','isAdmin']],function (){
     Route::post('/update-category/{id}',[\App\Http\Controllers\Admin\CategoryController::class,'update']);
     Route::get('/edit-category/{id}',[\App\Http\Controllers\Admin\CategoryController::class,'edit']);
     Route::get('/delete-category/{id}',[\App\Http\Controllers\Admin\CategoryController::class,'destroy']);
+    Route::get('/products',[\App\Http\Controllers\Admin\ProductController::class,'index']);
+    Route::get('/add-product',[\App\Http\Controllers\Admin\ProductController::class,'add']);
+    Route::post('/insert-product',[\App\Http\Controllers\Admin\ProductController::class,'insert']);
+    Route::get('/edit-product/{id}',[\App\Http\Controllers\Admin\ProductController::class,'edit']);
+    Route::post('/update-product/{id}',[\App\Http\Controllers\Admin\ProductController::class,'update']);
+    Route::get('/delete-product/{id}',[\App\Http\Controllers\Admin\ProductController::class,'destroy']);
 });
