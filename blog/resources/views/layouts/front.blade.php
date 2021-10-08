@@ -19,6 +19,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/css/owl.theme.default.min.css') }}" rel="stylesheet">
 
 
 </head>
@@ -29,6 +31,7 @@
         </div>
 <script src="{{ asset('js/jquery.min.js') }}" ></script>
 <script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}" ></script>
+<script src="{{ asset('frontend/js/owl.carousel.js') }}" ></script>
 
 
 @if(session('status'))
