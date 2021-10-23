@@ -1,3 +1,14 @@
+sudo systemctl stop mysql
+sudo mkdir -p /var/run/mysqld
+sudo chown mysql:mysql /var/run/mysqld
+sudo mysqld_safe --skip-grant-tables --skip-networking &
+mysql -u root
+use mysql
+CREATE USER 'root'@'localhost' IDENTIFIED BY '12345';
+GRANT ALL PRIVILEGES ON * . * TO 'root'@'localhost';
+FLUSH PRIVILEGES;
+exit;
+
 select * from mysql.user;
 update mysql.user set Drop_priv='Y',Execute_priv='Y',Repl_slave_priv='Y',Repl_client_priv='Y',Create_view_priv='Y',Show_view_priv='Y',Create_routine_priv='Y',Alter_routine_priv='Y',
  Create_user_priv='Y', Event_priv='Y', Trigger_priv='Y',Create_tablespace_priv='Y' where User='root'
