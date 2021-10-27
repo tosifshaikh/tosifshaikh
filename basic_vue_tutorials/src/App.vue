@@ -7,8 +7,10 @@
   <!-- <Home3 /> -->
   <!-- <databinding /> -->
   <h1>{{title}}</h1>
-  <Child v-bind:name=userName  v-bind:users=users v-on:ChangeTitle="updateTitle($event)"/>
-
+  <h2>{{name}}</h2>
+  <!--<Child v-bind:name=userName  v-bind:users=users v-on:ChangeTitle="updateTitle($event)"/>
+<Signup />-->
+  <Login />
 </template>
 
 <script>
@@ -18,7 +20,9 @@
 //import Home2 from './components/datadisp.vue'
 //import Home3 from './components/classstyle.vue'
 //import databinding from './components/databinding.vue'
-import Child from './components/Child.vue'
+//import Child from './components/Child.vue'
+//import Signup from './components/Signup.vue'
+import Login from './components/Login.vue'
 export default {
 name: 'App',
 components: {
@@ -28,21 +32,24 @@ components: {
   //Home2,
  // Home3,
   //databinding,
-  Child
+ // Child,
+ // Signup,
+  Login
   }, data() {
     return {
-      userName: "Tos",title :"Props tutorial",
-      users:[
+     name : 'tosif shaikh',
+      // userName: "Tos",title :"Props tutorial",
+      /*users:[
           {name : "T20", email: "abc@1"},
           {name : "T201", email: "abc@2"},
           {name : "T202", email: "abc@3"}
-      ]
+      ]*/
     }
   },
   methods : {
-    updateTitle(title) {
+    /*updateTitle(title) {
       this.title =title;
-    }
+    }*/
   }
 }
 </script>
