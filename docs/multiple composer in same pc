@@ -1,0 +1,4 @@
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer1
+
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer2
+
