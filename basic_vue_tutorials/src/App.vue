@@ -1,16 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <!--<HelloWorld msg="Welcome to Your Vue.js App"/> -->
- <!-- <basicvuecomp data="this is passed data in vue" msg = "another data pass"/> -->
-  <!-- <Home /> -->
-  <!-- <Home2 /> -->
-  <!-- <Home3 /> -->
-  <!-- <databinding /> -->
-  <h1>{{title}}</h1>
-  <h2>{{name}}</h2>
-  <!--<Child v-bind:name=userName  v-bind:users=users v-on:ChangeTitle="updateTitle($event)"/>
-<Signup />-->
-  <Login />
+  <div>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <!--<HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- <basicvuecomp data="this is passed data in vue" msg = "another data pass"/> -->
+    <!-- <Home /> -->
+    <!-- <Home2 /> -->
+    <!-- <Home3 /> -->
+    <!-- <databinding />
+    <h1>{{title}}</h1>-->
+    <h2>{{name | ucase}}</h2>
+    <!--<Child v-bind:name=userName  v-bind:users=users v-on:ChangeTitle="updateTitle($event)"/>
+  <Signup />
+    <Login />
+    <EmployeeList />-->
+<router-view />
+  </div>
 </template>
 
 <script>
@@ -22,19 +26,23 @@
 //import databinding from './components/databinding.vue'
 //import Child from './components/Child.vue'
 //import Signup from './components/Signup.vue'
-import Login from './components/Login.vue'
+//import Login from './components/Login.vue'
+//import EmployeeList from './components/EmployeeList.vue'
+
 export default {
-name: 'App',
-components: {
- // HelloWorld,
+  name: 'App',
+  components: {
+    // HelloWorld,
 //  basicvuecomp,
- // Home,
-  //Home2,
- // Home3,
-  //databinding,
- // Child,
- // Signup,
-  Login
+
+    // Home,
+    //Home2,
+    // Home3,
+    //databinding,
+    // Child,
+    // Signup,
+    //Login,
+   // EmployeeList,
   }, data() {
     return {
      name : 'tosif shaikh',
@@ -55,12 +63,13 @@ components: {
 </script>
 
 <style>
+
 #app {
-font-family: Avenir, Helvetica, Arial, sans-serif;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-align: center;
-color: #2c3e50;
-margin-top: 60px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
