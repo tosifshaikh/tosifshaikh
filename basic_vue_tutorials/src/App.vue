@@ -15,7 +15,6 @@
     <EmployeeList />-->
 <router-view />
   </div>
-
 </template>
 
 <script>
@@ -29,11 +28,13 @@
 //import Signup from './components/Signup.vue'
 //import Login from './components/Login.vue'
 //import EmployeeList from './components/EmployeeList.vue'
+
 export default {
   name: 'App',
   components: {
     // HelloWorld,
 //  basicvuecomp,
+
     // Home,
     //Home2,
     // Home3,
@@ -44,7 +45,7 @@ export default {
    // EmployeeList,
   }, data() {
     return {
-      name : 'Tosif shaikh',
+     name : 'tosif shaikh',
       // userName: "Tos",title :"Props tutorial",
       /*users:[
           {name : "T20", email: "abc@1"},
