@@ -13,6 +13,14 @@
   <Signup />
     <Login />
     <EmployeeList />-->
+    <nav>
+    <ul>
+      <li>
+        <router-link to="/">Home</router-link>
+      </li>
+      <li><router-link to="/list">List</router-link></li>
+    </ul>
+    </nav>
 <router-view />
   </div>
 </template>

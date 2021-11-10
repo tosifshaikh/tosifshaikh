@@ -1,6 +1,9 @@
 <template>
 <div>
   <h1>Home Component</h1>
+ <p><router-link to="user/1">Home 1</router-link></p>
+  <p><router-link to="user/2">Home 2</router-link></p>
+  <p><router-link to="user/3">Home 3</router-link></p>
   <Users />
   <Products />
   <Products />
