@@ -2,12 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
 import VueRouter from 'vue-router'
-import EmployeeList from './components/EmployeeList.vue'
-import Home from './components/Home.vue'
+import EmployeeList from './components/EmployeeList'
+import Home from './components/Home'
+import Users from './components/Users'
 Vue.use(VueRouter)
 const routes= [
   {path : "/", component : Home},
-  {path : "/list", component : EmployeeList}
+  {path : "/list", component : EmployeeList},
+  {path : "/user/:id", component : Users}
 ]
 const router = new VueRouter({routes});
 Vue.config.productionTip = false
