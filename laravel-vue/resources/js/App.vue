@@ -7,8 +7,11 @@
             <router-view></router-view>
             <Footer />
         </div>
+        <FlashMessage position="right top"></FlashMessage>
     </div>
+
 </main>
+
 </template>
 
 <script>
