@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -20,7 +22,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return response()->json($this->category->paginate(),200);
+        return response()->json($this->category->orderBy('created_at', 'desc')->paginate(),200);
     }
 
     /**
@@ -53,13 +55,15 @@ class CategoryController extends Controller
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $filename = time(). '.'.$ext;
-            $file->move('assets/uploads/images/',$filename);
+            $file->move('assets/uploads/category/',$filename);
             $this->category->image = $filename;
         }
-        if (  $this->category->save()) {
-            return response()->json( $this->category, 200);
+        if ( !$this->category->save()) {
+            return response()->json(['message' => 'Some Error Occured!, Please Try Again',
+                'status_code' => 500],500);
         }
-        return response()->json( $this->category, 500);
+
+        return response()->json( $this->category, 200);
     }
 
     /**
@@ -93,7 +97,37 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate(
+            [ 'name' => "required",
+                'image' => 'image' //mimes:jpeg,png
+
+            ]
+        );
+
+        $category->name = $request->name;
+        $oldPath = $category->image;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time(). '.'.$ext;
+            $file->move('assets/uploads/category/',$filename);
+            $category->image = $filename;
+            if (File::exists('assets/uploads/category/'.$oldPath)) {
+                File::delete('assets/uploads/category/'.$oldPath);
+            }
+          //  $request->file('image')->store('assets/uploads/category/'.$filename);
+           // Storage::delete('assets/uploads/category/'.$oldPath );
+
+        }
+
+
+        if (!$category->update()) {
+            return response()->json(['message' => 'Some Error Occured!, Please Try Again',
+                'status_code' => 500],500);
+        }
+
+        return response()->json( $category, 200);
+
     }
 
     /**
@@ -104,6 +138,16 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if ($category->delete()) {
+            $path = 'assets/uploads/category/'.$category->image;
+            if (!File::exists($path)) {
+                return response()->json(['message' => 'Some Error Occured!, Please Try Again',
+                    'status_code' => 500],500);
+            }
+            File::delete($path);
+        }
+        return response()->json(['message' => 'Category deleted successfully!',
+            'status_code' => 200],200);
+
     }
 }
