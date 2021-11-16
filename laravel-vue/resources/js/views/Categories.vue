@@ -40,6 +40,10 @@
                     </tr>
                    </tbody>
                </table>
+                <div class="text-center" v-show="moreExist">
+                    <button class="btn btn-primary btn-sm" v-on:click="loadMore"><span class="fa fa-arrow-down" ></span> Load More</button>
+                </div>
+
             </div>
       </div>
 
@@ -54,7 +58,7 @@
                     <div class="mb-3">
                         <label for="image" class="form-label">Choose an Image</label>
                         <div v-if="categoryData.image.name">
-                            <img ref="newCategoryImageDisplay" width="150px" />
+                            <img ref="newCategoryImageDisplay" class="img-thumbnail"/>
                         </div>
                         <input type="file" class="form-control" id="image" v-on:change="attachImage" ref="newCategoryImage">
                         <div class="invalid-feedback" v-if="errors.image">{{errors.image[0]}}</div>
@@ -78,11 +82,11 @@
                         <div class="invalid-feedback" v-if="errors.name">{{errors.name[0]}}</div>
                     </div>
                     <div class="mb-3">
-                        <label for="image" class="form-label">Choose an Image</label>
-                        <div>
-                            <img ref="editCategoryImageDisplay" :src="`${$store.state.serverPath}assets/uploads/category/${editCategoryData.image}`" :alt="editCategoryData.name"  class="img-thumbnail">
-                        </div>
 
+                        <div v-if="editCategoryData.image">
+                            <img ref="editCategoryImageDisplay" :src="`${$store.state.serverPath}assets/uploads/category/${editCategoryData.image}`" :alt="editCategoryData.name"  class="img-thumbnail" />
+                        </div>
+                        <label for="image" class="form-label">Choose an Image</label>
                         <input type="file" class="form-control" id="image" v-on:change="editAttachImage" ref="editCategoryImage">
                         <div class="invalid-feedback" v-if="errors.image">{{errors.image[0]}}</div>
                     </div>
@@ -112,6 +116,8 @@ export default {
                 image : ''
             },
             editCategoryData : {},
+            moreExist : false,
+            nextPage : 0,
             errors : {}
         }
     },
@@ -120,17 +126,21 @@ export default {
         },
     methods : {
         editCategory(category) {
-            this.editCategoryData = category;
+            this.editCategoryData = {...category};
            this.showEditCategoryModal();
         },
         loadCategories: async function() {
                 try {
                     const response = await categoryService.loadCategories();
                    this.categories = response.data.data;
-                    console.log(  response.data.data)
+                    if (response.data.current_page < response.data.last_page) {
+                        this.moreExist = true;
+                        this.nextPage = response.data.current_page + 1;
+                    } else {
+                        this.moreExist = false;
+                    }
                 }
                 catch (e) {
-                    console.log(  e)
                     this.flashMessage.success({
                         message: 'Some Error Occured!, Please Refresh!',
                         time: 5000,
@@ -168,8 +178,26 @@ export default {
             formData.append('_method','PUT')    ;
             try {
                 const response = await categoryService.updateCategory(this.editCategoryData.id, formData);
+                this.categories.map(category => {
+                    if (category.id == response.data.id) {
+                        for (let key in response.data) {
+                            category[key] = response.data[key];
+                        }
+                    }
+                });
+                this.hideEditCategoryModal();
+                this.flashMessage.success({
+                    message: 'Category Updated Successfully!',
+                    time: 5000,
+                    blockClass: 'custom-block-class'
+                });
+                this.editCategoryData = {};
             }catch (e) {
-                console.log('update called', e);
+                this.flashMessage.success({
+                    message: e.response.data.message,
+                    time: 5000,
+                    blockClass: 'custom-block-class'
+                });
             }
 
 
@@ -181,7 +209,6 @@ export default {
             try {
                 const response = await categoryService.createCategory(formData);
                 this.categories.unshift(response.data);
-
                 this.hideNewCategoryModal();
                 this.flashMessage.success({
                     message: 'Category Added Successfully!',
@@ -199,13 +226,9 @@ export default {
                     default:
                     break;
                 }
-
-
             }
-
         },
         deleteCategory: async function(category) {
-            console.log(category)
             if (window.confirm(`Are you sure you want to delete the ${category.name} ?`)) {
                 try {
                     await categoryService.deleteCategory(category.id);
@@ -231,6 +254,27 @@ export default {
         }, showEditCategoryModal() {
             this.$refs.editCategoryModal.show();
         },
+        loadMore: async function() {
+            try {
+                const response = await categoryService.loadMore(this.nextPage);
+                if (response.data.current_page < response.data.last_page) {
+                    this.moreExist = true;
+                    this.nextPage = response.data.current_page + 1;
+                } else {
+                    this.moreExist = false;
+                }
+                response.data.data.forEach(data => {
+                    this.categories.push(data);
+                });
+            }
+            catch (e) {
+                this.flashMessage.success({
+                    message: 'Some error occured during loading more categories',
+                    time: 5000,
+                    blockClass: 'custom-block-class'
+                });
+            }
+        }
 
     }
 }

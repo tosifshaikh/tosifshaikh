@@ -4,11 +4,14 @@ export function createCategory(data){
     return httpFile().post('/categories', data);
 }
 export function loadCategories() {
-    return httpFile().get('/categories');
+    return http().get('/categories');
 }
 export function deleteCategory(id) {
-    return httpFile().delete(`/categories/${id}`);
+    return http().delete(`/categories/${id}`);
 }
 export function updateCategory(id, data) {
     return httpFile().post(`/categories/${id}`, data);
+}
+export function loadMore(nextpage) {
+    return http().get(`/categories?page=${nextpage}`);
 }
