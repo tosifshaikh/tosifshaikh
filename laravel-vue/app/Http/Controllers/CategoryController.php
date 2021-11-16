@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
@@ -22,7 +23,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return response()->json($this->category->orderBy('created_at', 'desc')->paginate(),200);
+        return response()->json($this->category->orderBy('created_at', 'desc')->paginate(2),200);
     }
 
     /**
@@ -99,7 +100,7 @@ class CategoryController extends Controller
     {
         $request->validate(
             [ 'name' => "required",
-                'image' => 'image' //mimes:jpeg,png
+                 //mimes:jpeg,png
 
             ]
         );
@@ -107,6 +108,12 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $oldPath = $category->image;
         if ($request->hasFile('image')) {
+            $request->validate(
+                [ 'image' => "image",
+                    //mimes:jpeg,png
+
+                ]
+            );
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $filename = time(). '.'.$ext;
@@ -122,11 +129,14 @@ class CategoryController extends Controller
 
 
         if (!$category->update()) {
+            if (File::exists('assets/uploads/category/'.$oldPath)) {
+                File::delete('assets/uploads/category/'.$oldPath);
+            }
             return response()->json(['message' => 'Some Error Occured!, Please Try Again',
                 'status_code' => 500],500);
         }
 
-        return response()->json( $category, 200);
+        return response()->json($category, 200);
 
     }
 
