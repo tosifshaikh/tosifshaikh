@@ -144,7 +144,7 @@ export default {
                     this.flashMessage.success({
                         message: 'Some Error Occured!, Please Refresh!',
                         time: 5000,
-                        blockClass: 'custom-block-class'
+                       
                     });
                 }
         },
@@ -189,14 +189,14 @@ export default {
                 this.flashMessage.success({
                     message: 'Category Updated Successfully!',
                     time: 5000,
-                    blockClass: 'custom-block-class'
+                   
                 });
                 this.editCategoryData = {};
             }catch (e) {
                 this.flashMessage.success({
                     message: e.response.data.message,
                     time: 5000,
-                    blockClass: 'custom-block-class'
+                   
                 });
             }
 
@@ -213,7 +213,7 @@ export default {
                 this.flashMessage.success({
                     message: 'Category Added Successfully!',
                     time: 5000,
-                    blockClass: 'custom-block-class'
+                   
                 });
                 this.categoryData = {
                     name :  '', image : ''
@@ -224,6 +224,11 @@ export default {
                     this.errors = e.response.data.errors;
                     break;
                     default:
+                        this.flashMessage.error({
+                            message: 'Some error Occured',
+                            time: 5000,
+                           
+                        });
                     break;
                 }
             }
@@ -238,13 +243,13 @@ export default {
                     this.flashMessage.success({
                         message: 'Category Deleted Successfully!',
                         time: 5000,
-                        blockClass: 'custom-block-class'
+                       
                     });
                 } catch (e) {
                     this.flashMessage.success({
                         message: e.response.data.message,
                         time: 5000,
-                        blockClass: 'custom-block-class'
+                       
                     });
                 }
             }
@@ -271,7 +276,7 @@ export default {
                 this.flashMessage.success({
                     message: 'Some error occured during loading more categories',
                     time: 5000,
-                    blockClass: 'custom-block-class'
+                   
                 });
             }
         }

@@ -33,10 +33,10 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
+            'remember-me' => 'boolean'
         ]);
         if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return response()->json(['message' => 'unauthorised', 'status_code' => 401 ],401);
+            return response()->json(['message' => 'Invalid username/password', 'status_code' => 401 ],401);
         }
         $user = $request->user();
         if ($user->role == 'Admin') {

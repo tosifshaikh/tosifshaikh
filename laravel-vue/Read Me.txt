@@ -1,1 +1,11 @@
 https://www.youtube.com/watch?v=CN7zFBmINvk&list=PLR3-1he9bGShZT1FUMnVogdYNLbcK_Vp3&index=3
+
+for template:
+https://startbootstrap.com/template/sb-admin
+
+commands
+1. for flash message
+https://www.npmjs.com/package/@smartweb/vue-flash-message
+
+2.to encrypt token
+https://www.npmjs.com/package/jsonwebtoken
