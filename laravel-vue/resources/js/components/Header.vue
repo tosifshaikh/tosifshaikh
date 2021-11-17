@@ -25,7 +25,9 @@
                     <li>
                         <hr class="dropdown-divider"/>
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li>
+                        <button class="dropdown-item" v-on:click="logout">Logout</button>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -33,8 +35,15 @@
 </template>
 
 <script>
+import * as auth from '../Services/auth_service';
 export default {
-    name: "Header"
+    name: "Header",
+    methods : {
+        logout : async function() {
+            auth.logout();
+            this.$router.push('/login');
+        }
+    }
 }
 </script>
 

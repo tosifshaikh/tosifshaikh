@@ -65,4 +65,11 @@ class AuthController extends Controller
         $request->user()->token()->revoke();
         return \response()->json(['message' => 'Logout Successfully!','status_code' => 200],200);
     }
+    public function profile(Request $request)
+    {
+        if (!$request->user()) {
+            return \response()->json(['message' => 'Not Logged in','status_code' => 500],500);
+        }
+        return \response()->json($request->user(),200);
+    }
 }
