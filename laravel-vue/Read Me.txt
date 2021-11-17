@@ -9,3 +9,10 @@ https://www.npmjs.com/package/@smartweb/vue-flash-message
 
 2.to encrypt token
 https://www.npmjs.com/package/jsonwebtoken
+<<<<<<< HEAD
+=======
+https://www.npmjs.com/package/crypto-js
+
+3. for passport
+php artisan passport:install
+>>>>>>> laravel-vue

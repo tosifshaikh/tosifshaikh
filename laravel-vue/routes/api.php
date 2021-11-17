@@ -13,6 +13,7 @@ Route::group(['prefix' => 'auth'],function() {
     Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
     Route::group(['middleware' => 'auth:api'],function () {
         Route::get('logout',[\App\Http\Controllers\AuthController::class,'logout']);
+        Route::get('profile',[\App\Http\Controllers\AuthController::class,'profile']);
     });
 });
     Route::group(['prefix' => 'user'],function() {

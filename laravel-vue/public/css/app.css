@@ -12279,6 +12279,14 @@ a.nav-link.active {
   display: inline-block !important;
 }
 
+<<<<<<< HEAD
+=======
+.img-thumbnail {
+  width: 200px;
+  height: 200px;
+}
+
+>>>>>>> laravel-vue
 .img-thumbnail {
   width: 200px;
   height: 200px;

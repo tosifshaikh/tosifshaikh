@@ -67,7 +67,11 @@ export default {
                 this.$router.push('/home');
             }
             catch (e) {
+<<<<<<< HEAD
                 switch (e.response.status) {
+=======
+               /* switch (e.response.status) {
+>>>>>>> laravel-vue
                     case 422:
                         this.errors = e.response.data.errors;
                         break;
@@ -89,7 +93,11 @@ export default {
                             time: 5000,
                         });
                         break;
+<<<<<<< HEAD
                 }
+=======
+                }*/
+>>>>>>> laravel-vue
             }
         }
     }
@@ -98,4 +106,8 @@ export default {
 
 <style scoped>
 
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> laravel-vue

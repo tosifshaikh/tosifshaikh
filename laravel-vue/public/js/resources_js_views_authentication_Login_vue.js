@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_views_authentication_Login_vue"],{
 
 /***/ "./node_modules/@babel/runtime/regenerator/index.js":
@@ -10,6 +11,10 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 
 /***/ }),
+=======
+"use strict";
+(self["webpackChunklaravel_vue"] = self["webpackChunklaravel_vue"] || []).push([["resources_js_views_authentication_Login_vue"],{
+>>>>>>> laravel-vue
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/authentication/Login.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
@@ -17,7 +22,10 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
   \**********************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+<<<<<<< HEAD
 "use strict";
+=======
+>>>>>>> laravel-vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -106,12 +114,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
                 this.errors = {};
                 this.$router.push('/home');
+<<<<<<< HEAD
                 _context.next = 21;
+=======
+                _context.next = 10;
+>>>>>>> laravel-vue
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+<<<<<<< HEAD
                 _context.t1 = _context.t0.response.status;
                 _context.next = _context.t1 === 422 ? 13 : _context.t1 === 500 ? 15 : _context.t1 === 401 ? 17 : 19;
                 break;
@@ -142,6 +155,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("break", 21);
 
               case 21:
+=======
+
+              case 10:
+>>>>>>> laravel-vue
               case "end":
                 return _context.stop();
             }
@@ -160,6 +177,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/regenerator-runtime/runtime.js":
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
@@ -924,13 +942,18 @@ try {
 
 /***/ }),
 
+=======
+>>>>>>> laravel-vue
 /***/ "./resources/js/views/authentication/Login.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/views/authentication/Login.vue ***!
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+<<<<<<< HEAD
 "use strict";
+=======
+>>>>>>> laravel-vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -969,7 +992,10 @@ component.options.__file = "resources/js/views/authentication/Login.vue"
   \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+<<<<<<< HEAD
 "use strict";
+=======
+>>>>>>> laravel-vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -985,7 +1011,10 @@ __webpack_require__.r(__webpack_exports__);
   \************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+<<<<<<< HEAD
 "use strict";
+=======
+>>>>>>> laravel-vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_bb641d1e_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -1002,7 +1031,10 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+<<<<<<< HEAD
 "use strict";
+=======
+>>>>>>> laravel-vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),

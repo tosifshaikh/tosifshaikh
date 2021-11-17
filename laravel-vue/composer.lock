@@ -1252,6 +1252,7 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2021-11-16T15:00:50+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "laravel/passport",
@@ -1329,6 +1330,8 @@
                 "source": "https://github.com/laravel/passport"
             },
             "time": "2021-11-02T16:45:51+00:00"
+=======
+>>>>>>> laravel-vue
         },
         {
             "name": "laravel/passport",

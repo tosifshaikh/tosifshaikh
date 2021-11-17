@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_views_Categories_vue"],{
 
 /***/ "./node_modules/@babel/runtime/regenerator/index.js":
@@ -10,6 +11,10 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 
 /***/ }),
+=======
+"use strict";
+(self["webpackChunklaravel_vue"] = self["webpackChunklaravel_vue"] || []).push([["resources_js_views_Categories_vue"],{
+>>>>>>> laravel-vue
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Categories.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************************************!*\
@@ -17,7 +22,6 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
   \************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -31,16 +35,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
 //
 //
 //
@@ -154,8 +148,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         image: ''
       },
       editCategoryData: {},
-      moreExist: false,
-      nextPage: 0,
       errors: {}
     };
   },
@@ -164,7 +156,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     editCategory: function editCategory(category) {
-      this.editCategoryData = _objectSpread({}, category);
+      this.editCategoryData = category;
       this.showEditCategoryModal();
     },
     loadCategories: function () {
@@ -181,26 +173,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 3:
                 response = _context.sent;
                 this.categories = response.data.data;
-
-                if (response.data.current_page < response.data.last_page) {
-                  this.moreExist = true;
-                  this.nextPage = response.data.current_page + 1;
-                } else {
-                  this.moreExist = false;
-                }
-
-                _context.next = 11;
+                console.log(response.data.data);
+                _context.next = 12;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
                 this.flashMessage.success({
                   message: 'Some Error Occured!, Please Refresh!',
                   time: 5000
                 });
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -255,6 +241,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 7:
                 response = _context2.sent;
+<<<<<<< HEAD
                 this.categories.map(function (category) {
                   if (category.id == response.data.id) {
                     for (var key in response.data) {
@@ -269,22 +256,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
                 this.editCategoryData = {};
                 _context2.next = 17;
+=======
+                _context2.next = 13;
+>>>>>>> laravel-vue
                 break;
 
-              case 14:
-                _context2.prev = 14;
+              case 10:
+                _context2.prev = 10;
                 _context2.t0 = _context2["catch"](4);
+<<<<<<< HEAD
                 this.flashMessage.success({
                   message: _context2.t0.response.data.message,
                   time: 5000
                 });
+=======
+                console.log('update called', _context2.t0);
+>>>>>>> laravel-vue
 
-              case 17:
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 14]]);
+        }, _callee2, this, [[4, 10]]);
       }));
 
       function updateCategory() {
@@ -360,21 +354,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                console.log(category);
+
                 if (!window.confirm("Are you sure you want to delete the ".concat(category.name, " ?"))) {
-                  _context4.next = 11;
+                  _context4.next = 12;
                   break;
                 }
 
-                _context4.prev = 1;
-                _context4.next = 4;
+                _context4.prev = 2;
+                _context4.next = 5;
                 return _Services_category_service__WEBPACK_IMPORTED_MODULE_1__.deleteCategory(category.id);
 
-              case 4:
+              case 5:
                 this.categories = this.categories.filter(function (obj) {
                   return obj.id != category.id;
                 });
                 this.flashMessage.success({
                   message: 'Category Deleted Successfully!',
+<<<<<<< HEAD
                   time: 5000
                 });
                 _context4.next = 11;
@@ -433,32 +430,48 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 response.data.data.forEach(function (data) {
                   _this.categories.push(data);
+=======
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+>>>>>>> laravel-vue
                 });
-                _context5.next = 11;
+                _context4.next = 12;
                 break;
 
-              case 8:
-                _context5.prev = 8;
-                _context5.t0 = _context5["catch"](0);
+              case 9:
+                _context4.prev = 9;
+                _context4.t0 = _context4["catch"](2);
                 this.flashMessage.success({
+<<<<<<< HEAD
                   message: 'Some error occured during loading more categories',
                   time: 5000
+=======
+                  message: _context4.t0.response.data.message,
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+>>>>>>> laravel-vue
                 });
 
-              case 11:
+              case 12:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, this, [[0, 8]]);
+        }, _callee4, this, [[2, 9]]);
       }));
 
-      function loadMore() {
-        return _loadMore.apply(this, arguments);
+      function deleteCategory(_x) {
+        return _deleteCategory.apply(this, arguments);
       }
 
-      return loadMore;
-    }()
+      return deleteCategory;
+    }(),
+    hideEditCategoryModal: function hideEditCategoryModal() {
+      this.$refs.editCategoryModal.hide();
+    },
+    showEditCategoryModal: function showEditCategoryModal() {
+      this.$refs.editCategoryModal.show();
+    }
   }
 });
 
@@ -470,7 +483,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createCategory": () => (/* binding */ createCategory),
@@ -499,6 +511,7 @@ function loadMore(nextpage) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/regenerator-runtime/runtime.js":
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
@@ -1263,13 +1276,14 @@ try {
 
 /***/ }),
 
+=======
+>>>>>>> laravel-vue
 /***/ "./resources/js/views/Categories.vue":
 /*!*******************************************!*\
   !*** ./resources/js/views/Categories.vue ***!
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1308,7 +1322,6 @@ component.options.__file = "resources/js/views/Categories.vue"
   \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1324,7 +1337,6 @@ __webpack_require__.r(__webpack_exports__);
   \**************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Categories_vue_vue_type_template_id_53f0967b_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -1341,7 +1353,6 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -1443,34 +1454,6 @@ var render = function () {
               0
             ),
           ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.moreExist,
-                  expression: "moreExist",
-                },
-              ],
-              staticClass: "text-center",
-            },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  on: { click: _vm.loadMore },
-                },
-                [
-                  _c("span", { staticClass: "fa fa-arrow-down" }),
-                  _vm._v(" Load More"),
-                ]
-              ),
-            ]
-          ),
         ]),
       ]),
       _vm._v(" "),
@@ -1658,27 +1641,25 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "mb-3" }, [
-                  _vm.editCategoryData.image
-                    ? _c("div", [
-                        _c("img", {
-                          ref: "editCategoryImageDisplay",
-                          staticClass: "img-thumbnail",
-                          attrs: {
-                            src:
-                              _vm.$store.state.serverPath +
-                              "assets/uploads/category/" +
-                              _vm.editCategoryData.image,
-                            alt: _vm.editCategoryData.name,
-                          },
-                        }),
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
                   _c(
                     "label",
                     { staticClass: "form-label", attrs: { for: "image" } },
                     [_vm._v("Choose an Image")]
                   ),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("img", {
+                      ref: "editCategoryImageDisplay",
+                      staticClass: "img-thumbnail",
+                      attrs: {
+                        src:
+                          _vm.$store.state.serverPath +
+                          "assets/uploads/category/" +
+                          _vm.editCategoryData.image,
+                        alt: _vm.editCategoryData.name,
+                      },
+                    }),
+                  ]),
                   _vm._v(" "),
                   _c("input", {
                     ref: "editCategoryImage",
