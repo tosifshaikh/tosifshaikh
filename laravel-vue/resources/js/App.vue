@@ -1,30 +1,17 @@
 <template>
 <main>
-    <Header />
-    <div id="layoutSidenav">
-        <Sidebar />
-        <div id="layoutSidenav_content">
-            <router-view></router-view>
-            <Footer />
-        </div>
+    <router-view></router-view>
         <FlashMessage position="right top"></FlashMessage>
-    </div>
 
 </main>
 
 </template>
 
 <script>
-import Header from './components/Header'
-import Sidebar from './components/Sidebar'
-import Footer from './components/Footer'
+
 export default {
     name: "App",
-    components :{
-        Header,
-        Sidebar,
-        Footer
-    }
+
 }
 </script>
 
