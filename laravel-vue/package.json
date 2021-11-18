@@ -1,5 +1,5 @@
 {
-<<<<<<< HEAD
+
     "private": true,
     "scripts": {
         "dev": "npm run development",
@@ -38,8 +38,8 @@
         "vue-cryptojs": "^2.1.6",
         "vue-router": "^3.5.3",
         "vuex": "^3.6.2"
-    }
-=======
+    },
+
   "private": true,
   "scripts": {
     "dev": "npm run development",
@@ -94,5 +94,4 @@
   },
   "author": "",
   "license": "ISC"
->>>>>>> laravel-vue
 }
