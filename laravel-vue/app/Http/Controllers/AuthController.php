@@ -40,9 +40,9 @@ class AuthController extends Controller
         }
         $user = $request->user();
         if ($user->role == 'Admin') {
-            $tokenData = $user->createToken('Personal Access Token', ['do_anything']);
+            $tokenData = $user->createToken('Personal Access Token', ['admin']);
         } else {
-            $tokenData = $user->createToken('Personal Access Token', ['can_create']);
+            $tokenData = $user->createToken('Personal Access Token', ['user']);
         }
         $token = $tokenData->token;
         if ($request->remember_me) {

@@ -18,12 +18,23 @@ Route::group(['prefix' => 'auth'],function() {
 });
     Route::group(['prefix' => 'user'],function() {
         Route::group(['middleware' => 'auth:api'],function () {
-            Route::post('edit-category', function () {
+
+            Route::group(['middleware' => 'scope:user'], function () {
+                Route::get('user-scope', function() {
+                    return  response()->json(['message' => 'User can access this'],200);
+                });
+            });
+            Route::group(['middleware' => 'scope:admin'], function () {
+                Route::get('admin-scope', function() {
+                    return  response()->json(['message' => 'Admin can access this'],200);
+                });
+            });
+           /* Route::post('edit-category', function () {
                 return \response()->json(['message' => 'Admin Access', 'status_code' => 200],200);
-            })->middleware('scope:do_anything');
+            })->middleware('scope:admin');
             Route::post('create-category', function () {
                 return \response()->json(['message' => 'Everyone Access', 'status_code' => 200],200);
-            })->middleware('scopes:do_anything,can_create');
+            })->middleware('scopes:admin,user');*/
         });
     });
 

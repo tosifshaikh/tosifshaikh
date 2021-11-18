@@ -12,6 +12,14 @@
                 </li>
             </ol>
             <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-primary" v-on:click="checkScope">User Scope</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-danger" v-on:click="checkScope">Admin Scope</button>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-primary text-white mb-4">
                         <div class="card-body">Primary Card</div>
@@ -55,8 +63,28 @@
 </template>
 
 <script>
+import * as user from '../Services/user_service';
 export default {
-    name: "Welcome"
+    name: "Welcome",
+    methods : {
+        userScope :async function() {
+            try{
+                const response = await user.userScope();
+            }
+            catch (e)
+            {
+                    console.log(e)
+            }
+        }, adminScope :async function() {
+            try{
+                const response = await user.adminScope();
+            }
+            catch (e)
+            {
+                    console.log(e)
+            }
+        }
+    }
 }
 </script>
 

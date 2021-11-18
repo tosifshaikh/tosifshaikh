@@ -12,7 +12,15 @@ export default new Vuex.Store({
     mutations: {
         authenticate(state, payload) {
             state.isLoggedIn = auth.isLoggedIn();
+            state.profile = {};
+            if(state.isLoggedIn) {
+                state.profile = payload;
+            }
         }
     },
-    actions:{}
+    actions:{
+        authenticate(context, payload) {
+            context.commit('authenticate',payload);
+        }
+    }
 });
