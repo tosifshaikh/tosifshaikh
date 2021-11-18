@@ -12284,4 +12284,7 @@ a.nav-link.active {
   height: 200px;
 }
 
-
+.img-thumbnail {
+  width: 200px;
+  height: 200px;
+}

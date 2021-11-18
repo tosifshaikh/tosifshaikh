@@ -34,7 +34,10 @@ const routes = [
 
 ];
 const router = new Router({
-   // mode : 'history',
+    //to remove # from URL
+    //before : http://127.0.0.1:8000/#/home
+    //fter : http://127.0.0.1:8000/home
+    mode : 'history',
     routes : routes,
     linkActiveClass : 'active'
 })
