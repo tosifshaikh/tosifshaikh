@@ -15,11 +15,6 @@ export function login(user) {
     });
 }
 
-        if (response.status == 200) {
-            setToken(response.data);
-        }
-    });
-}
 export function logout() {
      http().get('auth/logout');
     localStorage.removeItem('laravel-spa-token');
