@@ -10,7 +10,7 @@ import FlashMessage from '@smartweb/vue-flash-message';
 
 Vue.use(BootstrapVue);
 Vue.use(FlashMessage);
-//Vue.use(VueCryptojs);
+
 
 new Vue({
     el: '#app',

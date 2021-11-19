@@ -67,7 +67,9 @@ export default {
                 this.$router.push('/home');
             }
             catch (e) {
+
                /* switch (e.response.status) {
+
                     case 422:
                         this.errors = e.response.data.errors;
                         break;
@@ -89,7 +91,9 @@ export default {
                             time: 5000,
                         });
                         break;
+
                 }*/
+
             }
         }
     }
@@ -98,4 +102,6 @@ export default {
 
 <style scoped>
 
+
 </style>
+
