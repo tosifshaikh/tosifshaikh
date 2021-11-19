@@ -12,11 +12,11 @@
                 </li>
             </ol>
             <div class="row">
-                <div class="col-md-6">
-                    <button class="btn btn-primary" v-on:click="checkScope">User Scope</button>
+                <div class="col-md-6 mb-4">
+                    <button class="btn btn-primary" v-on:click="userScope">User Scope</button>
                 </div>
-                <div class="col-md-6">
-                    <button class="btn btn-danger" v-on:click="checkScope">Admin Scope</button>
+                <div class="col-md-6 mb-4">
+                    <button class="btn btn-danger" v-on:click="adminScope">Admin Scope</button>
                 </div>
             </div>
             <div class="row">
@@ -70,6 +70,7 @@ export default {
         userScope :async function() {
             try{
                 const response = await user.userScope();
+                console.log(response);
             }
             catch (e)
             {
@@ -78,6 +79,7 @@ export default {
         }, adminScope :async function() {
             try{
                 const response = await user.adminScope();
+                console.log(response);
             }
             catch (e)
             {

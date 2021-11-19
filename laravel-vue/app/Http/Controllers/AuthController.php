@@ -39,7 +39,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid username/password', 'status_code' => 401 ],401);
         }
         $user = $request->user();
-        if ($user->role == 'Admin') {
+        if ($user->role == 'admin') {
             $tokenData = $user->createToken('Personal Access Token', ['admin']);
         } else {
             $tokenData = $user->createToken('Personal Access Token', ['user']);

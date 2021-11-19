@@ -1,8 +1,8 @@
 import {http, httpFile} from "./http_service";
 
 export function userScope() {
-    return http().post('/user-scope');
+    return http().get('/user/user-scope');
 }
 export function adminScope() {
-    return http().post('/admin-scope');
+    return http().get('/user/admin-scope');
 }

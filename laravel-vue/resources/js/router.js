@@ -10,6 +10,7 @@ const routes = [
     children : [
         {path: '', name: 'dashboard', component: () => import('./views/Dashboard')},
         {path: 'categories', name: 'categories', component: () => import('./views/Categories')},
+        {path: 'products', name: 'products', component: () => import('./views/Products')},
     ],
         beforeEnter(to, from ,next) {
             if (!auth.isLoggedIn()) {

@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fd5b0b5-e9f1-48a2-9d98-4f9019541ad7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/user_service.js" afterDir="false" />
+    <list default="true" id="921e6ca1-0348-40ca-8e8e-57323a2c3542" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/product_service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/laravel-vue/resources/js/views/Products.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/app/Http/Controllers/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/app/Providers/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Categories_vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Categories_vue.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Dashboard_vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Dashboard_vue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/Services/auth_service.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/auth_service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/Services/http_service.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/http_service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/components/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/Services/user_service.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/user_service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/components/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/components/Sidebar.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/views/Categories.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/views/Categories.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/views/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +29,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -94,5 +91,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
