@@ -101,20 +101,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context.sent;
-                _context.next = 9;
+                console.log(response);
+                _context.next = 10;
                 break;
 
-              case 6:
-                _context.prev = 6;
+              case 7:
+                _context.prev = 7;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 6]]);
+        }, _callee, null, [[0, 7]]);
       }));
 
       function userScope() {
@@ -136,20 +137,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context2.sent;
-                _context2.next = 9;
+                console.log(response);
+                _context2.next = 10;
                 break;
 
-              case 6:
-                _context2.prev = 6;
+              case 7:
+                _context2.prev = 7;
                 _context2.t0 = _context2["catch"](0);
                 console.log(_context2.t0);
 
-              case 9:
+              case 10:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 6]]);
+        }, _callee2, null, [[0, 7]]);
       }));
 
       function adminScope() {
@@ -177,10 +179,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
 
 function userScope() {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/user-scope');
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/user/user-scope');
 }
 function adminScope() {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/admin-scope');
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/user/admin-scope');
 }
 
 /***/ }),
@@ -289,18 +291,18 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "col-md-6 mb-4" }, [
           _c(
             "button",
-            { staticClass: "btn btn-primary", on: { click: _vm.checkScope } },
+            { staticClass: "btn btn-primary", on: { click: _vm.userScope } },
             [_vm._v("User Scope")]
           ),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "col-md-6 mb-4" }, [
           _c(
             "button",
-            { staticClass: "btn btn-danger", on: { click: _vm.checkScope } },
+            { staticClass: "btn btn-danger", on: { click: _vm.adminScope } },
             [_vm._v("Admin Scope")]
           ),
         ]),

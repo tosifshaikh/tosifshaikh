@@ -15,6 +15,12 @@
                           <span>Categories</span>
                       </router-link>
                   </li>
+                    <li class="nav-item">
+                      <router-link to="/home/Products" class="nav-link sb-nav-link-icon" exact>
+                          <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                          <span>Products</span>
+                      </router-link>
+                  </li>
 
 
 
