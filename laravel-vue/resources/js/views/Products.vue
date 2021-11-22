@@ -47,8 +47,16 @@
             <div class="d-block">
                 <form v-on:submit.prevent="createProduct">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Enter Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter Name" v-model="ProductData.name">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select class="form-control"  id="category_id" v-model="ProductData.category_id">
+                            <option value="">Choose Category</option>
+                            <option v-for="(category,index) in categories" :value="category.id" :key="index">{{ category.name }}</option>
+                        </select>
+                        <div class="invalid-feedback" v-if="errors.category_id">{{errors.category_id[0]}}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Enter Product Name</label>
+                        <input type="text" class="form-control" id="product_name" placeholder="Enter Product Name" v-model="ProductData.name">
                         <div class="invalid-feedback" v-if="errors.name">{{errors.name[0]}}</div>
                     </div>
                     <div class="mb-3">
@@ -73,8 +81,16 @@
             <div class="d-block">
                 <form v-on:submit.prevent="updateProduct">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Enter Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter Name" v-model="editProductData.name">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select class="form-control"  id="category_id" v-model="editProductData.category_id">
+                            <option value="">Choose Category</option>
+                            <option v-for="(category,index) in categories" :value="category.id" :key="index">{{ category.name }}</option>
+                        </select>
+                        <div class="invalid-feedback" v-if="errors.name">{{errors.name[0]}}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Enter Product Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter Product Name" v-model="editProductData.name">
                         <div class="invalid-feedback" v-if="errors.name">{{errors.name[0]}}</div>
                     </div>
                     <div class="mb-3">
@@ -107,7 +123,9 @@ export default {
     data() {
         return {
             Products : [],
+            categories : [],
             ProductData : {
+                category_id : '',
                 name :  '',
                 image : ''
             },
@@ -116,12 +134,27 @@ export default {
         }
     },
     mounted() {
+        this.loadCategories();
         this.loadProducts();
     },
     methods : {
         editProduct(Product) {
             this.editProductData = Product;
             this.showEditProductModal();
+        },
+        loadCategories: async function() {
+            try {
+                const response = await ProductService.getCategories();
+                this.categories = response.data;
+                console.log(response,'00000')
+            }
+            catch (e) {
+                console.log(e)
+                this.flashMessage.success({
+                    message: 'Some Error Occured!, Please Refresh!',
+                    time: 5000,
+                });
+            }
         },
         loadProducts: async function() {
             try {
@@ -175,6 +208,7 @@ export default {
         },
         createProduct:async function() {
             let formData = new FormData();
+            formData.append('category_id', this.ProductData.category_id);
             formData.append('name', this.ProductData.name);
             formData.append('image', this.ProductData.image);
             try {

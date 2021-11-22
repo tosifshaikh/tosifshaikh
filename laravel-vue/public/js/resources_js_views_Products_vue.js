@@ -122,13 +122,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Products",
   data: function data() {
     return {
       Products: [],
+      categories: [],
       ProductData: {
+        category_id: '',
         name: '',
         image: ''
       },
@@ -137,6 +155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
+    this.loadCategories();
     this.loadProducts();
   },
   methods: {
@@ -144,8 +163,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.editProductData = Product;
       this.showEditProductModal();
     },
-    loadProducts: function () {
-      var _loadProducts = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    loadCategories: function () {
+      var _loadCategories = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
@@ -153,12 +172,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.loadProducts();
+                return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.getCategories();
 
               case 3:
                 response = _context.sent;
-                this.Products = response.data.data;
-                console.log(response.data.data);
+                this.categories = response.data;
+                console.log(response, '00000');
                 _context.next = 12;
                 break;
 
@@ -177,6 +196,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee, this, [[0, 8]]);
+      }));
+
+      function loadCategories() {
+        return _loadCategories.apply(this, arguments);
+      }
+
+      return loadCategories;
+    }(),
+    loadProducts: function () {
+      var _loadProducts = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.loadProducts();
+
+              case 3:
+                response = _context2.sent;
+                this.Products = response.data.data;
+                console.log(response.data.data);
+                _context2.next = 12;
+                break;
+
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+                this.flashMessage.success({
+                  message: 'Some Error Occured!, Please Refresh!',
+                  time: 5000
+                });
+
+              case 12:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 8]]);
       }));
 
       function loadProducts() {
@@ -210,36 +270,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$refs.ProductModal.show();
     },
     updateProduct: function () {
-      var _updateProduct = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var _updateProduct = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var formData, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 formData = new FormData();
                 formData.append('name', this.editProductData.name);
                 formData.append('image', this.editProductData.image);
                 formData.append('_method', 'PUT');
-                _context2.prev = 4;
-                _context2.next = 7;
+                _context3.prev = 4;
+                _context3.next = 7;
                 return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.updateProduct(this.editProductData.id, formData);
 
               case 7:
-                response = _context2.sent;
-                _context2.next = 13;
+                response = _context3.sent;
+                _context3.next = 13;
                 break;
 
               case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](4);
-                console.log('update called', _context2.t0);
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](4);
+                console.log('update called', _context3.t0);
 
               case 13:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this, [[4, 10]]);
+        }, _callee3, this, [[4, 10]]);
       }));
 
       function updateProduct() {
@@ -249,21 +309,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return updateProduct;
     }(),
     createProduct: function () {
-      var _createProduct = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var _createProduct = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         var formData, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 formData = new FormData();
+                formData.append('category_id', this.ProductData.category_id);
                 formData.append('name', this.ProductData.name);
                 formData.append('image', this.ProductData.image);
-                _context3.prev = 3;
-                _context3.next = 6;
+                _context4.prev = 4;
+                _context4.next = 7;
                 return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.createProduct(formData);
 
-              case 6:
-                response = _context3.sent;
+              case 7:
+                response = _context4.sent;
                 this.Products.unshift(response.data);
                 this.hideNewProductModal();
                 this.flashMessage.success({
@@ -274,29 +335,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   name: '',
                   image: ''
                 };
-                _context3.next = 21;
+                _context4.next = 22;
                 break;
 
-              case 13:
-                _context3.prev = 13;
-                _context3.t0 = _context3["catch"](3);
-                _context3.t1 = _context3.t0.response.status;
-                _context3.next = _context3.t1 === 422 ? 18 : 20;
+              case 14:
+                _context4.prev = 14;
+                _context4.t0 = _context4["catch"](4);
+                _context4.t1 = _context4.t0.response.status;
+                _context4.next = _context4.t1 === 422 ? 19 : 21;
                 break;
 
-              case 18:
-                this.errors = _context3.t0.response.data.errors;
-                return _context3.abrupt("break", 21);
-
-              case 20:
-                return _context3.abrupt("break", 21);
+              case 19:
+                this.errors = _context4.t0.response.data.errors;
+                return _context4.abrupt("break", 22);
 
               case 21:
+                return _context4.abrupt("break", 22);
+
+              case 22:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this, [[3, 13]]);
+        }, _callee4, this, [[4, 14]]);
       }));
 
       function createProduct() {
@@ -306,20 +367,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return createProduct;
     }(),
     deleteProduct: function () {
-      var _deleteProduct = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(Product) {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      var _deleteProduct = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(Product) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 console.log(Product);
 
                 if (!window.confirm("Are you sure you want to delete the ".concat(Product.name, " ?"))) {
-                  _context4.next = 12;
+                  _context5.next = 12;
                   break;
                 }
 
-                _context4.prev = 2;
-                _context4.next = 5;
+                _context5.prev = 2;
+                _context5.next = 5;
                 return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.deleteProduct(Product.id);
 
               case 5:
@@ -330,23 +391,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   message: 'Product Deleted Successfully!',
                   time: 5000
                 });
-                _context4.next = 12;
+                _context5.next = 12;
                 break;
 
               case 9:
-                _context4.prev = 9;
-                _context4.t0 = _context4["catch"](2);
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](2);
                 this.flashMessage.success({
-                  message: _context4.t0.response.data.message,
+                  message: _context5.t0.response.data.message,
                   time: 5000
                 });
 
               case 12:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[2, 9]]);
+        }, _callee5, this, [[2, 9]]);
       }));
 
       function deleteProduct(_x) {
@@ -375,6 +436,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createProduct": () => (/* binding */ createProduct),
+/* harmony export */   "getCategories": () => (/* binding */ getCategories),
 /* harmony export */   "loadProducts": () => (/* binding */ loadProducts),
 /* harmony export */   "deleteProduct": () => (/* binding */ deleteProduct),
 /* harmony export */   "updateProduct": () => (/* binding */ updateProduct),
@@ -383,19 +445,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
 
 function createProduct(data) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post('/Products', data);
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post('/products', data);
+}
+function getCategories() {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/get_categories');
 }
 function loadProducts() {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/Products');
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/products');
 }
 function deleteProduct(id) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)()["delete"]("/Products/".concat(id));
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)()["delete"]("/products/".concat(id));
 }
 function updateProduct(id, data) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post("/Products/".concat(id), data);
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post("/products/".concat(id), data);
 }
 function loadMore(nextpage) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get("/Products?page=".concat(nextpage));
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get("/products?page=".concat(nextpage));
 }
 
 /***/ }),
@@ -601,8 +666,74 @@ var render = function () {
                 _c("div", { staticClass: "mb-3" }, [
                   _c(
                     "label",
+                    {
+                      staticClass: "form-label",
+                      attrs: { for: "category_id" },
+                    },
+                    [_vm._v("Category")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.ProductData.category_id,
+                          expression: "ProductData.category_id",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "category_id" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.ProductData,
+                            "category_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Choose Category"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.categories, function (category, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: category.id } },
+                          [_vm._v(_vm._s(category.name))]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.errors.category_id
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(_vm._s(_vm.errors.category_id[0])),
+                      ])
+                    : _vm._e(),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "mb-3" }, [
+                  _c(
+                    "label",
                     { staticClass: "form-label", attrs: { for: "name" } },
-                    [_vm._v("Enter Name")]
+                    [_vm._v("Enter Product Name")]
                   ),
                   _vm._v(" "),
                   _c("input", {
@@ -617,8 +748,8 @@ var render = function () {
                     staticClass: "form-control",
                     attrs: {
                       type: "text",
-                      id: "name",
-                      placeholder: "Enter Name",
+                      id: "product_name",
+                      placeholder: "Enter Product Name",
                     },
                     domProps: { value: _vm.ProductData.name },
                     on: {
@@ -721,8 +852,74 @@ var render = function () {
                 _c("div", { staticClass: "mb-3" }, [
                   _c(
                     "label",
+                    {
+                      staticClass: "form-label",
+                      attrs: { for: "category_id" },
+                    },
+                    [_vm._v("Category")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editProductData.category_id,
+                          expression: "editProductData.category_id",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "category_id" },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editProductData,
+                            "category_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Choose Category"),
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.categories, function (category, index) {
+                        return _c(
+                          "option",
+                          { key: index, domProps: { value: category.id } },
+                          [_vm._v(_vm._s(category.name))]
+                        )
+                      }),
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.errors.name
+                    ? _c("div", { staticClass: "invalid-feedback" }, [
+                        _vm._v(_vm._s(_vm.errors.name[0])),
+                      ])
+                    : _vm._e(),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "mb-3" }, [
+                  _c(
+                    "label",
                     { staticClass: "form-label", attrs: { for: "name" } },
-                    [_vm._v("Enter Name")]
+                    [_vm._v("Enter Product Name")]
                   ),
                   _vm._v(" "),
                   _c("input", {
@@ -738,7 +935,7 @@ var render = function () {
                     attrs: {
                       type: "text",
                       id: "name",
-                      placeholder: "Enter Name",
+                      placeholder: "Enter Product Name",
                     },
                     domProps: { value: _vm.editProductData.name },
                     on: {

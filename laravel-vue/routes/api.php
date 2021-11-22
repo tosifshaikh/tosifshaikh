@@ -16,16 +16,19 @@ Route::group(['prefix' => 'auth'],function() {
         Route::get('profile',[\App\Http\Controllers\AuthController::class,'profile']);
     });
 });
-    Route::group(['prefix' => 'user','middleware' => 'auth:api'],function() {
+    Route::group(['middleware' => 'auth:api'],function() {
             Route::group(['middleware' => 'scope:user'], function () {
-                Route::get('/user-scope', function() {
+               /* Route::get('/user-scope', function() {
                     return  response()->json(['message' => 'User can access this'],200);
-                });
+                });*/
+                Route::get('/get_categories', [\App\Http\Controllers\ProductController::class,'getCategories']);
+                Route::resource('/products',\App\Http\Controllers\ProductController::class);
+
             });
             Route::group(['middleware' => 'scope:admin'], function () {
-                Route::get('/admin-scope', function() {
+                /*Route::get('/admin-scope', function() {
                     return  response()->json(['message' => 'Admin can access this'],200);
-                });
+                });*/
             });
            /* Route::post('edit-category', function () {
                 return \response()->json(['message' => 'Admin Access', 'status_code' => 200],200);
