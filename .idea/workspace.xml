@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="921e6ca1-0348-40ca-8e8e-57323a2c3542" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/product_service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/laravel-vue/resources/js/views/Products.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/vm.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/app/Http/Controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/app/Http/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/app/Http/Controllers/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laravel-vue/database/migrations/2021_11_19_173323_create_products_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/database/migrations/2021_11_19_173323_create_products_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Categories_vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Categories_vue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Dashboard_vue.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/public/js/resources_js_views_Dashboard_vue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/Services/user_service.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/Services/user_service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/components/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/components/Sidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/views/Categories.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/views/Categories.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laravel-vue/resources/js/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/resources/js/views/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/laravel-vue/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/laravel-vue/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,11 +41,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -62,7 +66,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4fd5b0b5-e9f1-48a2-9d98-4f9019541ad7" name="Changes" comment="" />
+      <changelist id="921e6ca1-0348-40ca-8e8e-57323a2c3542" name="Changes" comment="" />
       <created>1637156043493</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -75,6 +79,9 @@
       <workItem from="1637161104770" duration="3918000" />
       <workItem from="1637165248177" duration="5298000" />
       <workItem from="1637253991128" duration="5611000" />
+      <workItem from="1637383388278" duration="2528000" />
+      <workItem from="1637409759650" duration="359000" />
+      <workItem from="1637410204663" duration="637000" />
     </task>
     <servers />
   </component>
@@ -92,5 +99,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -1,17 +1,20 @@
 import {http, httpFile} from "./http_service";
 
 export function createProduct(data){
-    return httpFile().post('/Products', data);
+    return httpFile().post('/products', data);
+}
+export function getCategories(){
+    return http().get('/get_categories');
 }
 export function loadProducts() {
-    return http().get('/Products');
+    return http().get('/products');
 }
 export function deleteProduct(id) {
-    return http().delete(`/Products/${id}`);
+    return http().delete(`/products/${id}`);
 }
 export function updateProduct(id, data) {
-    return httpFile().post(`/Products/${id}`, data);
+    return httpFile().post(`/products/${id}`, data);
 }
 export function loadMore(nextpage) {
-    return http().get(`/Products?page=${nextpage}`);
+    return http().get(`/products?page=${nextpage}`);
 }
