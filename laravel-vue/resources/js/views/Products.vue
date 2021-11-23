@@ -23,7 +23,8 @@
                     <thead>
                     <tr>
                         <td>#</td>
-                        <td>Name</td>
+                        <td>Category</td>
+                        <td>Product Name</td>
                         <td>Image</td>
                         <td>Action</td>
                     </tr>
@@ -31,8 +32,9 @@
                     <tbody>
                     <tr v-for="(Product, index) in Products" :key="index">
                         <td>{{index + 1}}</td>
+                        <td>{{Product.category_id}}</td>
                         <td>{{Product.name}}</td>
-                        <td><img :src="`${$store.state.serverPath}assets/uploads/Product/${Product.image}`" :alt="Product.name"  class="img-thumbnail"></td>
+                        <td><img :src="`${$store.state.serverPath}assets/uploads/product/${Product.image}`" :alt="Product.name"  class="img-thumbnail"></td>
                         <td>
                             <button class="btn btn-primary btn-sm" v-on:click="editProduct(Product)"><span class="fa fa-edit" ></span></button>
                             <button class="btn btn-danger btn-sm"  v-on:click="deleteProduct(Product)"><span class="fa fa-trash"></span></button>
@@ -96,7 +98,7 @@
                     <div class="mb-3">
                         <label for="image" class="form-label">Choose an Image</label>
                         <div>
-                            <img ref="editProductImageDisplay" :src="`${$store.state.serverPath}assets/uploads/Product/${editProductData.image}`" :alt="editProductData.name"  class="img-thumbnail">
+                            <img ref="editProductImageDisplay" :src="`${$store.state.serverPath}assets/uploads/product/${editProductData.image}`" :alt="editProductData.name"  class="img-thumbnail">
                         </div>
 
                         <input type="file" class="form-control" id="image" v-on:change="editAttachImage" ref="editProductImage">
