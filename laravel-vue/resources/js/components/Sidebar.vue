@@ -9,13 +9,13 @@
                             <span>Dashboard</span>
                         </router-link>
                     </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="$store.state.profile.role === 'admin'">
                       <router-link to="/home/Categories" class="nav-link sb-nav-link-icon" exact>
                           <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                           <span>Categories</span>
                       </router-link>
                   </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="$store.state.profile.role === 'user'">
                       <router-link to="/home/Products" class="nav-link sb-nav-link-icon" exact>
                           <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                           <span>Products</span>

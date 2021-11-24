@@ -12283,3 +12283,7 @@ a.nav-link.active {
   width: 200px;
   height: 200px;
 }
+
+.custom-block-class {
+  margin-top: 50px;
+}

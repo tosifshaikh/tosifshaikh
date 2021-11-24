@@ -20,6 +20,18 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -151,6 +163,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         image: ''
       },
       editProductData: {},
+      moreExist: false,
+      nextPage: 0,
       errors: {}
     };
   },
@@ -160,7 +174,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     editProduct: function editProduct(Product) {
-      this.editProductData = Product;
+      this.editProductData = _objectSpread({}, Product);
       this.showEditProductModal();
     },
     loadCategories: function () {
@@ -218,7 +232,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context2.sent;
                 this.Products = response.data.data;
-                console.log(response.data.data);
+
+                if (response.data.current_page < response.data.last_page) {
+                  this.moreExist = true;
+                  this.nextPage = response.data.current_page + 1;
+                } else {
+                  this.moreExist = false;
+                }
+
                 _context2.next = 12;
                 break;
 
@@ -277,29 +298,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 formData = new FormData();
-                formData.append('name', this.editProductData.name);
+                formData.append('name', this.editProductData.product_name);
+                formData.append('categoryID', this.editProductData.category_id);
                 formData.append('image', this.editProductData.image);
+                formData.append('id', this.editProductData.id);
                 formData.append('_method', 'PUT');
-                _context3.prev = 4;
-                _context3.next = 7;
+                _context3.prev = 6;
+                _context3.next = 9;
                 return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.updateProduct(this.editProductData.id, formData);
 
-              case 7:
+              case 9:
                 response = _context3.sent;
-                _context3.next = 13;
+                this.Products.map(function (product) {
+                  if (product.id == response.data.id) {
+                    for (var key in response.data) {
+                      product[key] = response.data[key];
+                    }
+                  }
+                });
+                console.log(this.Products);
+                this.hideEditProductModal();
+                this.flashMessage.success({
+                  message: 'Product Updated Successfully!',
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+                this.editCategoryData = {};
+                _context3.next = 20;
                 break;
 
-              case 10:
-                _context3.prev = 10;
-                _context3.t0 = _context3["catch"](4);
+              case 17:
+                _context3.prev = 17;
+                _context3.t0 = _context3["catch"](6);
                 console.log('update called', _context3.t0);
 
-              case 13:
+              case 20:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[4, 10]]);
+        }, _callee3, this, [[6, 17]]);
       }));
 
       function updateProduct() {
@@ -315,49 +353,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                this.errors = {};
                 formData = new FormData();
                 formData.append('category_id', this.ProductData.category_id);
                 formData.append('name', this.ProductData.name);
                 formData.append('image', this.ProductData.image);
-                _context4.prev = 4;
-                _context4.next = 7;
+                _context4.prev = 5;
+                _context4.next = 8;
                 return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.createProduct(formData);
 
-              case 7:
+              case 8:
                 response = _context4.sent;
                 this.Products.unshift(response.data);
                 this.hideNewProductModal();
                 this.flashMessage.success({
                   message: 'Product Added Successfully!',
-                  time: 5000
+                  time: 5000,
+                  blockClass: 'custom-block-class'
                 });
                 this.ProductData = {
                   name: '',
                   image: ''
                 };
-                _context4.next = 22;
+                _context4.next = 24;
                 break;
 
-              case 14:
-                _context4.prev = 14;
-                _context4.t0 = _context4["catch"](4);
+              case 15:
+                _context4.prev = 15;
+                _context4.t0 = _context4["catch"](5);
                 _context4.t1 = _context4.t0.response.status;
-                _context4.next = _context4.t1 === 422 ? 19 : 21;
+                _context4.next = _context4.t1 === 422 ? 20 : 23;
                 break;
 
-              case 19:
+              case 20:
                 this.errors = _context4.t0.response.data.errors;
-                return _context4.abrupt("break", 22);
+                console.log('err', this.errors);
+                return _context4.abrupt("break", 24);
 
-              case 21:
-                return _context4.abrupt("break", 22);
+              case 23:
+                return _context4.abrupt("break", 24);
 
-              case 22:
+              case 24:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[4, 14]]);
+        }, _callee4, this, [[5, 15]]);
       }));
 
       function createProduct() {
@@ -374,7 +415,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 console.log(Product);
 
-                if (!window.confirm("Are you sure you want to delete the ".concat(Product.name, " ?"))) {
+                if (!window.confirm("Are you sure you want to delete the ".concat(Product.product_name, " ?"))) {
                   _context5.next = 12;
                   break;
                 }
@@ -389,7 +430,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
                 this.flashMessage.success({
                   message: 'Product Deleted Successfully!',
-                  time: 5000
+                  time: 5000,
+                  blockClass: 'custom-block-class'
                 });
                 _context5.next = 12;
                 break;
@@ -399,7 +441,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context5.t0 = _context5["catch"](2);
                 this.flashMessage.success({
                   message: _context5.t0.response.data.message,
-                  time: 5000
+                  time: 5000,
+                  blockClass: 'custom-block-class'
                 });
 
               case 12:
@@ -421,7 +464,70 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     showEditProductModal: function showEditProductModal() {
       this.$refs.editProductModal.show();
-    }
+    },
+    findCategory: function findCategory(category_id) {
+      var categoryName = '';
+      this.categories.forEach(function (category) {
+        console.log(category_id, category.id, category.name);
+
+        if (category.id == category_id) {
+          categoryName = category.name;
+        }
+      });
+      return categoryName;
+    },
+    loadMore: function () {
+      var _loadMore = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        var _this = this;
+
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.prev = 0;
+                _context6.next = 3;
+                return _Services_product_service__WEBPACK_IMPORTED_MODULE_1__.loadMore(this.nextPage);
+
+              case 3:
+                response = _context6.sent;
+
+                if (response.data.current_page < response.data.last_page) {
+                  this.moreExist = true;
+                  this.nextPage = response.data.current_page + 1;
+                } else {
+                  this.moreExist = false;
+                }
+
+                response.data.data.forEach(function (data) {
+                  _this.Products.push(data);
+                });
+                _context6.next = 11;
+                break;
+
+              case 8:
+                _context6.prev = 8;
+                _context6.t0 = _context6["catch"](0);
+                this.flashMessage.success({
+                  message: 'Some error occured during loading more categories',
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+
+              case 11:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this, [[0, 8]]);
+      }));
+
+      function loadMore() {
+        return _loadMore.apply(this, arguments);
+      }
+
+      return loadMore;
+    }()
   }
 });
 
@@ -559,14 +665,14 @@ var render = function () {
           { staticClass: "breadcrumb-item active" },
           [
             _c("router-link", { attrs: { to: "/" } }, [
-              _vm._v("\n                Dashboard\n            "),
+              _vm._v("\n                    Dashboard\n                "),
             ]),
           ],
           1
         ),
         _vm._v(" "),
         _c("li", { staticClass: "breadcrumb-item" }, [
-          _vm._v("\n            Products\n        "),
+          _vm._v("\n                Products\n            "),
         ]),
       ]),
       _vm._v(" "),
@@ -594,7 +700,11 @@ var render = function () {
                 return _c("tr", { key: index }, [
                   _c("td", [_vm._v(_vm._s(index + 1))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(Product.name))]),
+                  _c("td", [
+                    _vm._v(_vm._s(_vm.findCategory(Product.category_id))),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(Product.product_name))]),
                   _vm._v(" "),
                   _c("td", [
                     _c("img", {
@@ -602,7 +712,7 @@ var render = function () {
                       attrs: {
                         src:
                           _vm.$store.state.serverPath +
-                          "assets/uploads/Product/" +
+                          "assets/uploads/product/" +
                           Product.image,
                         alt: Product.name,
                       },
@@ -641,6 +751,34 @@ var render = function () {
               0
             ),
           ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.moreExist,
+                  expression: "moreExist",
+                },
+              ],
+              staticClass: "text-center",
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-sm",
+                  on: { click: _vm.loadMore },
+                },
+                [
+                  _c("span", { staticClass: "fa fa-arrow-down" }),
+                  _vm._v(" Load More"),
+                ]
+              ),
+            ]
+          ),
         ]),
       ]),
       _vm._v(" "),
@@ -871,7 +1009,7 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control",
-                      attrs: { id: "category_id" },
+                      attrs: { id: "category_id", name: "category_id" },
                       on: {
                         change: function ($event) {
                           var $$selectedVal = Array.prototype.filter
@@ -908,9 +1046,9 @@ var render = function () {
                     2
                   ),
                   _vm._v(" "),
-                  _vm.errors.name
+                  _vm.errors.category_id
                     ? _c("div", { staticClass: "invalid-feedback" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0])),
+                        _vm._v(_vm._s(_vm.errors.category_id[0])),
                       ])
                     : _vm._e(),
                 ]),
@@ -927,8 +1065,8 @@ var render = function () {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.editProductData.name,
-                        expression: "editProductData.name",
+                        value: _vm.editProductData.product_name,
+                        expression: "editProductData.product_name",
                       },
                     ],
                     staticClass: "form-control",
@@ -937,7 +1075,7 @@ var render = function () {
                       id: "name",
                       placeholder: "Enter Product Name",
                     },
-                    domProps: { value: _vm.editProductData.name },
+                    domProps: { value: _vm.editProductData.product_name },
                     on: {
                       input: function ($event) {
                         if ($event.target.composing) {
@@ -945,7 +1083,7 @@ var render = function () {
                         }
                         _vm.$set(
                           _vm.editProductData,
-                          "name",
+                          "product_name",
                           $event.target.value
                         )
                       },
@@ -973,7 +1111,7 @@ var render = function () {
                       attrs: {
                         src:
                           _vm.$store.state.serverPath +
-                          "assets/uploads/Product/" +
+                          "assets/uploads/product/" +
                           _vm.editProductData.image,
                         alt: _vm.editProductData.name,
                       },
@@ -1035,7 +1173,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", [
       _c("i", { staticClass: "fas fa-chart-area" }),
-      _vm._v("\n                Products Management\n          "),
+      _vm._v("\n                    Products Management\n              "),
     ])
   },
   function () {
@@ -1046,7 +1184,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("td", [_vm._v("#")]),
         _vm._v(" "),
-        _c("td", [_vm._v("Name")]),
+        _c("td", [_vm._v("Category")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Product Name")]),
         _vm._v(" "),
         _c("td", [_vm._v("Image")]),
         _vm._v(" "),

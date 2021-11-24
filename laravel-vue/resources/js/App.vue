@@ -1,7 +1,9 @@
 <template>
 <main>
-    <router-view></router-view>
-        <FlashMessage :position="'right top'"></FlashMessage>
+    <router-view>
+
+    </router-view>
+    <FlashMessage :position="'right top'"></FlashMessage>
 
 </main>
 
@@ -15,7 +17,7 @@ export default {
         try {
             if (auth.isLoggedIn()) {
                 const reponse = await auth.getProfile();
-                this.$store.dispatch('authenticate',reponse.data.name);
+                this.$store.dispatch('authenticate',reponse.data);
             }
         }catch (e) {
                 auth.logout();

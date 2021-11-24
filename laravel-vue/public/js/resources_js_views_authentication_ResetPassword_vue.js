@@ -11,6 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Services_auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Services/auth_service */ "./resources/js/Services/auth_service.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -42,10 +51,94 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ResetPassword",
+  data: function data() {
+    return {
+      user: {
+        name: ''
+      },
+      errors: {}
+    };
+  },
   created: function created() {
     document.querySelector('body').style.backgroundColor = '#343a40';
+  },
+  methods: {
+    onSubmit: function () {
+      var _onSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                this.errors = {};
+                this.disableSubmission(this.$refs.btnSubmit);
+                _context.next = 5;
+                return _Services_auth_service__WEBPACK_IMPORTED_MODULE_1__.resetPassword(this.user);
+
+              case 5:
+                response = _context.sent;
+                this.flashMessage.success({
+                  message: response.data.message,
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+                this.$router.push({
+                  name: ''
+                });
+                _context.next = 20;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+                _context.t1 = _context.t0.response.status;
+                _context.next = _context.t1 === 422 ? 15 : 17;
+                break;
+
+              case 15:
+                this.errors = _context.t0.response.data.errors;
+                return _context.abrupt("break", 19);
+
+              case 17:
+                this.flashMessage.error({
+                  message: 'Some error Occured',
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+                return _context.abrupt("break", 19);
+
+              case 19:
+                this.enableSubmission(this.$refs.btnSubmit);
+
+              case 20:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 10]]);
+      }));
+
+      function onSubmit() {
+        return _onSubmit.apply(this, arguments);
+      }
+
+      return onSubmit;
+    }(),
+    disableSubmission: function disableSubmission(btn) {
+      btn.setAttribute('disabled', 'disabled');
+      this.btnOldHtml = btn.innerHtml;
+      btn.innerHtml = '<span class="fa fa-spinner fa-spin">Please Wait</span>';
+    },
+    enableSubmission: function enableSubmission(btn) {
+      btn.removeAttribute('disabled');
+      btn.innerHtml = this.btnOldHtml;
+    }
   }
 });
 
@@ -152,37 +245,85 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _c("form", [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "d-flex align-items-center justify-content-between mt-4 mb-0",
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function ($event) {
+                        $event.preventDefault()
+                        return _vm.onSubmit.apply(null, arguments)
+                      },
                     },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { to: "/login" },
+                  },
+                  [
+                    _c("div", { staticClass: "form-floating mb-3" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.email,
+                            expression: "user.email",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "inputEmail",
+                          type: "email",
+                          placeholder: "name@example.com",
                         },
-                        [_vm._v("Login")]
-                      ),
+                        domProps: { value: _vm.user.email },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "email", $event.target.value)
+                          },
+                        },
+                      }),
                       _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { href: "login.html" },
-                        },
-                        [_vm._v("Reset Password")]
-                      ),
-                    ],
-                    1
-                  ),
-                ]),
+                      _c("label", { attrs: { for: "inputEmail" } }, [
+                        _vm._v("Email address"),
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.email
+                        ? _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(_vm._s(_vm.errors.email[0])),
+                          ])
+                        : _vm._e(),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "d-flex align-items-center justify-content-between mt-4 mb-0",
+                      },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { to: "/login" },
+                          },
+                          [_vm._v("Login")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            ref: "btnSubmit",
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "submit" },
+                          },
+                          [_vm._v("Reset Password")]
+                        ),
+                      ],
+                      1
+                    ),
+                  ]
+                ),
               ]),
               _vm._v(" "),
               _c(
@@ -213,23 +354,6 @@ var staticRenderFns = [
       _c("h3", { staticClass: "text-center font-weight-light my-4" }, [
         _vm._v("Password Recovery"),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-floating mb-3" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          id: "inputEmail",
-          type: "email",
-          placeholder: "name@example.com",
-        },
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "inputEmail" } }, [_vm._v("Email address")]),
     ])
   },
 ]

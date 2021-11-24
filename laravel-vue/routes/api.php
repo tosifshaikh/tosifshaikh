@@ -26,6 +26,8 @@ Route::group(['prefix' => 'auth'],function() {
 
             });
             Route::group(['middleware' => 'scope:admin'], function () {
+                Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
+    
                 /*Route::get('/admin-scope', function() {
                     return  response()->json(['message' => 'Admin can access this'],200);
                 });*/
@@ -39,4 +41,3 @@ Route::group(['prefix' => 'auth'],function() {
 
     });
 
-Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
