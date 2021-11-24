@@ -1,7 +1,7 @@
 <template>
 <main>
     <router-view></router-view>
-        <FlashMessage position="right top"></FlashMessage>
+        <FlashMessage :position="'right top'"></FlashMessage>
 
 </main>
 

@@ -23,6 +23,7 @@ class CategoryController extends Controller
 
     public function index()
     {
+        
         return response()->json($this->category->orderBy('created_at', 'desc')->paginate(2),200);
     }
 

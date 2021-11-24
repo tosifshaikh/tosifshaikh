@@ -35,7 +35,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json($this->product->orderBy('created_at', 'desc')->paginate(2),200);
+      dd($this->product->orderBy('created_at', 'desc')->paginate(2));
+        return response()->json(Product::orderBy('created_at', 'desc')->paginate(2)->get(),200);
     }
 
     /**
