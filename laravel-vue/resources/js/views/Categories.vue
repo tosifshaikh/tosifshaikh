@@ -40,6 +40,9 @@
                     </tr>
                    </tbody>
                </table>
+                <div class="text-center" v-show="moreExist">
+                    <button class="btn btn-primary btn-sm" v-on:click="loadMore"><span class="fa fa-arrow-down" ></span> Load More</button>
+                </div>
             </div>
       </div>
 
@@ -112,6 +115,8 @@ export default {
                 image : ''
             },
             editCategoryData : {},
+            moreExist : false,
+            nextPage : 0,
             errors : {}
         }
     },
@@ -120,21 +125,35 @@ export default {
         },
     methods : {
         editCategory(category) {
-            this.editCategoryData = category;
+            this.editCategoryData = {...category};
            this.showEditCategoryModal();
         },
         loadCategories: async function() {
                 try {
                     const response = await categoryService.loadCategories();
                    this.categories = response.data.data;
-                    console.log(  response.data.data)
+                    if (response.data.current_page < response.data.last_page) {
+                        this.moreExist = true;
+                        this.nextPage = response.data.current_page + 1;
+                    } else {
+                        this.moreExist = false;
+                    }
                 }
                 catch (e) {
-                    console.log(  e)
-                    this.flashMessage.success({
-                        message: 'Some Error Occured!, Please Refresh!',
-                        time: 5000,
-                    });
+                    switch (e.response.status) {
+                        case 422:
+                            this.errors = e.response.data.errors;
+                            break;
+                        default:
+                            this.flashMessage.error({
+                                message: 'Some Error Occured!, Please Refresh!',
+                                time: 5000,
+                                blockClass: 'custom-block-class'
+                            });
+                            break;
+                    }
+
+
                 }
         },
         attachImage(){
@@ -161,19 +180,39 @@ export default {
             this.$refs.categoryModal.show();
         },
         updateCategory :async function() {
+            this.errors = {};
             let formData = new FormData();
             formData.append('name', this.editCategoryData.name);
             formData.append('image', this.editCategoryData.image);
             formData.append('_method','PUT')    ;
             try {
                 const response = await categoryService.updateCategory(this.editCategoryData.id, formData);
+                this.categories.map(category => {
+                    if (category.id == response.data.id) {
+                        for (let key in response.data) {
+                            category[key] = response.data[key];
+                        }
+                    }
+                });
+                this.hideEditCategoryModal();
+                this.flashMessage.success({
+                    message: 'Category Updated Successfully!',
+                    time: 5000,
+                    blockClass: 'custom-block-class'
+                });
+                this.editCategoryData = {};
             }catch (e) {
-                console.log('update called', e);
+                this.flashMessage.success({
+                    message: e.response.data.message,
+                    time: 5000,
+                    blockClass: 'custom-block-class'
+                });
             }
 
 
         },
         createCategory:async function() {
+            this.errors = {};
             let formData = new FormData();
             formData.append('name', this.categoryData.name);
             formData.append('image', this.categoryData.image);
@@ -185,6 +224,7 @@ export default {
                 this.flashMessage.success({
                     message: 'Category Added Successfully!',
                     time: 5000,
+                    blockClass: 'custom-block-class'
                 });
                 this.categoryData = {
                     name :  '', image : ''
@@ -213,11 +253,13 @@ export default {
                     this.flashMessage.success({
                         message: 'Category Deleted Successfully!',
                         time: 5000,
+                        blockClass: 'custom-block-class'
                     });
                 } catch (e) {
                     this.flashMessage.success({
                         message: e.response.data.message,
                         time: 5000,
+                        blockClass: 'custom-block-class'
                     });
                 }
             }
@@ -227,6 +269,27 @@ export default {
         }, showEditCategoryModal() {
             this.$refs.editCategoryModal.show();
         },
+        loadMore: async function() {
+            try {
+                const response = await categoryService.loadMore(this.nextPage);
+                if (response.data.current_page < response.data.last_page) {
+                    this.moreExist = true;
+                    this.nextPage = response.data.current_page + 1;
+                } else {
+                    this.moreExist = false;
+                }
+                response.data.data.forEach(data => {
+                    this.categories.push(data);
+                });
+            }
+            catch (e) {
+                this.flashMessage.success({
+                    message: 'Some error occured during loading more categories',
+                    time: 5000,
+                    blockClass: 'custom-block-class'
+                });
+            }
+        }
 
     }
 }

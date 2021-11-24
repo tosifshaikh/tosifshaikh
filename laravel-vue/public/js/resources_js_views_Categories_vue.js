@@ -20,6 +20,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
 //
 //
 //
@@ -133,6 +142,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         image: ''
       },
       editCategoryData: {},
+      moreExist: false,
+      nextPage: 0,
       errors: {}
     };
   },
@@ -141,7 +152,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     editCategory: function editCategory(category) {
-      this.editCategoryData = category;
+      this.editCategoryData = _objectSpread({}, category);
       this.showEditCategoryModal();
     },
     loadCategories: function () {
@@ -158,20 +169,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context.sent;
                 this.categories = response.data.data;
-                console.log(response.data.data);
-                _context.next = 12;
+
+                if (response.data.current_page < response.data.last_page) {
+                  this.moreExist = true;
+                  this.nextPage = response.data.current_page + 1;
+                } else {
+                  this.moreExist = false;
+                }
+
+                _context.next = 17;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
-                this.flashMessage.success({
-                  message: 'Some Error Occured!, Please Refresh!',
-                  time: 5000
-                });
+                _context.t1 = _context.t0.response.status;
+                _context.next = _context.t1 === 422 ? 13 : 15;
+                break;
 
-              case 12:
+              case 13:
+                this.errors = _context.t0.response.data.errors;
+                return _context.abrupt("break", 17);
+
+              case 15:
+                this.flashMessage.error({
+                  message: 'Some Error Occured!, Please Refresh!',
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+                return _context.abrupt("break", 17);
+
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -216,30 +244,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                this.errors = {};
                 formData = new FormData();
                 formData.append('name', this.editCategoryData.name);
                 formData.append('image', this.editCategoryData.image);
                 formData.append('_method', 'PUT');
-                _context2.prev = 4;
-                _context2.next = 7;
+                _context2.prev = 5;
+                _context2.next = 8;
                 return _Services_category_service__WEBPACK_IMPORTED_MODULE_1__.updateCategory(this.editCategoryData.id, formData);
 
-              case 7:
+              case 8:
                 response = _context2.sent;
-                _context2.next = 13;
+                this.categories.map(function (category) {
+                  if (category.id == response.data.id) {
+                    for (var key in response.data) {
+                      category[key] = response.data[key];
+                    }
+                  }
+                });
+                this.hideEditCategoryModal();
+                this.flashMessage.success({
+                  message: 'Category Updated Successfully!',
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+                this.editCategoryData = {};
+                _context2.next = 18;
                 break;
 
-              case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](4);
-                console.log('update called', _context2.t0);
+              case 15:
+                _context2.prev = 15;
+                _context2.t0 = _context2["catch"](5);
+                this.flashMessage.success({
+                  message: _context2.t0.response.data.message,
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
 
-              case 13:
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 10]]);
+        }, _callee2, this, [[5, 15]]);
       }));
 
       function updateCategory() {
@@ -255,48 +302,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                this.errors = {};
                 formData = new FormData();
                 formData.append('name', this.categoryData.name);
                 formData.append('image', this.categoryData.image);
-                _context3.prev = 3;
-                _context3.next = 6;
+                _context3.prev = 4;
+                _context3.next = 7;
                 return _Services_category_service__WEBPACK_IMPORTED_MODULE_1__.createCategory(formData);
 
-              case 6:
+              case 7:
                 response = _context3.sent;
                 this.categories.unshift(response.data);
                 this.hideNewCategoryModal();
                 this.flashMessage.success({
                   message: 'Category Added Successfully!',
-                  time: 5000
+                  time: 5000,
+                  blockClass: 'custom-block-class'
                 });
                 this.categoryData = {
                   name: '',
                   image: ''
                 };
-                _context3.next = 21;
+                _context3.next = 22;
                 break;
 
-              case 13:
-                _context3.prev = 13;
-                _context3.t0 = _context3["catch"](3);
+              case 14:
+                _context3.prev = 14;
+                _context3.t0 = _context3["catch"](4);
                 _context3.t1 = _context3.t0.response.status;
-                _context3.next = _context3.t1 === 422 ? 18 : 20;
+                _context3.next = _context3.t1 === 422 ? 19 : 21;
                 break;
 
-              case 18:
+              case 19:
                 this.errors = _context3.t0.response.data.errors;
-                return _context3.abrupt("break", 21);
-
-              case 20:
-                return _context3.abrupt("break", 21);
+                return _context3.abrupt("break", 22);
 
               case 21:
+                return _context3.abrupt("break", 22);
+
+              case 22:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[3, 13]]);
+        }, _callee3, this, [[4, 14]]);
       }));
 
       function createCategory() {
@@ -328,7 +377,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
                 this.flashMessage.success({
                   message: 'Category Deleted Successfully!',
-                  time: 5000
+                  time: 5000,
+                  blockClass: 'custom-block-class'
                 });
                 _context4.next = 12;
                 break;
@@ -338,7 +388,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context4.t0 = _context4["catch"](2);
                 this.flashMessage.success({
                   message: _context4.t0.response.data.message,
-                  time: 5000
+                  time: 5000,
+                  blockClass: 'custom-block-class'
                 });
 
               case 12:
@@ -360,7 +411,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     showEditCategoryModal: function showEditCategoryModal() {
       this.$refs.editCategoryModal.show();
-    }
+    },
+    loadMore: function () {
+      var _loadMore = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var _this = this;
+
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return _Services_category_service__WEBPACK_IMPORTED_MODULE_1__.loadMore(this.nextPage);
+
+              case 3:
+                response = _context5.sent;
+
+                if (response.data.current_page < response.data.last_page) {
+                  this.moreExist = true;
+                  this.nextPage = response.data.current_page + 1;
+                } else {
+                  this.moreExist = false;
+                }
+
+                response.data.data.forEach(function (data) {
+                  _this.categories.push(data);
+                });
+                _context5.next = 11;
+                break;
+
+              case 8:
+                _context5.prev = 8;
+                _context5.t0 = _context5["catch"](0);
+                this.flashMessage.success({
+                  message: 'Some error occured during loading more categories',
+                  time: 5000,
+                  blockClass: 'custom-block-class'
+                });
+
+              case 11:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this, [[0, 8]]);
+      }));
+
+      function loadMore() {
+        return _loadMore.apply(this, arguments);
+      }
+
+      return loadMore;
+    }()
   }
 });
 
@@ -576,6 +679,34 @@ var render = function () {
               0
             ),
           ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.moreExist,
+                  expression: "moreExist",
+                },
+              ],
+              staticClass: "text-center",
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-sm",
+                  on: { click: _vm.loadMore },
+                },
+                [
+                  _c("span", { staticClass: "fa fa-arrow-down" }),
+                  _vm._v(" Load More"),
+                ]
+              ),
+            ]
+          ),
         ]),
       ]),
       _vm._v(" "),

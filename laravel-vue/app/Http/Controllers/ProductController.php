@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -35,8 +36,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-      dd($this->product->orderBy('created_at', 'desc')->paginate(2));
-        return response()->json(Product::orderBy('created_at', 'desc')->paginate(2)->get(),200);
+       //to fetch category name
+        // return response()->json($this->product->with('Category')->orderBy('created_at', 'desc')->paginate(2),200);
+        return response()->json($this->product->orderBy('created_at', 'desc')->paginate(2),200);
+        
     }
 
     /**
@@ -118,15 +121,17 @@ class ProductController extends Controller
     {
         $request->validate(
             [ 'name' => "required",
-                //mimes:jpeg,png
+                'categoryID' => 'required',//mimes:jpeg,png
 
             ]
         );
-
-        $product->name = $request->name;
+        $product->product_name = $request->name;
+        $product->category_id = $request->categoryID;
+       
         $oldPath = $product->image;
-        if ($request->hasFile('image')) {
-            $request->validate(
+        
+        if ($request->hasFile('image') && $product->image != $request->file('image')) {
+           $request->validate(
                 [ 'image' => "image",
                     //mimes:jpeg,png
 
@@ -135,10 +140,10 @@ class ProductController extends Controller
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $filename = time(). '.'.$ext;
-            $file->move('assets/uploads/$product/',$filename);
+            $file->move('assets/uploads/product/',$filename);
             $product->image = $filename;
-            if (File::exists('assets/uploads/$product/'.$oldPath)) {
-                File::delete('assets/uploads/$product/'.$oldPath);
+            if (File::exists('assets/uploads/product/'.$oldPath)) {
+                File::delete('assets/uploads/product/'.$oldPath);
             }
             //  $request->file('image')->store('assets/uploads/category/'.$filename);
             // Storage::delete('assets/uploads/category/'.$oldPath );
@@ -148,12 +153,11 @@ class ProductController extends Controller
 
         if (!$product->update()) {
             if (File::exists('assets/uploads/product/'.$oldPath)) {
-                File::delete('assets/uploads/product/'.$oldPath);
+               // File::delete('assets/uploads/product/'.$oldPath);
             }
             return response()->json(['message' => 'Some Error Occured!, Please Try Again',
                 'status_code' => 500],500);
         }
-
         return response()->json($product, 200);
     }
 
@@ -166,7 +170,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->delete()) {
-            $path = 'assets/uploads/category/'.$product->image;
+            $path = 'assets/uploads/product/'.$product->image;
             if (!File::exists($path)) {
                 return response()->json(['message' => 'Some Error Occured!, Please Try Again',
                     'status_code' => 500],500);
