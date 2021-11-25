@@ -50,7 +50,7 @@ export function getProfile() {
    return http().get('auth/profile');
 
 }
-export function resetPassword() {
+export function resetPasswordRequest() {
    return http().get('auth/profile');
 
 }

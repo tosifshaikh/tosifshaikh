@@ -48,7 +48,23 @@ const routes = [
             }
         }},
 
-    {path: '/reset-password', name: 'reset-password', component: () => import('./views/authentication/ResetPassword')},
+    {path: '/reset-password-request', name: 'reset-password-request', component: () => import('./views/authentication/ResetPasswordRequest'),
+        beforeEnter(to, from ,next) {
+            if (!auth.isLoggedIn()) {
+                next();
+            } else {
+                next('/home');
+            }
+        },
+    },{path: '/reset-password', name: 'reset-password', component: () => import('./views/authentication/ResetPassword'),
+        beforeEnter(to, from ,next) {
+            if (!auth.isLoggedIn()) {
+                next();
+            } else {
+                next('/home');
+            }
+        },
+    },
     {
         path: '*',
         name: '404',
