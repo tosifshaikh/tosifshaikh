@@ -22,7 +22,7 @@
                                     <label class="form-check-label" for="remember-me">Remember Password</label>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <router-link to="/reset-password" class="small" >Forgot Password?</router-link>
+                                    <router-link to="/reset-password-request" class="small" >Forgot Password?</router-link>
 <!--                                    <a class="small" href="password.html">Forgot Password?</a>-->
                                         <button type="submit" class="btn btn-primary">Login</button>
                                       <!--  <router-link to="/login" class="btn btn-primary" >Login</router-link>-->
