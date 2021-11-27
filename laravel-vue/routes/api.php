@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'auth'],function() {
     Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
     Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
+    Route::post('reset-password',[\App\Http\Controllers\AuthController::class,'resetPassword']);
+    Route::post('reset-password-request',[\App\Http\Controllers\AuthController::class,'resetPasswordRequest']);
     Route::group(['middleware' => 'auth:api'],function () {
         Route::get('logout',[\App\Http\Controllers\AuthController::class,'logout']);
         Route::get('profile',[\App\Http\Controllers\AuthController::class,'profile']);
@@ -27,7 +29,7 @@ Route::group(['prefix' => 'auth'],function() {
             });
             Route::group(['middleware' => 'scope:admin'], function () {
                 Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
-    
+
                 /*Route::get('/admin-scope', function() {
                     return  response()->json(['message' => 'Admin can access this'],200);
                 });*/

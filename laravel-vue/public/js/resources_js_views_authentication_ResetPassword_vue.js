@@ -53,19 +53,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ResetPassword",
   data: function data() {
     return {
       user: {
-        name: ''
+        email: '',
+        password: '',
+        password_confirmation: '',
+        verificationCode: ''
       },
+      btnOldHtml: '',
       errors: {}
     };
   },
   created: function created() {
     document.querySelector('body').style.backgroundColor = '#343a40';
+  },
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    next(function (vm) {
+      vm.user.email = to.params.email;
+    });
   },
   methods: {
     onSubmit: function () {
@@ -79,7 +115,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 this.errors = {};
                 this.disableSubmission(this.$refs.btnSubmit);
                 _context.next = 5;
-                return _Services_auth_service__WEBPACK_IMPORTED_MODULE_1__.resetPasswordRequest(this.user);
+                return _Services_auth_service__WEBPACK_IMPORTED_MODULE_1__.resetPassword(this.user);
 
               case 5:
                 response = _context.sent;
@@ -88,35 +124,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 5000,
                   blockClass: 'custom-block-class'
                 });
-                this.$router.push({
-                  name: ''
-                });
-                _context.next = 20;
+                this.$router.push('/login');
+                _context.next = 22;
                 break;
 
               case 10:
                 _context.prev = 10;
                 _context.t0 = _context["catch"](0);
                 _context.t1 = _context.t0.response.status;
-                _context.next = _context.t1 === 422 ? 15 : 17;
+                _context.next = _context.t1 === 422 ? 15 : _context.t1 === 401 ? 17 : 19;
                 break;
 
               case 15:
                 this.errors = _context.t0.response.data.errors;
-                return _context.abrupt("break", 19);
+                return _context.abrupt("break", 21);
 
               case 17:
+                this.errors = _context.t0.response.data.errors;
+                return _context.abrupt("break", 21);
+
+              case 19:
                 this.flashMessage.error({
                   message: 'Some error Occured',
                   time: 5000,
                   blockClass: 'custom-block-class'
                 });
-                return _context.abrupt("break", 19);
+                return _context.abrupt("break", 21);
 
-              case 19:
+              case 21:
                 this.enableSubmission(this.$refs.btnSubmit);
 
-              case 20:
+              case 22:
               case "end":
                 return _context.stop();
             }
@@ -132,12 +170,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }(),
     disableSubmission: function disableSubmission(btn) {
       btn.setAttribute('disabled', 'disabled');
-      this.btnOldHtml = btn.innerHtml;
-      btn.innerHtml = '<span class="fa fa-spinner fa-spin">Please Wait</span>';
+      this.btnOldHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="fa fa-spinner fa-spin">Please Wait</span>';
     },
     enableSubmission: function enableSubmission(btn) {
       btn.removeAttribute('disabled');
-      btn.innerHtml = this.btnOldHtml;
+      btn.innerHTML = this.btnOldHtml;
     }
   }
 });
@@ -239,12 +277,6 @@ var render = function () {
               _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "small mb-3 text-muted" }, [
-                  _vm._v(
-                    "Enter your email address and we will send you a link to reset your password."
-                  ),
-                ]),
-                _vm._v(" "),
                 _c(
                   "form",
                   {
@@ -268,9 +300,10 @@ var render = function () {
                         ],
                         staticClass: "form-control",
                         attrs: {
-                          id: "inputEmail",
+                          id: "email",
                           type: "email",
                           placeholder: "name@example.com",
+                          required: "required",
                         },
                         domProps: { value: _vm.user.email },
                         on: {
@@ -283,13 +316,147 @@ var render = function () {
                         },
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "inputEmail" } }, [
+                      _c("label", { attrs: { for: "email" } }, [
                         _vm._v("Email address"),
                       ]),
                       _vm._v(" "),
                       _vm.errors.email
                         ? _c("div", { staticClass: "invalid-feedback" }, [
                             _vm._v(_vm._s(_vm.errors.email[0])),
+                          ])
+                        : _vm._e(),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-floating mb-3" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.verificationCode,
+                            expression: "user.verificationCode",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "verificationCode",
+                          type: "number",
+                          placeholder: "Enter verification code",
+                          required: "required",
+                          autofocus: "autofocus",
+                        },
+                        domProps: { value: _vm.user.verificationCode },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.user,
+                              "verificationCode",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "verificationCode" } }, [
+                        _vm._v("Enter verification code"),
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.verificationCode
+                        ? _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.errors.verificationCode[0]) +
+                                "\n                                "
+                            ),
+                          ])
+                        : _vm._e(),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-floating mb-3" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.password,
+                            expression: "user.password",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "password",
+                          type: "password",
+                          placeholder: "Enter New Password",
+                          required: "required",
+                        },
+                        domProps: { value: _vm.user.password },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "password", $event.target.value)
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "password" } }, [
+                        _vm._v("Enter New Password"),
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.password
+                        ? _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(_vm._s(_vm.errors.password[0])),
+                          ])
+                        : _vm._e(),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-floating mb-3" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.password_confirmation,
+                            expression: "user.password_confirmation",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "password_confirmation",
+                          type: "password",
+                          placeholder: "Confirm Password",
+                          required: "required",
+                        },
+                        domProps: { value: _vm.user.password_confirmation },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.user,
+                              "password_confirmation",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "password_confirmation" } }, [
+                        _vm._v("Confirm Password"),
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.password_confirmation
+                        ? _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(_vm.errors.password_confirmation[0]) +
+                                "\n                                "
+                            ),
                           ])
                         : _vm._e(),
                     ]),
@@ -317,7 +484,11 @@ var render = function () {
                             staticClass: "btn btn-primary",
                             attrs: { type: "submit" },
                           },
-                          [_vm._v("Reset Password")]
+                          [
+                            _vm._v(
+                              "Reset Password\n                                "
+                            ),
+                          ]
                         ),
                       ],
                       1
@@ -332,8 +503,11 @@ var render = function () {
                 [
                   _c(
                     "router-link",
-                    { staticClass: "small", attrs: { to: "/register" } },
-                    [_vm._v("Need an account? Sign up!")]
+                    {
+                      staticClass: "small",
+                      attrs: { to: "/reset-password-request" },
+                    },
+                    [_vm._v("Resend Verification Code")]
                   ),
                 ],
                 1
@@ -352,7 +526,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "text-center font-weight-light my-4" }, [
-        _vm._v("Password Recovery"),
+        _vm._v("Reset Your Password"),
       ]),
     ])
   },

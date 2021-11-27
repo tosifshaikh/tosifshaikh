@@ -53,14 +53,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ResetPassword",
   data: function data() {
     return {
       user: {
-        name: ''
+        email: ''
       },
+      btnOldHtml: '',
       errors: {}
     };
   },
@@ -89,34 +95,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   blockClass: 'custom-block-class'
                 });
                 this.$router.push({
-                  name: ''
+                  name: 'reset-password',
+                  params: {
+                    email: this.user.email
+                  }
                 });
-                _context.next = 20;
+                _context.next = 13;
                 break;
 
               case 10:
                 _context.prev = 10;
                 _context.t0 = _context["catch"](0);
-                _context.t1 = _context.t0.response.status;
-                _context.next = _context.t1 === 422 ? 15 : 17;
-                break;
-
-              case 15:
-                this.errors = _context.t0.response.data.errors;
-                return _context.abrupt("break", 19);
-
-              case 17:
-                this.flashMessage.error({
-                  message: 'Some error Occured',
-                  time: 5000,
-                  blockClass: 'custom-block-class'
-                });
-                return _context.abrupt("break", 19);
-
-              case 19:
+                // switch (e.response.status) {
+                //
+                //     case 422:
+                //         this.errors = e.response.data.errors;
+                //         break;
+                //     default:
+                //         this.flashMessage.error({
+                //             message: 'Some error Occured',
+                //             time: 5000,
+                //             blockClass: 'custom-block-class'
+                //         });
+                //         break;
+                //
+                // }
                 this.enableSubmission(this.$refs.btnSubmit);
 
-              case 20:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -132,12 +138,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }(),
     disableSubmission: function disableSubmission(btn) {
       btn.setAttribute('disabled', 'disabled');
-      this.btnOldHtml = btn.innerHtml;
-      btn.innerHtml = '<span class="fa fa-spinner fa-spin">Please Wait</span>';
+      this.btnOldHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="fa fa-spinner fa-spin">Please Wait</span>';
     },
     enableSubmission: function enableSubmission(btn) {
       btn.removeAttribute('disabled');
-      btn.innerHtml = this.btnOldHtml;
+      btn.innerHTML = this.btnOldHtml;
     }
   }
 });
@@ -241,7 +247,7 @@ var render = function () {
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "small mb-3 text-muted" }, [
                   _vm._v(
-                    "Enter your email address and we will send you a link to reset your password."
+                    "Enter your email address and we will send you a link to\n                            reset your password.\n                        "
                   ),
                 ]),
                 _vm._v(" "),
@@ -268,9 +274,10 @@ var render = function () {
                         ],
                         staticClass: "form-control",
                         attrs: {
-                          id: "inputEmail",
+                          id: "email",
                           type: "email",
                           placeholder: "name@example.com",
+                          autofocus: "autofocus",
                         },
                         domProps: { value: _vm.user.email },
                         on: {
@@ -283,7 +290,7 @@ var render = function () {
                         },
                       }),
                       _vm._v(" "),
-                      _c("label", { attrs: { for: "inputEmail" } }, [
+                      _c("label", { attrs: { for: "email" } }, [
                         _vm._v("Email address"),
                       ]),
                       _vm._v(" "),
@@ -317,7 +324,11 @@ var render = function () {
                             staticClass: "btn btn-primary",
                             attrs: { type: "submit" },
                           },
-                          [_vm._v("Reset Password")]
+                          [
+                            _vm._v(
+                              "Request Password\n                                "
+                            ),
+                          ]
                         ),
                       ],
                       1
@@ -352,7 +363,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "text-center font-weight-light my-4" }, [
-        _vm._v("Password Recovery"),
+        _vm._v("Reset Password\n                        Request"),
       ]),
     ])
   },

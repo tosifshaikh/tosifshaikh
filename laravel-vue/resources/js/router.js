@@ -56,7 +56,7 @@ const routes = [
                 next('/home');
             }
         },
-    },{path: '/reset-password', name: 'reset-password', component: () => import('./views/authentication/ResetPassword'),
+    },{path: '/reset-password/:email', name: 'reset-password', component: () => import('./views/authentication/ResetPassword'),
         beforeEnter(to, from ,next) {
             if (!auth.isLoggedIn()) {
                 next();

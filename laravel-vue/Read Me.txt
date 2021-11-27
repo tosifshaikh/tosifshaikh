@@ -13,3 +13,6 @@ https://www.npmjs.com/package/crypto-js
 
 3. for passport
 php artisan passport:install
+
+mail trap.io to send mail
+https://mailtrap.io/inboxes/1551956/messages/2498983565
