@@ -46,7 +46,7 @@ import * as auth from '../../Services/auth_service'
 export default {
     name: "Login",
     created() {
-        console.log(this.$store.state.MyAppConstants.get('message'))
+        console.log(this.$constants()['VERSION'])
         document.querySelector('body').style.backgroundColor = '#343a40';
     },
     data() {

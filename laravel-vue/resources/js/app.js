@@ -6,11 +6,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import BootstrapVue from 'bootstrap-vue';
 import FlashMessage from '@smartweb/vue-flash-message';
-
+import Constants from '../js/src/plugins/constants';
 //import VueCryptojs from 'vue-cryptojs';
 
 Vue.use(BootstrapVue);
 Vue.use(FlashMessage);
+Vue.use(Constants);
 
 
 new Vue({
