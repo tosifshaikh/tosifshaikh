@@ -46,6 +46,7 @@ import * as auth from '../../Services/auth_service'
 export default {
     name: "Login",
     created() {
+        console.log(this.$store.state.MyAppConstants.get('message'))
         document.querySelector('body').style.backgroundColor = '#343a40';
     },
     data() {
@@ -68,7 +69,7 @@ export default {
             }
             catch (e) {
 
-               /* switch (e.response.status) {
+                switch (e.response.status) {
 
                     case 422:
                         this.errors = e.response.data.errors;
@@ -76,23 +77,23 @@ export default {
                     case 500:
                         this.flashMessage.error({
                             message: e.response.data.message,
-                            time: 5000,
+                            time: this.$store.state.MyAppConstants.get('TIME'),
                         });
                         break;
                     case 401:
                         this.flashMessage.error({
                             message: e.response.data.message,
-                            time: 5000,
+                            time: this.$store.state.MyAppConstants.get('TIME'),
                         });
                         break;
                     default:
                         this.flashMessage.error({
-                            message: 'Some error Occured',
-                            time: 5000,
+                            message: '',
+                            time: this.$store.state.MyAppConstants.get('TIME'),
                         });
                         break;
 
-                }*/
+                }
 
             }
         }

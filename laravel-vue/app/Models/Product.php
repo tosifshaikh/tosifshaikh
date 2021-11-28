@@ -15,6 +15,8 @@ class Product extends Model
         'image',
     ];
     public $timestamps = true;
+    const PRODUCT_PATH = 'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'product'.DIRECTORY_SEPARATOR;
+    const PAGE = 2;
     public function Category()
     {
         return $this->belongsTo(Category::class,'category_id','id');
