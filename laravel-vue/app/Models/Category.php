@@ -13,5 +13,7 @@ class Category extends Model
         'name',
         'image',
     ];
-    
+    const PAGE = 2;
+    const CATEGORY_PATH = 'assets'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.'category'.DIRECTORY_SEPARATOR;
+
 }

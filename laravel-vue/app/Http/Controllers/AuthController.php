@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    const TOKEN_EXPIRY = 1;
+
     public function register(Request $request)
     {
         $request->validate([
@@ -25,9 +27,14 @@ class AuthController extends Controller
 
         if (!$user->save()) {
             return response()->json(['message' => __('message.Error Msg'),
-                'status_code' => 500], 500);
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
         }
-        return response()->json(['message' => __('message.auth.Create'), 'status_code' => 201], 201);
+        return response()
+            ->json([
+                'message' => __('message.auth.Create'),
+                'status_code' => config('constant.STATUS.SUCCESS_REQ_RES_CODE')],
+                config('constant.STATUS.SUCCESS_REQ_RES_CODE'));
     }
 
     public function login(Request $request)
@@ -38,7 +45,10 @@ class AuthController extends Controller
             'remember-me' => 'boolean'
         ]);
         if (!Auth::attempt(['emails' => $request->email, 'password' => $request->password])) {
-            return response()->json(['message' => 'Invalid username/password', 'status_code' => 401], 401);
+            return response()
+                ->json(['message' => __('Invalid Credentials'),
+                    'status_code' => config('constant.STATUS.UNAUTHORIZED_CODE')],
+                    config('constant.STATUS.UNAUTHORIZED_CODE'));
         }
         $user = $request->user();
         if ($user->role == 'admin') {
@@ -48,10 +58,12 @@ class AuthController extends Controller
         }
         $token = $tokenData->token;
         if ($request->remember_me) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->expires_at = Carbon::now()->addWeeks(AuthController::TOKEN_EXPIRY);
         }
         if (!$token->save()) {
-            return \response()->json(['message' => 'Some Error Occured, Please Refresh and Try again', 'status_code' => 500], 500);
+            return \response()->json(['message' => __('message.Error Msg'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
         }
         return response()->json([
             'user' => $user,
@@ -59,22 +71,26 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'token_scope' => $tokenData->token->scopes[0],
             'expires_at' => Carbon::parse($tokenData->token->expires_at)->toDayDateTimeString(),
-            'status_code' => 200
-        ], 200);
+            'status_code' => config('constant.STATUS.SUCCESS_CODE')
+        ], config('constant.STATUS.SUCCESS_CODE'));
     }
 
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
-        return \response()->json(['message' => 'Logout Successfully!', 'status_code' => 200], 200);
+        return \response()->json(['message' => __('message.auth.Log Out'),
+            'status_code' => config('constant.STATUS.SUCCESS_CODE')],
+            config('constant.STATUS.SUCCESS_CODE'));
     }
 
     public function profile(Request $request)
     {
         if (!$request->user()) {
-            return \response()->json(['message' => 'Not Logged in', 'status_code' => 500], 500);
+            return \response()->json(['message' => __('message.auth.Not Log In'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
         }
-        return \response()->json($request->user(), 200);
+        return \response()->json($request->user(), config('constant.STATUS.SUCCESS_CODE'));
     }
 
     public function resetPasswordRequest(Request $request)
@@ -85,10 +101,11 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if (!$user) {
             return \response()->json([
-                'message' => 'We have sent a verification code to your emails address',
-                'status_code' => 200], 200);
+                'message' => __('message.auth.Invalid Email'),
+                'status_code' => config('constant.STATUS.UNAUTHORIZED_CODE')],
+                config('constant.STATUS.UNAUTHORIZED_CODE'));
         } else {
-            $random = rand(111111,999999);
+            $random = rand(111111, 999999);
             $user->verification_code = $random;
             if ($user->save()) {
                 $userData = [
@@ -96,35 +113,39 @@ class AuthController extends Controller
                     'full_name' => $user->name,
                     'random' => $random
                 ];
-                Mail::send('emails.reset',$userData,function ($message) use($userData){
+                Mail::send('emails.reset', $userData, function ($message) use ($userData) {
                     $message->from('no-reply@laravel.vue.learning', 'Password Request');
                     //$message->sender('');
                     $message->to($userData['email'], $userData['full_name']);
-                 ////   $message->cc('');
-                  //  $message->bcc('');
-                  //  $message->replyTo('');
+                    ////   $message->cc('');
+                    //  $message->bcc('');
+                    //  $message->replyTo('');
                     $message->subject('Reset Password Request');
-                   // $message->priority('');
-                   // $message->attach('');
+                    // $message->priority('');
+                    // $message->attach('');
                 });
                 if (Mail::failures()) {
                     return \response()->json([
-                        'message' => 'Some error Occured',
-                        'status_code' => 500], 500);
+                        'message' => __('message.Fail'),
+                        'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                        config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
                 } else {
                     return \response()->json([
-                        'message' => 'We have sent a verification code to your email address',
-                        'status_code' => 200], 200);
+                        'message' => __('message.auth.Email Verification'),
+                        'status_code' => config('constant.STATUS.SUCCESS_CODE')],
+                        config('constant.STATUS.SUCCESS_CODE'));
                 }
 
             } else {
                 return \response()->json([
-                    'message' => 'Some error Occured',
-                    'status_code' => 500], 500);
+                    'message' => __('message.Fail'),
+                    'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                    config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
             }
         }
 
     }
+
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -138,21 +159,23 @@ class AuthController extends Controller
             ->first();
         if (!$user) {
             return \response()->json([
-                'message' => 'User not found/Invalid code',
-                'status_code' => 401], 401);
+                'message' => __('message.auth.User Not Found'),
+                'status_code' => config('constant.STATUS.UNAUTHORIZED_CODE')],
+                config('constant.STATUS.UNAUTHORIZED_CODE'));
         } else {
             $user->password = bcrypt(trim($request->password));
             $user->verification_code = null;
             if ($user->save()) {
-                    return \response()->json([
-                        'message' => 'Password Changed Successfully',
-                        'status_code' => 200], 200);
+                return \response()->json([
+                    'message' => __('message.auth.Password Changed'),
+                    'status_code' => config('constant.STATUS.SUCCESS_CODE')], config('constant.STATUS.SUCCESS_CODE'));
 
 
             } else {
                 return \response()->json([
-                    'message' => 'Some error Occured',
-                    'status_code' => 500], 500);
+                    'message' => __('message.Fail'),
+                    'status_code' => config('constant.STATUS.UNAUTHORIZED_CODE')],
+                    config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
             }
         }
 

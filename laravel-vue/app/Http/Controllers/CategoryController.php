@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +24,10 @@ class CategoryController extends Controller
 
     public function index()
     {
-        
-        return response()->json($this->category->orderBy('created_at', 'desc')->paginate(2),200);
+
+        return response()->json($this->category
+            ->orderBy('created_at', 'desc')
+            ->paginate(Category::PAGE),config('constant.STATUS.SUCCESS_CODE'));
     }
 
     /**
@@ -57,15 +60,16 @@ class CategoryController extends Controller
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $filename = time(). '.'.$ext;
-            $file->move('assets/uploads/category/',$filename);
+            $file->move(Category::CATEGORY_PATH,$filename);
             $this->category->image = $filename;
         }
         if ( !$this->category->save()) {
-            return response()->json(['message' => 'Some Error Occured!, Please Try Again',
-                'status_code' => 500],500);
+            return response()->json(['message' => __('message.Error Msg'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
         }
 
-        return response()->json( $this->category, 200);
+        return response()->json( $this->category, config('constant.STATUS.SUCCESS_CODE'));
     }
 
     /**
@@ -118,10 +122,10 @@ class CategoryController extends Controller
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $filename = time(). '.'.$ext;
-            $file->move('assets/uploads/category/',$filename);
+            $file->move(Category::CATEGORY_PATH,$filename);
             $category->image = $filename;
-            if (File::exists('assets/uploads/category/'.$oldPath)) {
-                File::delete('assets/uploads/category/'.$oldPath);
+            if (File::exists(Category::CATEGORY_PATH.$oldPath)) {
+                File::delete(Category::CATEGORY_PATH.$oldPath);
             }
           //  $request->file('image')->store('assets/uploads/category/'.$filename);
            // Storage::delete('assets/uploads/category/'.$oldPath );
@@ -130,14 +134,15 @@ class CategoryController extends Controller
 
 
         if (!$category->update()) {
-            if (File::exists('assets/uploads/category/'.$oldPath)) {
-                File::delete('assets/uploads/category/'.$oldPath);
+            if (File::exists(Category::CATEGORY_PATH.$oldPath)) {
+                File::delete(Category::CATEGORY_PATH.$oldPath);
             }
-            return response()->json(['message' => 'Some Error Occured!, Please Try Again',
-                'status_code' => 500],500);
+            return response()->json(['message' => __('message.Error Msg'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
         }
 
-        return response()->json($category, 200);
+        return response()->json($category, config('constant.STATUS.SUCCESS_CODE'));
 
     }
 
@@ -150,15 +155,17 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($category->delete()) {
-            $path = 'assets/uploads/category/'.$category->image;
+            $path = Category::CATEGORY_PATH.$category->image;
             if (!File::exists($path)) {
-                return response()->json(['message' => 'Some Error Occured!, Please Try Again',
-                    'status_code' => 500],500);
+                return response()->json(['message' => __('message.Error Msg'),
+                    'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')],
+                    config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
             }
             File::delete($path);
         }
-        return response()->json(['message' => 'Category deleted successfully!',
-            'status_code' => 200],200);
+        return response()->json(['message' => __('message.category.Deleted'),
+            'status_code' => config('constant.STATUS.SUCCESS_CODE')],
+            config('constant.STATUS.SUCCESS_CODE'));
 
     }
 }

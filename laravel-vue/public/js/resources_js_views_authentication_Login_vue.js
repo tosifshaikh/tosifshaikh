@@ -67,6 +67,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Login",
   created: function created() {
+    console.log(this.$store.state.MyAppConstants.get('message'));
     document.querySelector('body').style.backgroundColor = '#343a40';
   },
   data: function data() {
@@ -95,14 +96,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
                 this.errors = {};
                 this.$router.push('/home');
-                _context.next = 10;
+                _context.next = 21;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+                _context.t1 = _context.t0.response.status;
+                _context.next = _context.t1 === 422 ? 13 : _context.t1 === 500 ? 15 : _context.t1 === 401 ? 17 : 19;
+                break;
 
-              case 10:
+              case 13:
+                this.errors = _context.t0.response.data.errors;
+                return _context.abrupt("break", 21);
+
+              case 15:
+                this.flashMessage.error({
+                  message: _context.t0.response.data.message,
+                  time: this.$store.state.MyAppConstants.get('TIME')
+                });
+                return _context.abrupt("break", 21);
+
+              case 17:
+                this.flashMessage.error({
+                  message: _context.t0.response.data.message,
+                  time: this.$store.state.MyAppConstants.get('TIME')
+                });
+                return _context.abrupt("break", 21);
+
+              case 19:
+                this.flashMessage.error({
+                  message: '',
+                  time: this.$store.state.MyAppConstants.get('TIME')
+                });
+                return _context.abrupt("break", 21);
+
+              case 21:
               case "end":
                 return _context.stop();
             }
