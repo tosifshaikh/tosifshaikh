@@ -67,7 +67,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Login",
   created: function created() {
-    console.log(this.$store.state.MyAppConstants.get('message'));
+    console.log(this.$constants()['VERSION']);
     document.querySelector('body').style.backgroundColor = '#343a40';
   },
   data: function data() {
