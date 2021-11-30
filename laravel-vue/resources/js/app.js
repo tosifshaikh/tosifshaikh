@@ -22,10 +22,16 @@ Vue.filter('translate', function(str) {
     const value = i18n.messages[i18n.locale][str];
     return  value == null ? str : value;
 });
+Vue.mixin({
+    methods: {
+        translate: function (str) {
+            return this.$options.filters.translate(str)
+        },
+    },
+})
 new Vue({
     el: '#app',
     router,
     store,
-    i18n,
     render : h => h(App)
 });
