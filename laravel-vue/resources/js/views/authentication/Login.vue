@@ -46,7 +46,10 @@ import * as auth from '../../Services/auth_service'
 export default {
     name: "Login",
     created() {
-        console.log(this.$constants()['VERSION'])
+        console.log(this.$constants()['VERSION']);
+       // console.log( this.$options.filters.translate('message'));
+        console.log( this.translate('message'));
+
         document.querySelector('body').style.backgroundColor = '#343a40';
     },
     data() {
