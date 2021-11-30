@@ -68,6 +68,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "Login",
   created: function created() {
     console.log(this.$constants()['VERSION']);
+    console.log(this.$options.filters.translate('message'));
     document.querySelector('body').style.backgroundColor = '#343a40';
   },
   data: function data() {
