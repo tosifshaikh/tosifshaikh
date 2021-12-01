@@ -4,14 +4,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
-                        <div class="card-header"><h3 class="text-center font-weight-light my-4">Reset Your Password</h3>
+                        <div class="card-header"><h3 class="text-center font-weight-light my-4">{{  translate('Reset Your Password') }}</h3>
                         </div>
                         <div class="card-body">
                             <form v-on:submit.prevent="onSubmit">
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="email" type="email" placeholder="name@example.com"
                                            v-model="user.email" required="required"/>
-                                    <label for="email">Email address</label>
+                                    <label for="email">{{ translate('Email Address') }}</label>
                                     <div class="invalid-feedback" v-if="errors.email">{{ errors.email[0] }}</div>
                                 </div>
                                 <div class="form-floating mb-3">

@@ -274,7 +274,13 @@ var render = function () {
             "div",
             { staticClass: "card shadow-lg border-0 rounded-lg mt-5" },
             [
-              _vm._m(0),
+              _c("div", { staticClass: "card-header" }, [
+                _c(
+                  "h3",
+                  { staticClass: "text-center font-weight-light my-4" },
+                  [_vm._v(_vm._s(_vm.translate("Reset Your Password")))]
+                ),
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c(
@@ -317,7 +323,7 @@ var render = function () {
                       }),
                       _vm._v(" "),
                       _c("label", { attrs: { for: "email" } }, [
-                        _vm._v("Email address"),
+                        _vm._v(_vm._s(_vm.translate("Email Address"))),
                       ]),
                       _vm._v(" "),
                       _vm.errors.email
@@ -519,18 +525,7 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "text-center font-weight-light my-4" }, [
-        _vm._v("Reset Your Password"),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
