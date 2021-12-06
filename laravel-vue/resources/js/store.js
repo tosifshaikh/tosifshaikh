@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import MyAppConstants from './constant';
 import * as auth from './Services/auth_service';
 Vue.use(Vuex);
 
@@ -10,7 +9,6 @@ export default new Vuex.Store({
         apiURL: 'http://127.0.0.1:8000/api',
         serverPath :  'http://127.0.0.1:8000/',
         profile : {},
-        MyAppConstants : MyAppConstants
     },
     mutations: {
         authenticate(state, payload) {

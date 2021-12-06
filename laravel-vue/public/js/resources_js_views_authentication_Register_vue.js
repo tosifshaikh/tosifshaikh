@@ -129,21 +129,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 14:
                 this.flashMessage.error({
                   message: _context.t0.response.data.message,
-                  time: this.$store.state.MyAppConstants.get('TIME')
+                  time: this.$getConst('TIME')
                 });
                 return _context.abrupt("break", 20);
 
               case 16:
                 this.flashMessage.error({
                   message: _context.t0.response.data.message,
-                  time: this.$store.state.MyAppConstants.get('TIME')
+                  time: this.$getConst('TIME')
                 });
                 return _context.abrupt("break", 20);
 
               case 18:
                 this.flashMessage.error({
                   message: this.translate('ErrorMSG'),
-                  time: this.$store.state.MyAppConstants.get('TIME')
+                  time: this.$getConst('TIME')
                 });
                 return _context.abrupt("break", 20);
 

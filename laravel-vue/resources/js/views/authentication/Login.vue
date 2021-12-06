@@ -82,25 +82,25 @@ export default {
 
                 switch (e.response.status) {
 
-                    case 422:
+                    case 422:console.log(e.response.data.errors,this.$getConst('TIME'));
                         this.errors = e.response.data.errors;
                         break;
                     case 500:
                         this.flashMessage.error({
                             message: e.response.data.message,
-                            time: this.$store.state.MyAppConstants.get('TIME'),
+                            time: this.$getConst('TIME'),
                         });
                         break;
                     case 401:
                         this.flashMessage.error({
                             message: e.response.data.message,
-                            time: this.$store.state.MyAppConstants.get('TIME'),
+                            time: this.$getConst('TIME'),
                         });
                         break;
                     default:
                         this.flashMessage.error({
                             message: '',
-                            time: this.$store.state.MyAppConstants.get('TIME'),
+                            time: this.$getConst('TIME'),
                         });
                         break;
 

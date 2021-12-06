@@ -92,19 +92,19 @@ export default {
                         case 500:
                             this.flashMessage.error({
                                 message: e.response.data.message,
-                                time: this.$store.state.MyAppConstants.get('TIME'),
+                                time: this.$getConst('TIME'),
                             });
                         break;
                         case 401:
                             this.flashMessage.error({
                                 message: e.response.data.message,
-                                time: this.$store.state.MyAppConstants.get('TIME'),
+                                time: this.$getConst('TIME'),
                             });
                         break;
                     default:
                         this.flashMessage.error({
                             message: this.translate('ErrorMSG'),
-                            time: this.$store.state.MyAppConstants.get('TIME'),
+                            time: this.$getConst('TIME'),
                         });
                         break;
                 }

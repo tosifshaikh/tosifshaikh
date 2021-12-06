@@ -9,6 +9,7 @@ const routes = [
 
     children : [
         {path: '', name: 'dashboard', component: () => import('./views/Dashboard')},
+        {path: 'to-do-list', name: 'to-do-list', component: () => import('./views/ToDoList')},
         {path: 'categories', name: 'categories', component: () => import('./views/Categories'),
             beforeEnter(to, from ,next) {
                 if (auth.getUserRole() == 'admin') {
@@ -21,7 +22,7 @@ const routes = [
         },
         {path: 'products', name: 'products', component: () => import('./views/Products'),
             beforeEnter(to, from ,next) {
-                if (auth.getUserRole() == 'user') {
+                if (auth.getUserRole() == 'user' || auth.getUserRole() == 'admin') {
                     next();
                 } else {
                     next('/404');
