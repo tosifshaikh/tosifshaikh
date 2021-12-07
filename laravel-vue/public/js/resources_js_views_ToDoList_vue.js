@@ -105,29 +105,82 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default())
   },
-  props: ['arrBackLog', 'arrInProgress', 'arrTested', 'arrDone'],
   data: function data() {
     return {
       newTask: '',
-      arrBackLog: [{
-        name: 'Product 1',
-        id: 1
+      categoryList: [{
+        id: 1,
+        category: 'Backlog'
       }, {
-        name: 'Product 2',
-        id: 2
+        id: 2,
+        category: 'To Do'
       }, {
-        name: 'Product 3',
-        id: 3
+        id: 3,
+        category: 'In Progress'
       }, {
-        name: 'Product 4',
-        id: 4
+        id: 4,
+        category: 'Done'
       }],
-      arrInProgress: [],
-      arrTested: [],
-      arrDone: []
+      tasks: [{
+        id: 1,
+        category_id: 1,
+        order: 0,
+        taskName: 'Task 1'
+      }, {
+        id: 2,
+        category_id: 1,
+        order: 1,
+        taskName: 'Task 2'
+      }, {
+        id: 3,
+        category_id: 2,
+        order: 2,
+        taskName: 'Task 3'
+      }, {
+        id: 4,
+        category_id: 3,
+        order: 3,
+        taskName: 'Task 4'
+      }],
+      categories: []
     };
   },
+  mounted: function mounted() {
+    this.categories = this.categoryList;
+    this.loadTasks();
+  },
   methods: {
+    loadTasks: function loadTasks() {
+      var _this = this;
+
+      this.categories.map(function (category) {
+        console.log(category);
+        var tempTask = [];
+
+        for (var index in _this.tasks) {
+          if (_this.tasks[index].category_id == category.id) {
+            tempTask.push(_this.tasks[index]); //category.tasks.push(this.tasks[index])
+          }
+        }
+
+        if (tempTask.length) {
+          category.tasks = tempTask;
+        }
+        /*category.tasks = [
+            {id : 1, category_id : 1, order :  1, taskName : 'Task 1'}
+        ];*/
+
+      });
+      console.log(this.categories);
+    },
+    changeOrder: function changeOrder(data) {
+      /*let toTask = data.to
+      let fromTask = data.from
+      let task_id = data.item.id
+      let category_id = fromTask.id == toTask.id ? null : toTask.id
+      let order = data.newIndex == data.oldIndex ? false : data.newIndex*/
+      console.log(data);
+    },
     onAdd: function onAdd(evt, status) {
       console.log(evt, status, 'add');
       /*if (this.newTask) {
@@ -178,7 +231,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\r\n    min-height: 300px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4057,153 +4110,71 @@ var render = function () {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c(
-              "div",
-              { staticClass: "p-2 alert alert-secondary" },
-              [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "draggable",
-                  {
-                    staticClass: "list-Group kanban-column",
-                    attrs: { list: _vm.arrBackLog, group: "tasks" },
-                    on: { change: _vm.updateTodo },
-                  },
-                  _vm._l(_vm.arrBackLog, function (element) {
-                    return _c(
-                      "div",
-                      { key: element.id, staticClass: "list-group-item" },
-                      [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(element.name) +
-                            "\n                        "
-                        ),
-                      ]
-                    )
-                  }),
-                  0
-                ),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c(
-              "div",
-              { staticClass: "p-2 alert alert-primary" },
-              [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "draggable",
-                  {
-                    staticClass: "list-Group kanban-column",
-                    attrs: { list: _vm.arrInProgress, group: "tasks" },
-                    on: {
-                      change: _vm.updateTodo,
-                      add: function ($event) {
-                        return _vm.onAdd($event, false)
+        _c(
+          "div",
+          {
+            staticClass: "row",
+            model: {
+              value: _vm.categories,
+              callback: function ($$v) {
+                _vm.categories = $$v
+              },
+              expression: "categories",
+            },
+          },
+          _vm._l(_vm.categories, function (element) {
+            return _c("div", { key: element.id, staticClass: "col-md-3" }, [
+              _c(
+                "div",
+                { staticClass: "p-2 alert alert-secondary" },
+                [
+                  _c("div", { staticClass: "text-center" }, [
+                    _c("h5", [
+                      _vm._v(_vm._s(element.category) + "  "),
+                      _vm._m(1, true),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "draggable",
+                    {
+                      staticClass: "list-Group kanban-column",
+                      attrs: { group: "tasks" },
+                      on: { end: _vm.changeOrder },
+                      model: {
+                        value: element.tasks,
+                        callback: function ($$v) {
+                          _vm.$set(element, "tasks", $$v)
+                        },
+                        expression: "element.tasks",
                       },
                     },
-                  },
-                  _vm._l(_vm.arrInProgress, function (element) {
-                    return _c(
-                      "div",
-                      { key: element.id, staticClass: "list-group-item" },
-                      [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(element.name) +
-                            "\n                            "
-                        ),
-                      ]
-                    )
-                  }),
-                  0
-                ),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c(
-              "div",
-              { staticClass: "p-2 alert alert-warning" },
-              [
-                _vm._m(3),
-                _vm._v(" "),
-                _c(
-                  "draggable",
-                  {
-                    staticClass: "list-Group kanban-column",
-                    attrs: { list: _vm.arrTested, group: "tasks" },
-                    on: {
-                      change: _vm.updateTodo,
-                      add: function ($event) {
-                        return _vm.onAdd($event, false)
-                      },
-                    },
-                  },
-                  _vm._l(_vm.arrTested, function (element) {
-                    return _c(
-                      "div",
-                      { key: element.id, staticClass: "list-group-item" },
-                      [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(element.name) +
-                            "\n                            "
-                        ),
-                      ]
-                    )
-                  }),
-                  0
-                ),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c(
-              "div",
-              { staticClass: "p-2 alert alert-success" },
-              [
-                _vm._m(4),
-                _vm._v(" "),
-                _c(
-                  "draggable",
-                  {
-                    staticClass: "list-Group kanban-column",
-                    attrs: { list: _vm.arrDone, group: "tasks" },
-                    on: { change: _vm.updateTodo },
-                  },
-                  _vm._l(_vm.arrDone, function (element) {
-                    return _c(
-                      "div",
-                      { key: element.id, staticClass: "list-group-item" },
-                      [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(element.name) +
-                            "\n                            "
-                        ),
-                      ]
-                    )
-                  }),
-                  0
-                ),
-              ],
-              1
-            ),
-          ]),
-        ]),
+                    _vm._l(element.tasks, function (task) {
+                      return _c(
+                        "div",
+                        {
+                          key: task.category_id + "," + task.order,
+                          staticClass: "list-group-item",
+                          attrs: { id: task.id },
+                        },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(task.taskName) +
+                              "\n                        "
+                          ),
+                        ]
+                      )
+                    }),
+                    0
+                  ),
+                ],
+                1
+              ),
+            ])
+          }),
+          0
+        ),
       ]),
     ]),
   ])
@@ -4224,37 +4195,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("h5", [
-        _vm._v("Backlog  "),
-        _c("button", { staticClass: "btn btn-primary btn-sm ml-2" }, [
-          _c("span", { staticClass: "fa fa-plus" }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("h5", [_vm._v("In Progress")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("h5", [_vm._v("Tested")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("h5", [_vm._v("Done")]),
+    return _c("button", { staticClass: "btn btn-primary btn-sm ml-2" }, [
+      _c("span", { staticClass: "fa fa-plus" }),
     ])
   },
 ]
