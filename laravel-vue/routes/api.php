@@ -19,7 +19,7 @@ Route::group(['prefix' => 'auth'],function() {
     });
 });
     Route::group(['middleware' => 'auth:api'],function() {
-            Route::group(['middleware' => 'scope:user'], function () {
+            Route::group(['middleware' => 'scope:user,admin'], function () {
                /* Route::get('/user-scope', function() {
                     return  response()->json(['message' => 'User can access this'],200);
                 });*/
@@ -29,6 +29,7 @@ Route::group(['prefix' => 'auth'],function() {
             });
             Route::group(['middleware' => 'scope:admin'], function () {
                 Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
+                Route::resource('/products',\App\Http\Controllers\ProductController::class);
 
                 /*Route::get('/admin-scope', function() {
                     return  response()->json(['message' => 'Admin can access this'],200);

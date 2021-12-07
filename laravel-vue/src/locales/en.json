@@ -1,0 +1,15 @@
+{
+  "message": "hello i18n !!",
+  "Login" : null,
+  "Email Address" : null,
+  "Password" : null,
+  "Remember Password" : null,
+  "Forgot Password?" : null,
+  "Need an account? Sign up!" : null,
+  "Create Account" : null,
+  "Enter Full name" : null,
+  "Confirm Password" : null,
+  "Have an account? Go to login" : null,
+  "ErrorMSG":"Some Error Occured",
+  "Reset Your Password" : null
+}

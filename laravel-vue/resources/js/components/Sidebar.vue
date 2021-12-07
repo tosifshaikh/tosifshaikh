@@ -15,16 +15,18 @@
                           <span>Categories</span>
                       </router-link>
                   </li>
-                    <li class="nav-item" v-if="$store.state.profile.role === 'user'">
+                    <li class="nav-item" v-if="$store.state.profile.role === 'user' || $store.state.profile.role === 'admin'">
                       <router-link to="/home/Products" class="nav-link sb-nav-link-icon" exact>
                           <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                           <span>Products</span>
                       </router-link>
                   </li>
-
-
-
-
+                    <li class="nav-item" v-if="$store.state.profile.role === 'admin'">
+                      <router-link to="/home/To-Do-List" class="nav-link sb-nav-link-icon" exact>
+                          <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                          <span>To Do List</span>
+                      </router-link>
+                  </li>
 
                 </div>
             </div>

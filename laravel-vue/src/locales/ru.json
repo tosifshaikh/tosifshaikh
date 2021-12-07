@@ -1,0 +1,9 @@
+{
+  "message": "hello i18n !!",
+  "Login" : "Авторизоваться",
+  "Email Address" : null,
+  "Password" : "Пароль",
+  "Remember Password" : null,
+  "Forgot Password?" : null,
+  "Need an account? Sign up!" : null
+}

@@ -40,11 +40,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'emails' => 'required|string|emails',
+            'email' => 'required|string|email',
             'password' => 'required|string',
             'remember-me' => 'boolean'
         ]);
-        if (!Auth::attempt(['emails' => $request->email, 'password' => $request->password])) {
+     
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return response()
                 ->json(['message' => __('Invalid Credentials'),
                     'status_code' => config('constant.STATUS.UNAUTHORIZED_CODE')],
