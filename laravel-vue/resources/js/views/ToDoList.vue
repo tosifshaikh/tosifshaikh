@@ -41,7 +41,7 @@
                     <div class="col-md-3">
                         <div class="p-2 alert alert-primary">
                             <div class="text-center"><h5>In Progress</h5></div>
-                            <draggable class="list-Group kanban-column" :list="arrInProgress" group="tasks" @change="updateTodo">
+                            <draggable class="list-Group kanban-column" :list="arrInProgress" group="tasks" @change="updateTodo" @add="onAdd($event, false)">
                                 <div class="list-group-item" v-for="element in arrInProgress" :key="element.id">
                                     {{ element.name}}
                                 </div>
@@ -51,7 +51,7 @@
                     <div class="col-md-3">
                         <div class="p-2 alert alert-warning">
                             <div class="text-center"><h5>Tested</h5></div>
-                            <draggable class="list-Group kanban-column" :list="arrTested" group="tasks" @change="updateTodo">
+                            <draggable class="list-Group kanban-column" :list="arrTested" group="tasks" @change="updateTodo" @add="onAdd($event, false)">
                                 <div class="list-group-item" v-for="element in arrTested" :key="element.id">
                                     {{ element.name}}
                                 </div>
@@ -82,7 +82,8 @@ export default {
     name: "ToDoList",
     components :{
         draggable
-    },data() {
+    },  props: ['arrBackLog', 'arrInProgress','arrTested','arrDone'],
+    data() {
         return {
             newTask : '',
             arrBackLog : [
@@ -97,11 +98,12 @@ export default {
         }
     },
     methods : {
-        add() {
-            if (this.newTask) {
+        onAdd(evt,status) {
+            console.log(evt,status,'add')
+            /*if (this.newTask) {
                 this.arrBackLog.push({name : this.newTask});
                 this.newTask = '';
-            }
+            }*/
         },
         async updateTodo(evt) {
             let todo = evt.removed && evt.removed.element;

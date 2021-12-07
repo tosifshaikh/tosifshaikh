@@ -105,6 +105,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default())
   },
+  props: ['arrBackLog', 'arrInProgress', 'arrTested', 'arrDone'],
   data: function data() {
     return {
       newTask: '',
@@ -127,13 +128,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    add: function add() {
-      if (this.newTask) {
-        this.arrBackLog.push({
-          name: this.newTask
-        });
-        this.newTask = '';
-      }
+    onAdd: function onAdd(evt, status) {
+      console.log(evt, status, 'add');
+      /*if (this.newTask) {
+          this.arrBackLog.push({name : this.newTask});
+          this.newTask = '';
+      }*/
     },
     updateTodo: function updateTodo(evt) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -178,7 +178,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\r\n    min-height: 300px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4104,7 +4104,12 @@ var render = function () {
                   {
                     staticClass: "list-Group kanban-column",
                     attrs: { list: _vm.arrInProgress, group: "tasks" },
-                    on: { change: _vm.updateTodo },
+                    on: {
+                      change: _vm.updateTodo,
+                      add: function ($event) {
+                        return _vm.onAdd($event, false)
+                      },
+                    },
                   },
                   _vm._l(_vm.arrInProgress, function (element) {
                     return _c(
@@ -4138,7 +4143,12 @@ var render = function () {
                   {
                     staticClass: "list-Group kanban-column",
                     attrs: { list: _vm.arrTested, group: "tasks" },
-                    on: { change: _vm.updateTodo },
+                    on: {
+                      change: _vm.updateTodo,
+                      add: function ($event) {
+                        return _vm.onAdd($event, false)
+                      },
+                    },
                   },
                   _vm._l(_vm.arrTested, function (element) {
                     return _c(
