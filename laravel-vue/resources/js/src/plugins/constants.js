@@ -1,5 +1,5 @@
 const Constants = {
-    TIME: 500
+    TIME: 5000
 };
 Constants.install = function (Vue) {
     Vue.prototype.$getConst = (key) => {

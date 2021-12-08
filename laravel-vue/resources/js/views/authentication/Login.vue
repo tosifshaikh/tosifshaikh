@@ -82,7 +82,7 @@ export default {
 
                 switch (e.response.status) {
 
-                    case 422:console.log(e.response.data.errors,this.$getConst('TIME'));
+                    case 422:
                         this.errors = e.response.data.errors;
                         break;
                     case 500:
