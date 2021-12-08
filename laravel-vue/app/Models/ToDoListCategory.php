@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ToDoListCategory extends Model
 {
-    protected $table = "ToDoListCategory";
+    protected $table = "todolist_category";
 
 
 }

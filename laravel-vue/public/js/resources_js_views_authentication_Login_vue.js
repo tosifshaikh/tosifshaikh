@@ -106,43 +106,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 response = _context.sent;
                 this.errors = {};
                 this.$router.push('/home');
-                _context.next = 22;
+                _context.next = 21;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 _context.t1 = _context.t0.response.status;
-                _context.next = _context.t1 === 422 ? 13 : _context.t1 === 500 ? 16 : _context.t1 === 401 ? 18 : 20;
+                _context.next = _context.t1 === 422 ? 13 : _context.t1 === 500 ? 15 : _context.t1 === 401 ? 17 : 19;
                 break;
 
               case 13:
-                console.log(_context.t0.response.data.errors, this.$getConst('TIME'));
                 this.errors = _context.t0.response.data.errors;
-                return _context.abrupt("break", 22);
+                return _context.abrupt("break", 21);
 
-              case 16:
+              case 15:
                 this.flashMessage.error({
                   message: _context.t0.response.data.message,
                   time: this.$getConst('TIME')
                 });
-                return _context.abrupt("break", 22);
+                return _context.abrupt("break", 21);
 
-              case 18:
+              case 17:
                 this.flashMessage.error({
                   message: _context.t0.response.data.message,
                   time: this.$getConst('TIME')
                 });
-                return _context.abrupt("break", 22);
+                return _context.abrupt("break", 21);
 
-              case 20:
+              case 19:
                 this.flashMessage.error({
                   message: '',
                   time: this.$getConst('TIME')
                 });
-                return _context.abrupt("break", 22);
+                return _context.abrupt("break", 21);
 
-              case 22:
+              case 21:
               case "end":
                 return _context.stop();
             }

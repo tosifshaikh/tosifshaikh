@@ -15,6 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/todo_service */ "./resources/js/Services/todo_service.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -99,6 +100,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ToDoList",
@@ -125,92 +155,173 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: 1,
         category_id: 1,
         order: 0,
-        taskName: 'Task 1'
+        taskName: 'Task 1',
+        title: 'Task 1',
+        priority: 1
       }, {
         id: 2,
         category_id: 1,
         order: 1,
-        taskName: 'Task 2'
+        taskName: 'Task 2',
+        title: 'Task 2',
+        priority: 2
       }, {
         id: 3,
         category_id: 2,
         order: 2,
-        taskName: 'Task 3'
+        taskName: 'Task 3',
+        title: 'Task 3',
+        priority: 1
       }, {
         id: 4,
         category_id: 3,
         order: 3,
-        taskName: 'Task 4'
+        taskName: 'Task 4',
+        title: 'Task 4',
+        priority: 3
       }],
-      categories: []
+      categories: [],
+      priority: {
+        1: {
+          color: 'badge badge-danger',
+          name: 'High'
+        },
+        2: {
+          color: 'badge badge-warning',
+          name: 'Medium'
+        },
+        3: {
+          color: 'badge badge-primary',
+          name: 'Low'
+        }
+      }
     };
   },
   mounted: function mounted() {
     this.categories = this.categoryList;
+    this.getCategories();
     this.loadTasks();
   },
   methods: {
-    loadTasks: function loadTasks() {
+    getCategories: function getCategories() {
       var _this = this;
 
-      this.categories.map(function (category) {
-        console.log(category);
-        var tempTask = [];
-
-        for (var index in _this.tasks) {
-          if (_this.tasks[index].category_id == category.id) {
-            tempTask.push(_this.tasks[index]); //category.tasks.push(this.tasks[index])
-          }
-        }
-
-        if (tempTask.length) {
-          category.tasks = tempTask;
-        }
-        /*category.tasks = [
-            {id : 1, category_id : 1, order :  1, taskName : 'Task 1'}
-        ];*/
-
-      });
-      console.log(this.categories);
-    },
-    changeOrder: function changeOrder(data) {
-      /*let toTask = data.to
-      let fromTask = data.from
-      let task_id = data.item.id
-      let category_id = fromTask.id == toTask.id ? null : toTask.id
-      let order = data.newIndex == data.oldIndex ? false : data.newIndex*/
-      console.log(data);
-    },
-    onAdd: function onAdd(evt, status) {
-      console.log(evt, status, 'add');
-      /*if (this.newTask) {
-          this.arrBackLog.push({name : this.newTask});
-          this.newTask = '';
-      }*/
-    },
-    updateTodo: function updateTodo(evt) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var todo;
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                todo = evt.removed && evt.removed.element;
+                _context.prev = 0;
+                _context.next = 3;
+                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.getTolist();
 
-                if (todo) {
-                  console.log(evt);
-                }
+              case 3:
+                response = _context.sent;
+                _this.categories = response.data;
+                _this.categories.tasks = [];
 
-              case 2:
+                _this.loadTasks();
+
+                _context.next = 12;
+                break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](0);
+
+                _this.flashMessage.error({
+                  message: _this.translate(_context.t0),
+                  time: _this.$getConst('TIME'),
+                  blockClass: 'custom-block-class'
+                });
+
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 9]]);
       }))();
+    },
+    loadTasks: function loadTasks() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                try {// const response = await todoService.getToDoTasks();
+                } catch (e) {}
+
+                _this2.categories.map(function (category) {
+                  // console.log(category)
+                  var tempTask = [];
+
+                  for (var index in _this2.tasks) {
+                    if (_this2.tasks[index].category_id == category.id) {
+                      tempTask.push(_this2.tasks[index]); //category.tasks.push(this.tasks[index])
+                    }
+                  }
+
+                  if (tempTask.length) {
+                    category.tasks = tempTask;
+                  }
+                  /*category.tasks = [
+                      {id : 1, category_id : 1, order :  1, taskName : 'Task 1'}
+                  ];*/
+
+                }); // console.log(this.categories);
+
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    changeOrder: function changeOrder(data) {
+      //console.log(data);
+      //  console.log(data.to.id,data.from.id,data.item.id,data.newIndex,data.oldIndex )
+      var toTask = data.to;
+      var fromTask = data.from;
+      var task_id = data.item.id;
+      var category_id = fromTask.id == toTask.id ? null : toTask.id;
+      var order = data.newIndex == data.oldIndex ? false : data.newIndex;
+
+      if (order !== false && category_id !== null) {}
+    },
+    onAdd: function onAdd(evt, status) {// console.log(evt,status,'add')
+
+      /*if (this.newTask) {
+          this.arrBackLog.push({name : this.newTask});
+          this.newTask = '';
+      }*/
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/Services/todo_service.js":
+/*!***********************************************!*\
+  !*** ./resources/js/Services/todo_service.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getTolist": () => (/* binding */ getTolist)
+/* harmony export */ });
+/* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
+
+function getTolist() {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/ToDoList');
+}
 
 /***/ }),
 
@@ -231,7 +342,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4095,14 +4206,14 @@ var render = function () {
         { staticClass: "breadcrumb-item active" },
         [
           _c("router-link", { attrs: { to: "/" } }, [
-            _vm._v("\n                Dashboard\n            "),
+            _vm._v("\n                    Dashboard\n                "),
           ]),
         ],
         1
       ),
       _vm._v(" "),
       _c("li", { staticClass: "breadcrumb-item" }, [
-        _vm._v("\n            To Do List\n        "),
+        _vm._v("\n                To Do List\n            "),
       ]),
     ]),
     _vm._v(" "),
@@ -4128,10 +4239,16 @@ var render = function () {
                 "div",
                 { staticClass: "p-2 alert alert-secondary" },
                 [
-                  _c("div", { staticClass: "text-center" }, [
+                  _c("div", { staticClass: "text-center " }, [
                     _c("h5", [
                       _vm._v(_vm._s(element.category) + "  "),
-                      _vm._m(1, true),
+                      element.id == 1
+                        ? _c(
+                            "button",
+                            { staticClass: "btn btn-primary btn-sm ml-2" },
+                            [_c("span", { staticClass: "fa fa-plus" })]
+                          )
+                        : _vm._e(),
                     ]),
                   ]),
                   _vm._v(" "),
@@ -4149,24 +4266,121 @@ var render = function () {
                         expression: "element.tasks",
                       },
                     },
-                    _vm._l(element.tasks, function (task) {
-                      return _c(
-                        "div",
-                        {
-                          key: task.category_id + "," + task.order,
-                          staticClass: "list-group-item",
-                          attrs: { id: task.id },
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(task.taskName) +
-                              "\n                        "
-                          ),
-                        ]
-                      )
-                    }),
-                    0
+                    [
+                      _c(
+                        "transition-group",
+                        { attrs: { id: element.id } },
+                        _vm._l(element.tasks, function (task) {
+                          return _c(
+                            "div",
+                            {
+                              key: task.category_id + "," + task.order,
+                              staticClass: "list-group-item mb-3",
+                              attrs: { id: task.id },
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "card border-grey mb-3 ",
+                                  staticStyle: { "max-width": "18rem" },
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "card-header bg-transparent border-grey column",
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "float-left " },
+                                        [
+                                          _c("label", [
+                                            _vm._v(_vm._s(task.title)),
+                                          ]),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "float-right mt-0 align-top",
+                                        },
+                                        [
+                                          _c("img", {
+                                            staticClass: "img-fluid avatar",
+                                            attrs: {
+                                              src: "/assets/uploads/product/1637598357.png",
+                                              alt: "",
+                                              width: "100",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "card-body" }, [
+                                    _c(
+                                      "span",
+                                      {
+                                        class:
+                                          _vm.priority[task.priority].color,
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.priority[task.priority].name
+                                          )
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("h5", { staticClass: "card-title" }, [
+                                      _vm._v("Success card title"),
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass: "card-text text-truncate",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Some quick example text to build on the card title and make up the bulk of the card's content."
+                                        ),
+                                      ]
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "card-footer bg-transparent border-grey row-0",
+                                    },
+                                    [
+                                      _c("div", { staticClass: "column " }, [
+                                        _c(
+                                          "small",
+                                          { staticClass: "text-muted " },
+                                          [_vm._v("Last updated 3 mins ago")]
+                                        ),
+                                      ]),
+                                    ]
+                                  ),
+                                ]
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                    ],
+                    1
                   ),
                 ],
                 1
@@ -4187,16 +4401,8 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header d-flex" }, [
       _c("span", [
         _c("i", { staticClass: "fas fa-clipboard-list" }),
-        _vm._v("\n                To Do List\n          "),
+        _vm._v("\n                    To Do List\n              "),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-primary btn-sm ml-2" }, [
-      _c("span", { staticClass: "fa fa-plus" }),
     ])
   },
 ]

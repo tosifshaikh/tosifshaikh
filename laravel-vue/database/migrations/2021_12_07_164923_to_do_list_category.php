@@ -13,7 +13,7 @@ class ToDoListCategory extends Migration
      */
     public function up()
     {
-        Schema::create('ToDoListCategory', function (Blueprint $table) {
+        Schema::create('todolist_category', function (Blueprint $table) {
             $table->increments('id')->autoIncrement();
             $table->string('category');
             $table->timestamps();
