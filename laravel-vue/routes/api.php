@@ -31,6 +31,8 @@ Route::group(['prefix' => 'auth'],function() {
                 Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
                 Route::resource('/products',\App\Http\Controllers\ProductController::class);
                 Route::resource('/ToDoList',\App\Http\Controllers\ToDoListController::class);
+                Route::resource('/ToDoList-ADD',\App\Http\Controllers\ToDoListController::class);
+
 
                 /*Route::get('/admin-scope', function() {
                     return  response()->json(['message' => 'Admin can access this'],200);

@@ -16,10 +16,10 @@ class ToDoListCategorySeeder extends Seeder
     {
         ToDoListCategory::insert([
             [ 'category' => 'Backlog'],
+            [ 'category' => 'To Do'],
             [ 'category' => 'In Progress'],
-            [ 'category' => 'Tested'],
             [ 'category' => 'Done'],
-            
+
         ]);
     }
 }

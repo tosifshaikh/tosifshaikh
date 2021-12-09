@@ -16,6 +16,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/todo_service */ "./resources/js/Services/todo_service.js");
+/* harmony import */ var _Services_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Services/product_service */ "./resources/js/Services/product_service.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -128,6 +129,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -138,6 +165,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       newTask: '',
+      taskData: {
+        title: '',
+        description: '',
+        priority: '',
+        category_id: 0,
+        user_id: 1
+      },
       categoryList: [{
         id: 1,
         category: 'Backlog'
@@ -203,65 +237,110 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.loadTasks();
   },
   methods: {
-    getCategories: function getCategories() {
+    hideAddTaskModal: function hideAddTaskModal() {
+      this.$refs.TaskModal.hide();
+    },
+    showAddTaskModal: function showAddTaskModal() {
+      this.$refs.TaskModal.show();
+    },
+    AddTask: function AddTask() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var response;
+        var formData, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                formData = new FormData();
+                formData.append('title', _this.taskData.title);
+                formData.append('categoryID', _this.taskData.category_id);
+                formData.append('description', _this.taskData.description);
+                formData.append('priority', _this.taskData.priority);
+                formData.append('_method', 'POST');
+                _context.prev = 6;
+                _context.next = 9;
+                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.addList(formData);
+
+              case 9:
+                response = _context.sent;
+                _context.next = 14;
+                break;
+
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](6);
+
+              case 14:
+                _this.hideAddTaskModal();
+
+              case 15:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[6, 12]]);
+      }))();
+    },
+    getCategories: function getCategories() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
                 return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.getTolist();
 
               case 3:
-                response = _context.sent;
-                _this.categories = response.data;
-                _this.categories.tasks = [];
+                response = _context2.sent;
+                _this2.categories = response.data;
+                _this2.categories.tasks = [];
 
-                _this.loadTasks();
+                _this2.loadTasks();
 
-                _context.next = 12;
+                _context2.next = 12;
                 break;
 
               case 9:
-                _context.prev = 9;
-                _context.t0 = _context["catch"](0);
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](0);
 
-                _this.flashMessage.error({
-                  message: _this.translate(_context.t0),
-                  time: _this.$getConst('TIME'),
+                _this2.flashMessage.error({
+                  message: _this2.translate(_context2.t0),
+                  time: _this2.$getConst('TIME'),
                   blockClass: 'custom-block-class'
                 });
 
               case 12:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee2, null, [[0, 9]]);
       }))();
     },
     loadTasks: function loadTasks() {
-      var _this2 = this;
+      var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 try {// const response = await todoService.getToDoTasks();
                 } catch (e) {}
 
-                _this2.categories.map(function (category) {
+                _this3.categories.map(function (category) {
                   // console.log(category)
                   var tempTask = [];
 
-                  for (var index in _this2.tasks) {
-                    if (_this2.tasks[index].category_id == category.id) {
-                      tempTask.push(_this2.tasks[index]); //category.tasks.push(this.tasks[index])
+                  for (var index in _this3.tasks) {
+                    if (_this3.tasks[index].category_id == category.id) {
+                      tempTask.push(_this3.tasks[index]); //category.tasks.push(this.tasks[index])
                     }
                   }
 
@@ -277,10 +356,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     changeOrder: function changeOrder(data) {
@@ -306,6 +385,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./resources/js/Services/product_service.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Services/product_service.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createProduct": () => (/* binding */ createProduct),
+/* harmony export */   "getCategories": () => (/* binding */ getCategories),
+/* harmony export */   "loadProducts": () => (/* binding */ loadProducts),
+/* harmony export */   "deleteProduct": () => (/* binding */ deleteProduct),
+/* harmony export */   "updateProduct": () => (/* binding */ updateProduct),
+/* harmony export */   "loadMore": () => (/* binding */ loadMore)
+/* harmony export */ });
+/* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
+
+function createProduct(data) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post('/products', data);
+}
+function getCategories() {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/get_categories');
+}
+function loadProducts() {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/products');
+}
+function deleteProduct(id) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)()["delete"]("/products/".concat(id));
+}
+function updateProduct(id, data) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post("/products/".concat(id), data);
+}
+function loadMore(nextpage) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get("/products?page=".concat(nextpage));
+}
+
+/***/ }),
+
 /***/ "./resources/js/Services/todo_service.js":
 /*!***********************************************!*\
   !*** ./resources/js/Services/todo_service.js ***!
@@ -315,12 +433,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getTolist": () => (/* binding */ getTolist)
+/* harmony export */   "getTolist": () => (/* binding */ getTolist),
+/* harmony export */   "addList": () => (/* binding */ addList)
 /* harmony export */ });
 /* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
 
 function getTolist() {
   return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/ToDoList');
+}
+function addList(data) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/ToDoList-ADD', data);
 }
 
 /***/ }),
@@ -4220,176 +4342,351 @@ var render = function () {
     _c("div", { staticClass: "card mb-3" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "div",
-          {
-            staticClass: "row",
-            model: {
-              value: _vm.categories,
-              callback: function ($$v) {
-                _vm.categories = $$v
+      _c(
+        "div",
+        { staticClass: "card-body" },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "row",
+              model: {
+                value: _vm.categories,
+                callback: function ($$v) {
+                  _vm.categories = $$v
+                },
+                expression: "categories",
               },
-              expression: "categories",
             },
-          },
-          _vm._l(_vm.categories, function (element) {
-            return _c("div", { key: element.id, staticClass: "col-md-3" }, [
-              _c(
-                "div",
-                { staticClass: "p-2 alert alert-secondary" },
-                [
-                  _c("div", { staticClass: "text-center " }, [
-                    _c("h5", [
-                      _vm._v(_vm._s(element.category) + "  "),
-                      element.id == 1
-                        ? _c(
-                            "button",
-                            { staticClass: "btn btn-primary btn-sm ml-2" },
-                            [_c("span", { staticClass: "fa fa-plus" })]
-                          )
-                        : _vm._e(),
+            _vm._l(_vm.categories, function (element) {
+              return _c("div", { key: element.id, staticClass: "col-md-3" }, [
+                _c(
+                  "div",
+                  { staticClass: "p-2 alert alert-secondary" },
+                  [
+                    _c("div", { staticClass: "text-center " }, [
+                      _c("h5", [
+                        _vm._v(_vm._s(element.category) + "  "),
+                        element.id == 1
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary btn-sm ml-2",
+                                on: { click: _vm.showAddTaskModal },
+                              },
+                              [_c("span", { staticClass: "fa fa-plus" })]
+                            )
+                          : _vm._e(),
+                      ]),
                     ]),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "draggable",
-                    {
-                      staticClass: "list-Group kanban-column",
-                      attrs: { group: "tasks" },
-                      on: { end: _vm.changeOrder },
-                      model: {
-                        value: element.tasks,
-                        callback: function ($$v) {
-                          _vm.$set(element, "tasks", $$v)
+                    _vm._v(" "),
+                    _c(
+                      "draggable",
+                      {
+                        staticClass: "list-Group kanban-column",
+                        attrs: { group: "tasks" },
+                        on: { end: _vm.changeOrder },
+                        model: {
+                          value: element.tasks,
+                          callback: function ($$v) {
+                            _vm.$set(element, "tasks", $$v)
+                          },
+                          expression: "element.tasks",
                         },
-                        expression: "element.tasks",
                       },
-                    },
-                    [
-                      _c(
-                        "transition-group",
-                        { attrs: { id: element.id } },
-                        _vm._l(element.tasks, function (task) {
-                          return _c(
-                            "div",
-                            {
-                              key: task.category_id + "," + task.order,
-                              staticClass: "list-group-item mb-3",
-                              attrs: { id: task.id },
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "card border-grey mb-3 ",
-                                  staticStyle: { "max-width": "18rem" },
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "card-header bg-transparent border-grey column",
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "float-left " },
-                                        [
-                                          _c("label", [
-                                            _vm._v(_vm._s(task.title)),
-                                          ]),
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "float-right mt-0 align-top",
-                                        },
-                                        [
-                                          _c("img", {
-                                            staticClass: "img-fluid avatar",
-                                            attrs: {
-                                              src: "/assets/uploads/product/1637598357.png",
-                                              alt: "",
-                                              width: "100",
-                                            },
-                                          }),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "card-body" }, [
+                      [
+                        _c(
+                          "transition-group",
+                          { attrs: { id: element.id } },
+                          _vm._l(element.tasks, function (task) {
+                            return _c(
+                              "div",
+                              {
+                                key: task.category_id + "," + task.order,
+                                staticClass: "list-group-item mb-3",
+                                attrs: { id: task.id },
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "card border-grey mb-3",
+                                    staticStyle: { "max-width": "18rem" },
+                                  },
+                                  [
                                     _c(
-                                      "span",
+                                      "div",
                                       {
-                                        class:
-                                          _vm.priority[task.priority].color,
+                                        staticClass:
+                                          "card-header bg-transparent border-grey column",
                                       },
                                       [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.priority[task.priority].name
-                                          )
+                                        _c(
+                                          "div",
+                                          { staticClass: "float-left " },
+                                          [
+                                            _c("label", [
+                                              _vm._v(_vm._s(task.title)),
+                                            ]),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "float-right mt-0 align-top",
+                                          },
+                                          [
+                                            _c("img", {
+                                              staticClass: "img-fluid avatar",
+                                              attrs: {
+                                                src: "/assets/uploads/product/1637598357.png",
+                                                alt: "",
+                                                width: "100",
+                                              },
+                                            }),
+                                          ]
                                         ),
                                       ]
                                     ),
                                     _vm._v(" "),
-                                    _c("h5", { staticClass: "card-title" }, [
-                                      _vm._v("Success card title"),
+                                    _c("div", { staticClass: "card-body" }, [
+                                      _c(
+                                        "span",
+                                        {
+                                          class:
+                                            _vm.priority[task.priority].color,
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.priority[task.priority].name
+                                            )
+                                          ),
+                                        ]
+                                      ),
                                     ]),
                                     _vm._v(" "),
                                     _c(
-                                      "p",
+                                      "div",
                                       {
-                                        staticClass: "card-text text-truncate",
+                                        staticClass:
+                                          "card-footer bg-transparent border-grey row-0",
                                       },
                                       [
-                                        _vm._v(
-                                          "Some quick example text to build on the card title and make up the bulk of the card's content."
-                                        ),
+                                        _c("div", { staticClass: "column " }, [
+                                          _c(
+                                            "small",
+                                            { staticClass: "text-muted " },
+                                            [_vm._v("Last updated 3 mins ago")]
+                                          ),
+                                        ]),
                                       ]
                                     ),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "card-footer bg-transparent border-grey row-0",
-                                    },
-                                    [
-                                      _c("div", { staticClass: "column " }, [
-                                        _c(
-                                          "small",
-                                          { staticClass: "text-muted " },
-                                          [_vm._v("Last updated 3 mins ago")]
-                                        ),
-                                      ]),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                            ]
-                          )
-                        }),
-                        0
+                                  ]
+                                ),
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "b-modal",
+            {
+              ref: "TaskModal",
+              attrs: { "hide-footer": "", title: "Add Task" },
+            },
+            [
+              _c("div", { staticClass: "d-block" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function ($event) {
+                        $event.preventDefault()
+                        return _vm.AddTask.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        { staticClass: "form-label", attrs: { for: "title" } },
+                        [_vm._v("Task Title")]
                       ),
-                    ],
-                    1
-                  ),
-                ],
-                1
-              ),
-            ])
-          }),
-          0
-        ),
-      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.taskData.title,
+                            expression: "taskData.title",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "title",
+                          placeholder: "Enter Task Title",
+                        },
+                        domProps: { value: _vm.taskData.title },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.taskData, "title", $event.target.value)
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-label",
+                          attrs: { for: "description" },
+                        },
+                        [_vm._v(_vm._s(_vm.translate("Enter Description")))]
+                      ),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.taskData.description,
+                            expression: "taskData.description",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "description",
+                          id: "description",
+                          placeholder: [[_vm.translate("Enter Description")]],
+                        },
+                        domProps: { value: _vm.taskData.description },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.taskData,
+                              "description",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-label",
+                          attrs: { for: "priority" },
+                        },
+                        [_vm._v(_vm._s(_vm.translate("Enter Priority")))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.taskData.priority,
+                              expression: "taskData.priority",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "priority", name: "priority" },
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.taskData,
+                                "priority",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                          },
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Choose Priority"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.priority, function (priority, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: index } },
+                              [_vm._v(_vm._s(priority.name))]
+                            )
+                          }),
+                        ],
+                        2
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-light",
+                          attrs: { type: "button" },
+                          on: { click: _vm.hideAddTaskModal },
+                        },
+                        [_vm._v(" Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" },
+                        },
+                        [
+                          _c("span", { staticClass: "fa fa-check" }),
+                          _vm._v(" Save Task"),
+                        ]
+                      ),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+        ],
+        1
+      ),
     ]),
   ])
 }
