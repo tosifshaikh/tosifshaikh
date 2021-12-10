@@ -17,7 +17,7 @@
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="password" type="password"
                                            :placeholder="[[ translate('Password')]]" v-model="user.password"/>
-                                    <label for="password">{{ cc('Password') }}</label>
+                                    <label for="password">{{ translate('Password') }}</label>
                                     <div class="invalid-feedback" v-if="errors.password">{{ errors.password[0] }}</div>
                                 </div>
                                 <div class="form-check mb-3">

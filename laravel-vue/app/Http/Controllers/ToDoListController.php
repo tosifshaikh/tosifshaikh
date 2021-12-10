@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ToDoListCategory;
+use App\Models\ToDoListTask;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ToDoListController extends Controller
 {
@@ -13,13 +15,32 @@ class ToDoListController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $ToDoListCategory;
-    public function __construct(ToDoListCategory $ToDoListCategory)
+    private $ToDoListTask;
+    public function __construct(ToDoListCategory $ToDoListCategory, ToDoListTask $toDoListTask)
     {
         $this->ToDoListCategory = $ToDoListCategory;
+        $this->toDoListTask = $toDoListTask;
     }
-
+    private function getListData($taskCategory, $task)
+    {
+    
+    }
     public function index()
     {
+        $TaskCategory = $this->ToDoListCategory->select('id as category_id','category as category_name')->get();
+       // $taskList =  $this->toDoListTask->select('id as task_id','category_id','category as category_name')->get();
+        $task =$this->toDoListTask->select('id as task_id','category_id', 'Description','priority','title as task_title','Description  as task_description',
+        'priority as task_priority','user_id as task_user_id')->get();
+        $this->getListData($TaskCategory,$data);
+       
+       /* $data = DB::table('todolist_category')->select("todolist_category.id as category_id",
+            "todolist_category.category as category_name",
+            "tasks.title as task_title",
+            "tasks.Description as task_description",
+            "tasks.priority as task_priority",
+            "tasks.user_id as task_user_id")->leftJoin("tasks", "tasks.category_id", "=", "todolist_category.id")->get();*/
+    
+       dd( $data);
         return response()->json($this->ToDoListCategory->all(), config('constant.STATUS.SUCCESS_CODE'));
     }
 
@@ -41,7 +62,16 @@ class ToDoListController extends Controller
      */
     public function store(Request $request)
     {
-            dd($request);
+        $this->toDoListTask->category_id = $request->categoryID;
+        $this->toDoListTask->title = $request->title;
+        $this->toDoListTask->Description = $request->description;
+        $this->toDoListTask->priority = $request->priority;
+        $this->toDoListTask->user_id = 1;
+        if (!$this->toDoListTask->save()) {
+           return  response()->json(['message' => __('message.Error Msg'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')], config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
+        }
+        return response()->json(['data' => $this->toDoListTask, 'message' => __('message.Task.Add')], config('constant.STATUS.SUCCESS_CODE'));
     }
 
     /**

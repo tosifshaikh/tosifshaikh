@@ -343,7 +343,7 @@ var render = function () {
                       }),
                       _vm._v(" "),
                       _c("label", { attrs: { for: "password" } }, [
-                        _vm._v(_vm._s(_vm.cc("Password"))),
+                        _vm._v(_vm._s(_vm.translate("Password"))),
                       ]),
                       _vm._v(" "),
                       _vm.errors.password

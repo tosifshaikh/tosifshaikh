@@ -13,5 +13,6 @@ return [
         'Password Changed' => 'Password Changed Successfully'
     ],
     'category' => ['Deleted' => 'Category deleted successfully!'],
-    'Product' => ['Deleted' => 'Product deleted successfully!']
+    'Product' => ['Deleted' => 'Product deleted successfully!'],
+    'Task' => ['Add' => 'Task Added Successfully.'],
 ];
