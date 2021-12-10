@@ -30,12 +30,12 @@
                 <div class="row" v-model="categories" >
                     <div class="col-md-3" v-for="element in categories" :key="element.id">
                         <div class="p-2 alert alert-secondary">
-                            <div class="text-center "><h5>{{element.category}}  <button class="btn btn-primary btn-sm ml-2" v-if="element.id == 1"><span class="fa fa-plus" ></span></button></h5></div>
+                            <div class="text-center "><h5>{{element.category}}  <button class="btn btn-primary btn-sm ml-2" v-if="element.id == 1" @click="showAddTaskModal"><span class="fa fa-plus" ></span></button></h5></div>
                           <draggable class="list-Group kanban-column"  group="tasks"  @end="changeOrder" v-model="element.tasks">
                               <transition-group :id="element.id">
                             <div class="list-group-item mb-3" v-for="task in element.tasks" :id="task.id" :key="task.category_id+','+task.order" >
 
-                                <div class="card border-grey mb-3 " style="max-width: 18rem;">
+                                <div class="card border-grey mb-3" style="max-width: 18rem;">
                                     <div class="card-header bg-transparent border-grey column">
                                         <div class="float-left ">
                                             <label>{{ task.title}}</label>
@@ -47,8 +47,10 @@
 
                                     <div class="card-body">
                                         <span :class="priority[task.priority].color">{{priority[task.priority].name}}</span>
+<!--
                                         <h5 class="card-title">Success card title</h5>
                                         <p class="card-text text-truncate">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+-->
 
                                     </div>
                                     <div class="card-footer bg-transparent border-grey row-0">
@@ -66,39 +68,62 @@
 
                         </div>
                     </div>
-                    <!--                   <div class="col-md-3">
-                                           <div class="p-2 alert alert-primary">
-                                               <div class="text-center"><h5>In Progress</h5></div>
-                                               <draggable class="list-Group kanban-column" :list="arrInProgress" group="tasks" @change="updateTodo" @add="onAdd($event, false)">
-                                                   <div class="list-group-item" v-for="element in arrInProgress" :key="element.id">
-                                                       {{ element.name}}
-                                               </div>
-                                               </draggable>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="p-2 alert alert-warning">
-                                               <div class="text-center"><h5>Tested</h5></div>
-                                               <draggable class="list-Group kanban-column" :list="arrTested" group="tasks" @change="updateTodo" @add="onAdd($event, false)">
-                                                   <div class="list-group-item" v-for="element in arrTested" :key="element.id">
-                                                       {{ element.name}}
-                                                   </div>
-                                               </draggable>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="p-2 alert alert-success">
-                                               <div class="text-center"><h5>Done</h5></div>
-                                               <draggable class="list-Group kanban-column" :list="arrDone" group="tasks" @change="updateTodo">
-                                                   <div class="list-group-item" v-for="element in arrDone" :key="element.id">
-                                                       {{ element.name}}
-                                                   </div>
-                                               </draggable>
-                                           </div>
-                                       </div>-->
                 </div>
 
+                <b-modal ref="TaskModal" hide-footer title="Add Task">
+                    <div class="d-block">
+                        <form v-on:submit.prevent="AddTask">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Task Title</label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter Task Title" v-model="taskData.title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">{{ translate('Enter Description') }}</label>
+                                <textarea
+                                    class="form-control"
+                                    name="description"
+                                    id="description"
+                                    v-model="taskData.description"
+                                    :placeholder="[[translate('Enter Description')]]"
+                                > </textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="priority" class="form-label">{{ translate('Enter Priority') }}</label>
+                                <select class="form-control"  id="priority" name="priority" v-model="taskData.priority">
+                                    <option value="">Choose Priority</option>
+                                    <option v-for="(priority,index) in priority" :value="index" :key="index">{{ priority.name }}</option>
+                                </select>
+                            </div>
+                                <!--                                <select class="form-control"  id="title" name="title" v-model="taskData.category_id">
+                                    <option value="">Choose Category</option>
+                                    <option v-for="(category,index) in categories" :value="category.id" :key="index">{{ category.name }}</option>
+                                </select>
+                                <div class="invalid-feedback" v-if="errors.category_id">{{errors.category_id[0]}}</div>-->
 
+<!--                            <div class="mb-3">
+                                <label for="name" class="form-label">Enter Product Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter Product Name" v-model="editProductData.product_name">
+                                <div class="invalid-feedback" v-if="errors.name">{{errors.name[0]}}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Choose an Image</label>
+                                <div>
+                                    <img ref="editProductImageDisplay" :src="`${$store.state.serverPath}assets/uploads/product/${editProductData.image}`" :alt="editProductData.name"  class="img-thumbnail">
+                                </div>
+
+                                <input type="file" class="form-control" id="image" v-on:change="editAttachImage" ref="editProductImage">
+                                <div class="invalid-feedback" v-if="errors.image">{{errors.image[0]}}</div>
+                            </div>
+                            <hr>-->
+                            <div class="text-right">
+                                <button type="button" class="btn btn-light" v-on:click="hideAddTaskModal"> Cancel</button>
+                                <button type="submit" class="btn btn-primary" ><span class="fa fa-check"></span> Save Task</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </b-modal>
             </div>
         </div>
 
@@ -107,6 +132,7 @@
 <script>
 import draggable from 'vuedraggable';
 import * as todoService from '../Services/todo_service';
+import * as ProductService from "../Services/product_service";
 export default {
     name: "ToDoList",
     components :{
@@ -115,6 +141,13 @@ export default {
     data() {
         return {
             newTask : '',
+            taskData : {
+                title : '',
+                description : '',
+                priority : '',
+                category_id : 0,
+                user_id : 1
+            },
             categoryList : [
                 { id : 1, category : 'Backlog'},
                 { id : 2, category : 'To Do'},
@@ -142,6 +175,28 @@ export default {
         this.loadTasks();
     },
     methods : {
+        hideAddTaskModal() {
+            this.$refs.TaskModal.hide();
+        },
+        showAddTaskModal() {
+            this.$refs.TaskModal.show();
+        },
+        async AddTask() {
+            let formData = new FormData();
+            formData.append('title', this.taskData.title);
+            formData.append('categoryID', this.taskData.category_id);
+            formData.append('description', this.taskData.description);
+            formData.append('priority', this.taskData.priority);
+            formData.append('_method','POST');
+            try
+            {
+                const response = await todoService.addList(formData);
+
+            }catch (e) {
+
+            }
+           this.hideAddTaskModal();
+        },
         async getCategories() {
             try{
                 const response = await todoService.getTolist();
@@ -165,7 +220,7 @@ export default {
                // const response = await todoService.getToDoTasks();
             }
             catch (e) {
-                
+
             }
             this.categories.map(category => {
                // console.log(category)

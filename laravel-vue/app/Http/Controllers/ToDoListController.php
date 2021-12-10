@@ -17,7 +17,7 @@ class ToDoListController extends Controller
     {
         $this->ToDoListCategory = $ToDoListCategory;
     }
-    
+
     public function index()
     {
         return response()->json($this->ToDoListCategory->all(), config('constant.STATUS.SUCCESS_CODE'));
@@ -41,7 +41,7 @@ class ToDoListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            dd($request);
     }
 
     /**
