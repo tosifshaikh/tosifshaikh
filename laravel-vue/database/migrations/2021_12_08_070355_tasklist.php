@@ -20,6 +20,7 @@ class Tasklist extends Migration
             $table->text('Description');
             $table->tinyInteger('priority')->default(0);
             $table->integer('user_id');
+            $table->softDeletes();
             $table->timestamps();
         
         });

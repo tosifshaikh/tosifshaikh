@@ -154,11 +154,9 @@ export default {
             try {
                 const response = await ProductService.getCategories();
                 this.categories = response.data;
-                console.log(response,'00000')
             }
             catch (e) {
-                console.log(e)
-                this.flashMessage.success({
+                this.flashMessage.error({
                     message: 'Some Error Occured!, Please Refresh!',
                     time: 5000,
                 });
@@ -176,8 +174,7 @@ export default {
                 }
             }
             catch (e) {
-                console.log(  e)
-                this.flashMessage.success({
+                this.flashMessage.error({
                     message: 'Some Error Occured!, Please Refresh!',
                     time: 5000,
                 });

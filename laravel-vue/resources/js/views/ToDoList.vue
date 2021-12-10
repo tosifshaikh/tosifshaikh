@@ -133,6 +133,7 @@
 import draggable from 'vuedraggable';
 import * as todoService from '../Services/todo_service';
 import * as ProductService from "../Services/product_service";
+import {getToDolist} from "../Services/todo_service";
 export default {
     name: "ToDoList",
     components :{
@@ -145,7 +146,7 @@ export default {
                 title : '',
                 description : '',
                 priority : '',
-                category_id : 0,
+                category_id : 1,
                 user_id : 1
             },
             categoryList : [
@@ -191,17 +192,28 @@ export default {
             try
             {
                 const response = await todoService.addList(formData);
+                this.flashMessage.success({
+                    message: response.data.message,
+                    time: this.$getConst('TIME'),
+                    blockClass: 'custom-block-class'
+                });
+                this.taskData = [];
 
             }catch (e) {
-
+                this.flashMessage.error({
+                    message: this.translate(e),
+                    time: this.$getConst('TIME'),
+                    blockClass: 'custom-block-class'
+                });
             }
            this.hideAddTaskModal();
         },
         async getCategories() {
             try{
-                const response = await todoService.getTolist();
-                this.categories = response.data;
-                this.categories.tasks= [];
+                const response = await todoService.getToDolist();
+                console.log(response);
+               // this.categories = response.data;
+                //this.categories.tasks= [];
                 this.loadTasks();
             }
             catch (e) {
@@ -217,7 +229,8 @@ export default {
         },
         async loadTasks() {
             try {
-               // const response = await todoService.getToDoTasks();
+                //const response = await todoService.getToDoTasks();
+               // console.log(response);
             }
             catch (e) {
 

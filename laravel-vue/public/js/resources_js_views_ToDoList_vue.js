@@ -157,6 +157,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ToDoList",
   components: {
@@ -169,7 +170,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: '',
         description: '',
         priority: '',
-        category_id: 0,
+        category_id: 1,
         user_id: 1
       },
       categoryList: [{
@@ -264,22 +265,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 9:
                 response = _context.sent;
-                _context.next = 14;
+
+                _this.flashMessage.success({
+                  message: response.data.message,
+                  time: _this.$getConst('TIME'),
+                  blockClass: 'custom-block-class'
+                });
+
+                _this.taskData = [];
+                _context.next = 17;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 14:
+                _context.prev = 14;
                 _context.t0 = _context["catch"](6);
 
-              case 14:
+                _this.flashMessage.error({
+                  message: _this.translate(_context.t0),
+                  time: _this.$getConst('TIME'),
+                  blockClass: 'custom-block-class'
+                });
+
+              case 17:
                 _this.hideAddTaskModal();
 
-              case 15:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[6, 12]]);
+        }, _callee, null, [[6, 14]]);
       }))();
     },
     getCategories: function getCategories() {
@@ -293,20 +308,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.getTolist();
+                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.getToDolist();
 
               case 3:
                 response = _context2.sent;
-                _this2.categories = response.data;
-                _this2.categories.tasks = [];
+                console.log(response); // this.categories = response.data;
+                //this.categories.tasks= [];
 
                 _this2.loadTasks();
 
-                _context2.next = 12;
+                _context2.next = 11;
                 break;
 
-              case 9:
-                _context2.prev = 9;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
 
                 _this2.flashMessage.error({
@@ -315,12 +330,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   blockClass: 'custom-block-class'
                 });
 
-              case 12:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 9]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
     loadTasks: function loadTasks() {
@@ -331,7 +346,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                try {// const response = await todoService.getToDoTasks();
+                try {//const response = await todoService.getToDoTasks();
+                  // console.log(response);
                 } catch (e) {}
 
                 _this3.categories.map(function (category) {
@@ -433,12 +449,12 @@ function loadMore(nextpage) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getTolist": () => (/* binding */ getTolist),
+/* harmony export */   "getToDolist": () => (/* binding */ getToDolist),
 /* harmony export */   "addList": () => (/* binding */ addList)
 /* harmony export */ });
 /* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
 
-function getTolist() {
+function getToDolist() {
   return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/ToDoList');
 }
 function addList(data) {
@@ -464,7 +480,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\r\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\r\n    vertical-align: middle;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-radius: 50%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
