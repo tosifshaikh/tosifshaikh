@@ -10,11 +10,11 @@ class ToDoListTask extends Model
 {
     use SoftDeletes;
     protected $table = "tasks";
-    public function TaskCategory()
-    {
-      //  return $this->belongsTo(ToDoListCategory::class,'category_id','id');
-    
-    }
+//    public function TaskCategory()
+//    {
+//      //  return $this->belongsTo(ToDoListCategory::class,'category_id','id');
+//
+//    }
 
 
 }

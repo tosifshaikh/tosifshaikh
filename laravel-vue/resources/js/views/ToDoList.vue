@@ -28,17 +28,19 @@
             </div>
             <div class="card-body">
                 <div class="row" v-model="categories" >
-                    <div class="col-md-3" v-for="element in categories" :key="element.id">
+                    <div class="col-md-3" v-for="element in categories" :key="element.category_id">
                         <div class="p-2 alert alert-secondary">
-                            <div class="text-center "><h5>{{element.category}}  <button class="btn btn-primary btn-sm ml-2" v-if="element.id == 1" @click="showAddTaskModal"><span class="fa fa-plus" ></span></button></h5></div>
-                          <draggable class="list-Group kanban-column"  group="tasks"  @end="changeOrder" v-model="element.tasks">
-                              <transition-group :id="element.id">
-                            <div class="list-group-item mb-3" v-for="task in element.tasks" :id="task.id" :key="task.category_id+','+task.order" >
+                            <div class="text-center "><h5>{{element.category_name}}  <button class="btn btn-primary btn-sm ml-2" v-if="element.category_id == 1" @click="showAddTaskModal"><span class="fa fa-plus" ></span></button></h5></div>
+                        <draggable class="list-Group kanban-column"  group="tasks"  @end="changeOrder" v-model="element.tasks">
+                               <transition-group :id="element.category_id">
 
+                            <div class="list-group-item mb-3" v-for="task in element.tasks" :id="task.task_id" :key="task.task_id+','+task.category_id+','+task.order" >
+                                <div class="fas fa-edit fa-xs float-right"></div>
                                 <div class="card border-grey mb-3" style="max-width: 18rem;">
+
                                     <div class="card-header bg-transparent border-grey column">
                                         <div class="float-left ">
-                                            <label>{{ task.title}}</label>
+                                            <label>{{ task.task_title}}</label>
                                         </div>
                                         <div class="float-right mt-0 align-top">
                                             <img src="/assets/uploads/product/1637598357.png" alt="" width="100" class="img-fluid avatar">
@@ -46,21 +48,16 @@
                                     </div>
 
                                     <div class="card-body">
-                                        <span :class="priority[task.priority].color">{{priority[task.priority].name}}</span>
-<!--
-                                        <h5 class="card-title">Success card title</h5>
-                                        <p class="card-text text-truncate">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
--->
+                                     <span :class="priority[task.priority].color">{{priority[task.priority].name}}</span>
 
+<!--                                        <h5 class="card-title">Success card title</h5>-->
+                                        <p class="card-text text-truncate">{{task.task_description}}</p>
                                     </div>
                                     <div class="card-footer bg-transparent border-grey row-0">
-                                        <div class="column "><small class="text-muted ">Last updated 3 mins ago</small></div>
-
-
-
-<!--                                        <img class="img-fluid float-right rounded-circle mb-3 img-thumbnail shadow-sm" width="100" src="/assets/uploads/product/1637598357.png" alt="Chania" >-->
+                                        <div class="column "><small class="text-muted ">{{time}}   Last updated 3 mins ago</small></div>
                                     </div>
                                 </div>
+
 
                             </div>
                               </transition-group>
@@ -139,9 +136,32 @@ export default {
     components :{
         draggable
     },
+    beforeDestroy() {
+        // prevent memory leak
+        clearInterval(this.interval)
+    },
+    created() {
+        // update the time every second
+        this.interval = setInterval(() => {
+            // Concise way to format time according to system locale.
+            // In my case this returns "3:48:00 am"
+            this.time = Intl.DateTimeFormat(navigator.language, {
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            }).format()
+        }, 1000)
+
+    },
+    computed:{
+      count() {
+          return (new Date().toLocaleString())
+
+      }
+    },
     data() {
         return {
-            newTask : '',
+            time : '',
             taskData : {
                 title : '',
                 description : '',
@@ -171,9 +191,9 @@ export default {
         }
     },
     mounted() {
-        this.categories = this.categoryList;
+       // this.categories = this.categoryList;
         this.getCategories();
-        this.loadTasks();
+       // this.loadTasks();
     },
     methods : {
         hideAddTaskModal() {
@@ -184,6 +204,7 @@ export default {
         },
         async AddTask() {
             let formData = new FormData();
+            this.taskData.category_id = 1;
             formData.append('title', this.taskData.title);
             formData.append('categoryID', this.taskData.category_id);
             formData.append('description', this.taskData.description);
@@ -211,10 +232,11 @@ export default {
         async getCategories() {
             try{
                 const response = await todoService.getToDolist();
-                console.log(response);
-               // this.categories = response.data;
+
+                this.categories = response.data;
+                console.log(this.categories);
                 //this.categories.tasks= [];
-                this.loadTasks();
+               // this.loadTasks();
             }
             catch (e) {
                 this.flashMessage.error({

@@ -151,9 +151,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 
@@ -163,9 +160,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default())
   },
+  beforeDestroy: function beforeDestroy() {
+    // prevent memory leak
+    clearInterval(this.interval);
+  },
+  created: function created() {
+    var _this = this;
+
+    // update the time every second
+    this.interval = setInterval(function () {
+      // Concise way to format time according to system locale.
+      // In my case this returns "3:48:00 am"
+      _this.time = Intl.DateTimeFormat(navigator.language, {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      }).format();
+    }, 1000);
+  },
+  computed: {
+    count: function count() {
+      return new Date().toLocaleString();
+    }
+  },
   data: function data() {
     return {
-      newTask: '',
+      time: '',
       taskData: {
         title: '',
         description: '',
@@ -233,9 +253,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
-    this.categories = this.categoryList;
-    this.getCategories();
-    this.loadTasks();
+    // this.categories = this.categoryList;
+    this.getCategories(); // this.loadTasks();
   },
   methods: {
     hideAddTaskModal: function hideAddTaskModal() {
@@ -245,7 +264,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$refs.TaskModal.show();
     },
     AddTask: function AddTask() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var formData, response;
@@ -254,51 +273,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 formData = new FormData();
-                formData.append('title', _this.taskData.title);
-                formData.append('categoryID', _this.taskData.category_id);
-                formData.append('description', _this.taskData.description);
-                formData.append('priority', _this.taskData.priority);
+                _this2.taskData.category_id = 1;
+                formData.append('title', _this2.taskData.title);
+                formData.append('categoryID', _this2.taskData.category_id);
+                formData.append('description', _this2.taskData.description);
+                formData.append('priority', _this2.taskData.priority);
                 formData.append('_method', 'POST');
-                _context.prev = 6;
-                _context.next = 9;
+                _context.prev = 7;
+                _context.next = 10;
                 return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.addList(formData);
 
-              case 9:
+              case 10:
                 response = _context.sent;
 
-                _this.flashMessage.success({
+                _this2.flashMessage.success({
                   message: response.data.message,
-                  time: _this.$getConst('TIME'),
+                  time: _this2.$getConst('TIME'),
                   blockClass: 'custom-block-class'
                 });
 
-                _this.taskData = [];
-                _context.next = 17;
+                _this2.taskData = [];
+                _context.next = 18;
                 break;
 
-              case 14:
-                _context.prev = 14;
-                _context.t0 = _context["catch"](6);
+              case 15:
+                _context.prev = 15;
+                _context.t0 = _context["catch"](7);
 
-                _this.flashMessage.error({
-                  message: _this.translate(_context.t0),
-                  time: _this.$getConst('TIME'),
+                _this2.flashMessage.error({
+                  message: _this2.translate(_context.t0),
+                  time: _this2.$getConst('TIME'),
                   blockClass: 'custom-block-class'
                 });
 
-              case 17:
-                _this.hideAddTaskModal();
-
               case 18:
+                _this2.hideAddTaskModal();
+
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[6, 14]]);
+        }, _callee, null, [[7, 15]]);
       }))();
     },
     getCategories: function getCategories() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var response;
@@ -312,10 +332,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context2.sent;
-                console.log(response); // this.categories = response.data;
-                //this.categories.tasks= [];
-
-                _this2.loadTasks();
+                _this3.categories = response.data;
+                console.log(_this3.categories); //this.categories.tasks= [];
+                // this.loadTasks();
 
                 _context2.next = 11;
                 break;
@@ -324,9 +343,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
 
-                _this2.flashMessage.error({
-                  message: _this2.translate(_context2.t0),
-                  time: _this2.$getConst('TIME'),
+                _this3.flashMessage.error({
+                  message: _this3.translate(_context2.t0),
+                  time: _this3.$getConst('TIME'),
                   blockClass: 'custom-block-class'
                 });
 
@@ -339,7 +358,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     loadTasks: function loadTasks() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
@@ -350,13 +369,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   // console.log(response);
                 } catch (e) {}
 
-                _this3.categories.map(function (category) {
+                _this4.categories.map(function (category) {
                   // console.log(category)
                   var tempTask = [];
 
-                  for (var index in _this3.tasks) {
-                    if (_this3.tasks[index].category_id == category.id) {
-                      tempTask.push(_this3.tasks[index]); //category.tasks.push(this.tasks[index])
+                  for (var index in _this4.tasks) {
+                    if (_this4.tasks[index].category_id == category.id) {
+                      tempTask.push(_this4.tasks[index]); //category.tasks.push(this.tasks[index])
                     }
                   }
 
@@ -480,7 +499,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\r\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\r\n    vertical-align: middle;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-radius: 50%;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4375,145 +4394,181 @@ var render = function () {
               },
             },
             _vm._l(_vm.categories, function (element) {
-              return _c("div", { key: element.id, staticClass: "col-md-3" }, [
-                _c(
-                  "div",
-                  { staticClass: "p-2 alert alert-secondary" },
-                  [
-                    _c("div", { staticClass: "text-center " }, [
-                      _c("h5", [
-                        _vm._v(_vm._s(element.category) + "  "),
-                        element.id == 1
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-primary btn-sm ml-2",
-                                on: { click: _vm.showAddTaskModal },
-                              },
-                              [_c("span", { staticClass: "fa fa-plus" })]
-                            )
-                          : _vm._e(),
+              return _c(
+                "div",
+                { key: element.category_id, staticClass: "col-md-3" },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "p-2 alert alert-secondary" },
+                    [
+                      _c("div", { staticClass: "text-center " }, [
+                        _c("h5", [
+                          _vm._v(_vm._s(element.category_name) + "  "),
+                          element.category_id == 1
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary btn-sm ml-2",
+                                  on: { click: _vm.showAddTaskModal },
+                                },
+                                [_c("span", { staticClass: "fa fa-plus" })]
+                              )
+                            : _vm._e(),
+                        ]),
                       ]),
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "draggable",
-                      {
-                        staticClass: "list-Group kanban-column",
-                        attrs: { group: "tasks" },
-                        on: { end: _vm.changeOrder },
-                        model: {
-                          value: element.tasks,
-                          callback: function ($$v) {
-                            _vm.$set(element, "tasks", $$v)
+                      _vm._v(" "),
+                      _c(
+                        "draggable",
+                        {
+                          staticClass: "list-Group kanban-column",
+                          attrs: { group: "tasks" },
+                          on: { end: _vm.changeOrder },
+                          model: {
+                            value: element.tasks,
+                            callback: function ($$v) {
+                              _vm.$set(element, "tasks", $$v)
+                            },
+                            expression: "element.tasks",
                           },
-                          expression: "element.tasks",
                         },
-                      },
-                      [
-                        _c(
-                          "transition-group",
-                          { attrs: { id: element.id } },
-                          _vm._l(element.tasks, function (task) {
-                            return _c(
-                              "div",
-                              {
-                                key: task.category_id + "," + task.order,
-                                staticClass: "list-group-item mb-3",
-                                attrs: { id: task.id },
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "card border-grey mb-3",
-                                    staticStyle: { "max-width": "18rem" },
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "card-header bg-transparent border-grey column",
-                                      },
-                                      [
+                        [
+                          _c(
+                            "transition-group",
+                            { attrs: { id: element.category_id } },
+                            _vm._l(element.tasks, function (task) {
+                              return _c(
+                                "div",
+                                {
+                                  key:
+                                    task.task_id +
+                                    "," +
+                                    task.category_id +
+                                    "," +
+                                    task.order,
+                                  staticClass: "list-group-item mb-3",
+                                  attrs: { id: task.task_id },
+                                },
+                                [
+                                  _c("div", {
+                                    staticClass:
+                                      "fas fa-edit fa-xs float-right",
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "card border-grey mb-3",
+                                      staticStyle: { "max-width": "18rem" },
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "card-header bg-transparent border-grey column",
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "float-left " },
+                                            [
+                                              _c("label", [
+                                                _vm._v(_vm._s(task.task_title)),
+                                              ]),
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "float-right mt-0 align-top",
+                                            },
+                                            [
+                                              _c("img", {
+                                                staticClass: "img-fluid avatar",
+                                                attrs: {
+                                                  src: "/assets/uploads/product/1637598357.png",
+                                                  alt: "",
+                                                  width: "100",
+                                                },
+                                              }),
+                                            ]
+                                          ),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "card-body" }, [
                                         _c(
-                                          "div",
-                                          { staticClass: "float-left " },
+                                          "span",
+                                          {
+                                            class:
+                                              _vm.priority[task.priority].color,
+                                          },
                                           [
-                                            _c("label", [
-                                              _vm._v(_vm._s(task.title)),
-                                            ]),
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.priority[task.priority].name
+                                              )
+                                            ),
                                           ]
                                         ),
                                         _vm._v(" "),
                                         _c(
-                                          "div",
+                                          "p",
                                           {
                                             staticClass:
-                                              "float-right mt-0 align-top",
+                                              "card-text text-truncate",
                                           },
                                           [
-                                            _c("img", {
-                                              staticClass: "img-fluid avatar",
-                                              attrs: {
-                                                src: "/assets/uploads/product/1637598357.png",
-                                                alt: "",
-                                                width: "100",
-                                              },
-                                            }),
+                                            _vm._v(
+                                              _vm._s(task.task_description)
+                                            ),
                                           ]
                                         ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "card-body" }, [
+                                      ]),
+                                      _vm._v(" "),
                                       _c(
-                                        "span",
+                                        "div",
                                         {
-                                          class:
-                                            _vm.priority[task.priority].color,
+                                          staticClass:
+                                            "card-footer bg-transparent border-grey row-0",
                                         },
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.priority[task.priority].name
-                                            )
+                                          _c(
+                                            "div",
+                                            { staticClass: "column " },
+                                            [
+                                              _c(
+                                                "small",
+                                                { staticClass: "text-muted " },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(_vm.time) +
+                                                      "   Last updated 3 mins ago"
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
                                           ),
                                         ]
                                       ),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "card-footer bg-transparent border-grey row-0",
-                                      },
-                                      [
-                                        _c("div", { staticClass: "column " }, [
-                                          _c(
-                                            "small",
-                                            { staticClass: "text-muted " },
-                                            [_vm._v("Last updated 3 mins ago")]
-                                          ),
-                                        ]),
-                                      ]
-                                    ),
-                                  ]
-                                ),
-                              ]
-                            )
-                          }),
-                          0
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ])
+                                    ]
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]
+              )
             }),
             0
           ),
