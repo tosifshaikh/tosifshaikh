@@ -17,12 +17,84 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/todo_service */ "./resources/js/Services/todo_service.js");
 /* harmony import */ var _Services_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Services/product_service */ "./resources/js/Services/product_service.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -193,6 +265,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         category_id: 1,
         user_id: 1
       },
+      editTaskData: {
+        title: '',
+        description: '',
+        priority: '',
+        category_id: '',
+        user_id: ''
+      },
+      errors: {},
       categoryList: [{
         id: 1,
         category: 'Backlog'
@@ -260,8 +340,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     hideAddTaskModal: function hideAddTaskModal() {
       this.$refs.TaskModal.hide();
     },
+    hideEditTaskModal: function hideEditTaskModal() {
+      this.$refs.EditTaskModal.hide();
+    },
     showAddTaskModal: function showAddTaskModal() {
       this.$refs.TaskModal.show();
+    },
+    showEditTaskModal: function showEditTaskModal() {
+      this.$refs.EditTaskModal.show();
     },
     AddTask: function AddTask() {
       var _this2 = this;
@@ -408,12 +494,79 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (order !== false && category_id !== null) {}
     },
-    onAdd: function onAdd(evt, status) {// console.log(evt,status,'add')
+    editTask: function editTask(task) {
+      this.editTaskData = _objectSpread({}, task);
+      this.showEditTaskModal();
+    },
+    saveTaskData: function saveTaskData() {
+      var _this5 = this;
 
-      /*if (this.newTask) {
-          this.arrBackLog.push({name : this.newTask});
-          this.newTask = '';
-      }*/
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var formData, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                formData = new FormData();
+                formData.append('title', _this5.editTaskData.task_title);
+                formData.append('categoryID', _this5.editTaskData.category_id);
+                formData.append('description', _this5.editTaskData.task_description);
+                formData.append('priority', _this5.editTaskData.priority);
+                formData.append('id', _this5.editTaskData.task_id);
+                formData.append('_method', 'PUT');
+                _context4.prev = 7;
+                _context4.next = 10;
+                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.UpdateList(_this5.editTaskData.task_id, formData);
+
+              case 10:
+                response = _context4.sent;
+
+                _this5.categories.map(function (categories) {
+                  /* categories.map(task => {
+                       console.log(task);
+                   })
+                  */
+
+                  /*if (product.id == response.data.id) {
+                      for (let key in response.data) {
+                          product[key] = response.data[key];
+                      }
+                  }*/
+                });
+
+                _this5.hideEditTaskModal();
+
+                _this5.flashMessage.success({
+                  message: response.data.message,
+                  time: _this5.$getConst('TIME'),
+                  blockClass: 'custom-block-class'
+                });
+
+                _this5.taskData = [];
+                _context4.next = 20;
+                break;
+
+              case 17:
+                _context4.prev = 17;
+                _context4.t0 = _context4["catch"](7);
+
+                if (_context4.t0.response.status) {
+                  _this5.errors = _context4.t0.response.data.errors;
+                } else {
+                  _this5.flashMessage.error({
+                    message: _this5.translate(_context4.t0),
+                    time: _this5.$getConst('TIME'),
+                    blockClass: 'custom-block-class'
+                  });
+                }
+
+              case 20:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[7, 17]]);
+      }))();
     }
   }
 });
@@ -469,7 +622,8 @@ function loadMore(nextpage) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getToDolist": () => (/* binding */ getToDolist),
-/* harmony export */   "addList": () => (/* binding */ addList)
+/* harmony export */   "addList": () => (/* binding */ addList),
+/* harmony export */   "UpdateList": () => (/* binding */ UpdateList)
 /* harmony export */ });
 /* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
 
@@ -477,7 +631,10 @@ function getToDolist() {
   return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/ToDoList');
 }
 function addList(data) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/ToDoList-ADD', data);
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/ToDoList', data);
+}
+function UpdateList(id, data) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post("/ToDoList/".concat(id), data);
 }
 
 /***/ }),
@@ -499,7 +656,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\r\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\r\n    vertical-align: middle;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-radius: 50%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4404,7 +4561,10 @@ var render = function () {
                     [
                       _c("div", { staticClass: "text-center " }, [
                         _c("h5", [
-                          _vm._v(_vm._s(element.category_name) + "  "),
+                          _vm._v(
+                            _vm._s(element.category_name) +
+                              "\n\n                                "
+                          ),
                           element.category_id == 1
                             ? _c(
                                 "button",
@@ -4450,10 +4610,24 @@ var render = function () {
                                   attrs: { id: task.task_id },
                                 },
                                 [
-                                  _c("div", {
-                                    staticClass:
-                                      "fas fa-edit fa-xs float-right",
-                                  }),
+                                  _c("div", { staticClass: "float-right" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-xs",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.editTask(task)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("span", {
+                                          staticClass: "fa fa-edit",
+                                        }),
+                                      ]
+                                    ),
+                                  ]),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -4747,6 +4921,199 @@ var render = function () {
                         [
                           _c("span", { staticClass: "fa fa-check" }),
                           _vm._v(" Save Task"),
+                        ]
+                      ),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "b-modal",
+            {
+              ref: "EditTaskModal",
+              attrs: { "hide-footer": "", title: "Edit Task" },
+            },
+            [
+              _c("div", { staticClass: "d-block" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function ($event) {
+                        $event.preventDefault()
+                        return _vm.saveTaskData.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        { staticClass: "form-label", attrs: { for: "title" } },
+                        [_vm._v("Task Title")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editTaskData.task_title,
+                            expression: "editTaskData.task_title",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "title",
+                          placeholder: "Enter Task Title",
+                        },
+                        domProps: { value: _vm.editTaskData.task_title },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editTaskData,
+                              "task_title",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.title
+                        ? _c("div", { staticClass: "invalid-feedback" }, [
+                            _vm._v(_vm._s(_vm.errors.title[0])),
+                          ])
+                        : _vm._e(),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-label",
+                          attrs: { for: "description" },
+                        },
+                        [_vm._v(_vm._s(_vm.translate("Enter Description")))]
+                      ),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editTaskData.task_description,
+                            expression: "editTaskData.task_description",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "description",
+                          id: "description",
+                          placeholder: [[_vm.translate("Enter Description")]],
+                        },
+                        domProps: { value: _vm.editTaskData.task_description },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.editTaskData,
+                              "task_description",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-label",
+                          attrs: { for: "priority" },
+                        },
+                        [_vm._v(_vm._s(_vm.translate("Enter Priority")))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.editTaskData.priority,
+                              expression: "editTaskData.priority",
+                            },
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "priority", name: "priority" },
+                          on: {
+                            change: function ($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function (o) {
+                                  return o.selected
+                                })
+                                .map(function (o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.editTaskData,
+                                "priority",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                          },
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Choose Priority"),
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.priority, function (priority, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: index } },
+                              [_vm._v(_vm._s(priority.name))]
+                            )
+                          }),
+                        ],
+                        2
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-light",
+                          attrs: { type: "button" },
+                          on: { click: _vm.hideEditTaskModal },
+                        },
+                        [_vm._v(" Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" },
+                        },
+                        [
+                          _c("span", { staticClass: "fa fa-check" }),
+                          _vm._v(" Update Task"),
                         ]
                       ),
                     ]),

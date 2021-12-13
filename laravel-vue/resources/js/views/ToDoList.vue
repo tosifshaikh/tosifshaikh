@@ -26,16 +26,26 @@
                     To Do List
               </span>
             </div>
+
             <div class="card-body">
                 <div class="row" v-model="categories" >
                     <div class="col-md-3" v-for="element in categories" :key="element.category_id">
                         <div class="p-2 alert alert-secondary">
-                            <div class="text-center "><h5>{{element.category_name}}  <button class="btn btn-primary btn-sm ml-2" v-if="element.category_id == 1" @click="showAddTaskModal"><span class="fa fa-plus" ></span></button></h5></div>
+                            <div class="text-center "><h5>{{element.category_name}}
+
+                                <button class="btn btn-primary btn-sm ml-2" v-if="element.category_id == 1" @click="showAddTaskModal"><span class="fa fa-plus" ></span></button></h5>
+
+                            </div>
                         <draggable class="list-Group kanban-column"  group="tasks"  @end="changeOrder" v-model="element.tasks">
                                <transition-group :id="element.category_id">
 
                             <div class="list-group-item mb-3" v-for="task in element.tasks" :id="task.task_id" :key="task.task_id+','+task.category_id+','+task.order" >
-                                <div class="fas fa-edit fa-xs float-right"></div>
+
+
+                                <div class="float-right">
+                                    <button class="btn btn-xs" v-on:click="editTask(task)"><span class="fa fa-edit" ></span></button>
+                                </div>
+
                                 <div class="card border-grey mb-3" style="max-width: 18rem;">
 
                                     <div class="card-header bg-transparent border-grey column">
@@ -121,6 +131,62 @@
                     </div>
 
                 </b-modal>
+
+                <b-modal ref="EditTaskModal" hide-footer title="Edit Task">
+                    <div class="d-block">
+                        <form v-on:submit.prevent="saveTaskData">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Task Title</label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter Task Title" v-model="editTaskData.task_title">
+                                <div class="invalid-feedback" v-if="errors.title">{{errors.title[0]}}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">{{ translate('Enter Description') }}</label>
+                                <textarea
+                                        class="form-control"
+                                        name="description"
+                                        id="description"
+                                        v-model="editTaskData.task_description"
+                                        :placeholder="[[translate('Enter Description')]]"
+                                > </textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="priority" class="form-label">{{ translate('Enter Priority') }}</label>
+                                <select class="form-control"  id="priority" name="priority" v-model="editTaskData.priority">
+                                    <option value="">Choose Priority</option>
+                                    <option v-for="(priority,index) in priority" :value="index" :key="index">{{ priority.name }}</option>
+                                </select>
+                            </div>
+                            <!--                                <select class="form-control"  id="title" name="title" v-model="taskData.category_id">
+                                <option value="">Choose Category</option>
+                                <option v-for="(category,index) in categories" :value="category.id" :key="index">{{ category.name }}</option>
+                            </select>
+                            <div class="invalid-feedback" v-if="errors.category_id">{{errors.category_id[0]}}</div>-->
+
+                            <!--                            <div class="mb-3">
+                                                            <label for="name" class="form-label">Enter Product Name</label>
+                                                            <input type="text" class="form-control" id="name" placeholder="Enter Product Name" v-model="editProductData.product_name">
+                                                            <div class="invalid-feedback" v-if="errors.name">{{errors.name[0]}}</div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="image" class="form-label">Choose an Image</label>
+                                                            <div>
+                                                                <img ref="editProductImageDisplay" :src="`${$store.state.serverPath}assets/uploads/product/${editProductData.image}`" :alt="editProductData.name"  class="img-thumbnail">
+                                                            </div>
+
+                                                            <input type="file" class="form-control" id="image" v-on:change="editAttachImage" ref="editProductImage">
+                                                            <div class="invalid-feedback" v-if="errors.image">{{errors.image[0]}}</div>
+                                                        </div>
+                                                        <hr>-->
+                            <div class="text-right">
+                                <button type="button" class="btn btn-light" v-on:click="hideEditTaskModal"> Cancel</button>
+                                <button type="submit" class="btn btn-primary" ><span class="fa fa-check"></span> Update Task</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </b-modal>
             </div>
         </div>
 
@@ -169,6 +235,14 @@ export default {
                 category_id : 1,
                 user_id : 1
             },
+            editTaskData : {
+                title : '',
+                description : '',
+                priority : '',
+                category_id : '',
+                user_id : ''
+            },
+            errors : {},
             categoryList : [
                 { id : 1, category : 'Backlog'},
                 { id : 2, category : 'To Do'},
@@ -199,8 +273,14 @@ export default {
         hideAddTaskModal() {
             this.$refs.TaskModal.hide();
         },
+        hideEditTaskModal() {
+            this.$refs.EditTaskModal.hide();
+        },
         showAddTaskModal() {
             this.$refs.TaskModal.show();
+        },
+        showEditTaskModal() {
+            this.$refs.EditTaskModal.show();
         },
         async AddTask() {
             let formData = new FormData();
@@ -232,7 +312,6 @@ export default {
         async getCategories() {
             try{
                 const response = await todoService.getToDolist();
-
                 this.categories = response.data;
                 console.log(this.categories);
                 //this.categories.tasks= [];
@@ -287,13 +366,54 @@ export default {
 
             }
         },
-        onAdd(evt,status) {
-           // console.log(evt,status,'add')
-            /*if (this.newTask) {
-                this.arrBackLog.push({name : this.newTask});
-                this.newTask = '';
-            }*/
+        editTask(task) {
+         this.editTaskData = {...task};
+            this.showEditTaskModal();
         },
+        async saveTaskData() {
+            let formData = new FormData();
+            formData.append('title', this.editTaskData.task_title);
+            formData.append('categoryID', this.editTaskData.category_id);
+            formData.append('description', this.editTaskData.task_description);
+            formData.append('priority', this.editTaskData.priority);
+            formData.append('id', this.editTaskData.task_id);
+            formData.append('_method','PUT');
+            try
+            {
+                const response = await todoService.UpdateList(this.editTaskData.task_id,formData);
+                this.categories.map(categories => {
+
+                   /* categories.map(task => {
+                        console.log(task);
+                    })
+*/
+                    /*if (product.id == response.data.id) {
+                        for (let key in response.data) {
+                            product[key] = response.data[key];
+                        }
+                    }*/
+                });
+                this.hideEditTaskModal();
+                this.flashMessage.success({
+                    message: response.data.message,
+                    time: this.$getConst('TIME'),
+                    blockClass: 'custom-block-class'
+                });
+                this.taskData = [];
+
+            }catch (e) {
+                if (e.response.status) {
+                    this.errors = e.response.data.errors
+                } else {
+                    this.flashMessage.error({
+                        message: this.translate(e),
+                        time: this.$getConst('TIME'),
+                        blockClass: 'custom-block-class'
+                    });
+                }
+
+            }
+        }
 
     }
 }
