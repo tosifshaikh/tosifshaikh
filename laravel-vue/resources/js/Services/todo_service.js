@@ -10,3 +10,7 @@ export function addList(data){
 export function UpdateList(id,data){
     return httpFile().post(`/ToDoList/${id}`, data);
 }
+export function updateCategory(data){
+    return httpFile().post('/ToDoList/Category-Update/', data);
+}
+

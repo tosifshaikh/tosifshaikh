@@ -117,6 +117,7 @@ class ToDoListController extends Controller
     public function update(Request $request, $id)
     {
         //
+        dd($request);
         $request->validate([
             'title' => 'required',
             'categoryID' => 'required|int',

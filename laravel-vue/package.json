@@ -30,6 +30,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwa": "^1.4.1",
     "jws": "^3.2.2",
+    "moment": "^2.29.1",
     "polyfill": "^0.1.0",
     "stream": "^0.0.2",
     "vue-cryptojs": "^2.1.6",
