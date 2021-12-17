@@ -130,13 +130,13 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
 //
@@ -348,10 +348,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ToDoList",
-  components: _defineProperty({
+  components: {
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default()),
     TaskCard: _components_TodoComponents_TaskCard_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }, "draggable", (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default())),
+  },
   beforeDestroy: function beforeDestroy() {
     // prevent memory leak
     clearInterval(this.interval);
@@ -618,13 +618,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context4.prev = _context4.next) {
               case 0:
                 //console.log(data);
-                //  console.log(data.to.id,data.from.id,data.item.id,data.newIndex,data.oldIndex )
+                console.log(data); //  console.log(data.to.id,data.from.id,data.item.id,data.newIndex,data.oldIndex )
+
                 toTask = data.to;
                 fromTask = data.from;
                 task_id = data.item.id;
                 category_id = fromTask.id == toTask.id ? null : toTask.id;
                 order = data.newIndex == data.oldIndex ? false : data.newIndex;
-                console.log(data.to);
 
                 if (!(category_id !== null)) {
                   _context4.next = 16;
@@ -825,7 +825,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n.column-width[data-v-50038f7a] {\n    min-width: 320px;\n    width: 320px;\n}\n/* Unfortunately @apply cannot be setup in codesandbox,\nbut you'd use \"@apply border opacity-50 border-blue-500 bg-gray-200\" here */\n.ghost-card[data-v-50038f7a] {\n    opacity: 0.5;\n    background: #F7FAFC;\n    border: 1px solid #4299e1;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n.column-width[data-v-50038f7a] {\n    min-width: 320px;\n    width: 320px;\n}\n/* Unfortunately @apply cannot be setup in codesandbox,\nbut you'd use \"@apply border opacity-50 border-blue-500 bg-gray-200\" here */\n.ghost-card[data-v-50038f7a] {\n    opacity: 0.5;\n    background: #F7FAFC;\n    border: 1px solid #4299e1;\n}\n.cardClass[data-v-50038f7a]{\n    min-height: 300px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4978,10 +4978,19 @@ var render = function () {
                   _c(
                     "draggable",
                     {
+                      staticClass: "cardClass",
                       attrs: {
                         animation: 200,
                         "ghost-class": "ghost-card",
                         group: "tasks",
+                      },
+                      on: { end: _vm.changeOrder },
+                      model: {
+                        value: element.tasks,
+                        callback: function ($$v) {
+                          _vm.$set(element, "tasks", $$v)
+                        },
+                        expression: "element.tasks",
                       },
                     },
                     _vm._l(element.tasks, function (task) {

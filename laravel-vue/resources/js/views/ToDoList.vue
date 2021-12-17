@@ -37,7 +37,7 @@
                         >
                             <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{element.category_name}}</p>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
-                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks">
+                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" @end="changeOrder"  v-model="element.tasks" >
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
                                 <task-card
                                         v-for="(task) in element.tasks"
@@ -212,7 +212,6 @@ export default {
     components :{
         draggable,
         TaskCard,
-        draggable
     },
     beforeDestroy() {
         // prevent memory leak
@@ -375,13 +374,14 @@ export default {
         },
        async changeOrder(data) {
             //console.log(data);
+           console.log(data)
           //  console.log(data.to.id,data.from.id,data.item.id,data.newIndex,data.oldIndex )
             let toTask = data.to;
             let fromTask = data.from;
             let task_id = data.item.id;
             let category_id = fromTask.id == toTask.id ? null : toTask.id;
             let order = data.newIndex == data.oldIndex ? false : data.newIndex;
-           console.log(data.to)
+
             if (category_id !== null) {
                     try {
                         const response = await todoService.updateCategory({toTask:toTask,fromTask:fromTask,task_id:task_id,category_id:category_id,order:order});
@@ -463,5 +463,9 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
     opacity: 0.5;
     background: #F7FAFC;
     border: 1px solid #4299e1;
+
+}
+.cardClass{
+    min-height: 300px;
 }
 </style>
