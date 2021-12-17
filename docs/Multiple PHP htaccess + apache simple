@@ -1,0 +1,33 @@
+# Ref - https://www.cuehosting.com/blog/use-multiple-php-versions-with-apache-htaccess-on-ubuntu-18-04-16-04/
+
+#.htaccess Method
+-------------------------
+You can add the <FilesMatch> directive to your .htaccess file. Before you do, make sure that AllowOverride is enabled in Virtual Hosts, otherwise Apache will ignore .htaccess.
+
+Open the Apache config file.
+
+1. sudo gedit /etc/apache2/apache2.conf
+
+2. Scroll down the the following section and make sure that  AllowOverride  is set to All.
+directory path
+
+<Directory /var/www/html/56/>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+
+3. sudo systemctl restart apache2
+
+4. Now you can add the  <FilesMatch> directive to .htaccess
+open htaccess file from folder add below code
+
+<FilesMatch \.php$>
+    # Apache 2.4.10+ can proxy to unix socket
+    SetHandler "proxy:unix:/var/run/php/php5.6-fpm.sock|fcgi://localhost"
+</FilesMatch>
+
+
+now check the 
+
+
