@@ -76,6 +76,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -4840,20 +4852,10 @@ var render = function () {
       staticClass: "bg-white shadow rounded px-3 pt-3 pb-5 border border-white",
     },
     [
-      _c("div", { staticClass: "flex align-top float-right" }, [
-        _c("span", { staticClass: "text-sm text-gray-600" }, [
-          _vm._v(_vm._s(_vm.formatDate(_vm.task.updated_at))),
-        ]),
-      ]),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "card-title" },
         [
-          _vm.task.priority
-            ? _c("badge", { attrs: { color: _vm.badgeColor } })
-            : _vm._e(),
-          _vm._v(" "),
           _c(
             "p",
             {
@@ -4862,6 +4864,18 @@ var render = function () {
             },
             [_vm._v(_vm._s(_vm.task.title))]
           ),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown-divider" }),
+          _vm._v(" "),
+          _vm.task.priority
+            ? _c("badge", { attrs: { color: _vm.badgeColor } })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex align-top float-right" }, [
+            _c("span", { staticClass: "text-sm text-gray-600" }, [
+              _vm._v(_vm._s(_vm.formatDate(_vm.task.updated_at))),
+            ]),
+          ]),
         ],
         1
       ),
@@ -4888,6 +4902,24 @@ var staticRenderFns = [
             alt: "Avatar",
           },
         }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "context-menu-container",
+            attrs: { id: "context-menu-items" },
+          },
+          [
+            _c("ul", [
+              _c("li", [_vm._v("Menu Item 1")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Menu Item 2")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Menu Item 3")]),
+              _vm._v("\n                ...\n            "),
+            ]),
+          ]
+        ),
       ]
     )
   },
