@@ -37,14 +37,18 @@
                         >
                             <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{element.category_name}}</p>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
-                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" @end="changeOrder"  v-model="element.tasks" >
+
+                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"   :list="element.tasks"  :id="element.category_id">
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
+
                                 <task-card
                                         v-for="(task) in element.tasks"
                                         :key="task.task_id"
                                         :task="task"
                                         class="mt-3 cursor-move"
+                                        :id="task.task_id"
                                 ></task-card>
+
                                 <!-- </transition-group> -->
                             </draggable>
                         </div>
@@ -373,18 +377,42 @@ export default {
            // console.log(this.categories);
         },
        async changeOrder(data) {
-            //console.log(data);
-           console.log(data)
-          //  console.log(data.to.id,data.from.id,data.item.id,data.newIndex,data.oldIndex )
-            let toTask = data.to;
-            let fromTask = data.from;
-            let task_id = data.item.id;
-            let category_id = fromTask.id == toTask.id ? null : toTask.id;
-            let order = data.newIndex == data.oldIndex ? false : data.newIndex;
+           let fromCategory = data.from.id;
+           let toCategory = data.to.id;
+           let draggedElement = data.draggedContext.element;
+           let task_id = draggedElement.task_id;
 
-            if (category_id !== null) {
+            if (task_id !== null) {
                     try {
-                        const response = await todoService.updateCategory({toTask:toTask,fromTask:fromTask,task_id:task_id,category_id:category_id,order:order});
+                        const response = await todoService.updateCategory({id : task_id, toCategory : toCategory});
+                       //console.log(response);
+                        this.categories.map((category,index) => {
+
+                            console.log(category.category_id ,toCategory);
+                            if (category.category_id == fromCategory) {
+                              // console.log(category.tasks ,response.data.data, 'in');
+                                category.tasks.forEach((val,index) => {
+                                   // console.log(v,v.task_id ,response.data.data.id,v,'obj');
+                                    // console.log(v.task_id, response.data.data.id,'obj-->');
+                                     console.log(val,index,val.task_id,task_id,'obj-->',this.tasks);
+                                    if(val.task_id == task_id) {
+                                        delete index;
+                                       // console.log(v,v.task_id ,response.data.data.id,v,'obj');
+                                       // this.v = Object.assign({}, this.v, response.data.data)
+                                        //v.task_id = response.data.task_id
+                                    }
+                                });
+
+                            }
+
+                        });
+                        //console.log(this.categories);
+                        /*let category = this.categories[toCategory-1];
+                        for(let index in category) {
+                                console.log(category);
+                        }
+*/
+
                     }catch (e) {
                         console.log(e)
                     }
