@@ -116,26 +116,30 @@ class ToDoListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        dd($request);
-        $request->validate([
-            'title' => 'required',
-            'categoryID' => 'required|int',
-            'id' => 'required|int'
-        ]);
-       
-        $this->ToDoListTask =  $this->ToDoListTask->findOrFail($id);
-        $this->ToDoListTask->category_id = $request->categoryID;
-        $this->ToDoListTask->title = $request->title;
-        $this->ToDoListTask->Description = $request->description;
-        $this->ToDoListTask->priority = $request->priority;
-        $this->ToDoListTask->user_id = 1;
-        
-        if (!$this->ToDoListTask->update()) {
-            return  response()->json(['message' => __('message.Error Msg'),
-                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')], config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
+        if ($id == 'Category-Update') {
+            return $this->CategoryUpdate($request);
+        } else {
+            $request->validate([
+                'title' => 'required',
+                'categoryID' => 'required|int',
+                'id' => 'required|int'
+            ]);
+
+            $this->ToDoListTask =  $this->ToDoListTask->findOrFail($id);
+            $this->ToDoListTask->category_id = $request->categoryID;
+            $this->ToDoListTask->title = $request->title;
+            $this->ToDoListTask->Description = $request->description;
+            $this->ToDoListTask->priority = $request->priority;
+            $this->ToDoListTask->user_id = 1;
+
+            if (!$this->ToDoListTask->update()) {
+                return  response()->json(['message' => __('message.Error Msg'),
+                    'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')], config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
+            }
+            return response()->json(['data' => $this->ToDoListTask, 'message' => __('message.Task.Edit')], config('constant.STATUS.SUCCESS_CODE'));
         }
-        return response()->json(['data' => $this->ToDoListTask, 'message' => __('message.Task.Edit')], config('constant.STATUS.SUCCESS_CODE'));
+
+
     }
 
     /**
@@ -144,6 +148,17 @@ class ToDoListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function CategoryUpdate(Request $request)
+    {
+       $data = $this->ToDoListTask->find($request->id);
+        $data->category_id = $request->toCategory;
+        if (! $data->update()) {
+            return  response()->json(['message' => __('message.Error Msg'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE')], config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
+        }
+
+        return response()->json(['data' => $data->toArray(), 'message' => __('message.Task.Edit')], config('constant.STATUS.SUCCESS_CODE'));
+    }
     public function destroy($id)
     {
         //
