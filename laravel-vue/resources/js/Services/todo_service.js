@@ -5,5 +5,12 @@ export function getToDolist(){
     return http().get('/ToDoList');
 }
 export function addList(data){
-    return http().post('/ToDoList-ADD', data);
+    return http().post('/ToDoList', data);
 }
+export function UpdateList(id,data){
+    return httpFile().post(`/ToDoList/${id}`, data);
+}
+export function updateCategory(data){
+    return httpFile().post('/ToDoList/Category-Update/', data);
+}
+
