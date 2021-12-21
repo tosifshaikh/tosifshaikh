@@ -23,12 +23,13 @@ class ToDoListController extends Controller
     }
     public function prepareData($TaskCategory = [], $task = [])
     {
+        //dd($TaskCategory);
         foreach ($TaskCategory as $k => $value) {
              $TaskCategory[$k]['tasks'] = [];
             foreach ($task as $taskey => $taskValue) {
 
                 // echo $value['category_id'];
-               if ($value['category_id'] == $taskValue['category_id']) {
+               if ($value['id'] == $taskValue['category_id']) {
                     $task[$taskey]['order'] = 1;
                     $TaskCategory[$k]['tasks'][] = $task[$taskey];
 
@@ -40,10 +41,11 @@ class ToDoListController extends Controller
     }
     public function index()
     {
-        $TaskCategory = $this->ToDoListCategory->select('id as category_id','category as category_name')->get()->toArray();
+       // $TaskCategory = $this->ToDoListCategory->select('id as category_id','category as category_name')->get()->keyBy('category_id')->toArray();
+        $TaskCategory = $this->ToDoListCategory->select('id','category as category_name')->get()->toArray();
        // $taskList =  $this->toDoListTask->select('id as task_id','category_id','category as category_name')->get()->toArray();
-        $task = $this->ToDoListTask->select('id as task_id','category_id', 'priority','title as task_title',
-            'Description  as task_description','user_id as task_user_id','updated_at')->get()->toArray();
+        $task = $this->ToDoListTask->select('id','category_id', 'priority','title',
+            'Description','user_id','updated_at')->get()->toArray();
        $data = $this->prepareData($TaskCategory,$task);
       //  $TaskCategory->task=$task;
        /* $data = DB::table('todolist_category')->select("todolist_category.id as category_id",

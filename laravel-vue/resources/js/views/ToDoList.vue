@@ -32,21 +32,21 @@
                     <div class="min-h-screen flex overflow-x-scroll py-12">
                         <div
                                 v-for="element in categories"
-                                :key="element.category_id"
+                                :key="element.id"
                                 class="bg-gray-100 rounded-lg px-3 py-3 column-width rounded mr-4"
                         >
                             <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{element.category_name}}</p>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
 
-                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"   :list="element.tasks"  :id="element.category_id">
+                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"   :list="element.tasks"  :id="element.id">
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
 
                                 <task-card
                                         v-for="(task) in element.tasks"
-                                        :key="task.task_id"
+                                        :key="task.id"
                                         :task="task"
                                         class="mt-3 cursor-move"
-                                        :id="task.task_id"
+                                        :id="task.id"
                                 ></task-card>
 
                                 <!-- </transition-group> -->
@@ -80,7 +80,7 @@
 
                                     <div class="card-header bg-transparent border-grey column">
                                         <div class="float-left ">
-                                            <label>{{ task.task_title}}</label>
+                                            <label>{{ task.title}}</label>
                                         </div>
                                         <div class="float-right mt-0 align-top">
                                             <img alt="" width="100" class="img-fluid avatar fas fa-user-circle">
@@ -91,7 +91,7 @@
                                      <span :class="priority[task.priority].color">{{priority[task.priority].name}}</span>
 
 &lt;!&ndash;                                        <h5 class="card-title">Success card title</h5>&ndash;&gt;
-                                        <p class="card-text text-truncate">{{task.task_description}}</p>
+                                        <p class="card-text text-truncate">{{task.Description}}</p>
                                     </div>
                                     <div class="card-footer bg-transparent border-grey row-0">
                                         <div class="column "><small class="text-muted ">{{time}}   Last updated 3 mins ago</small></div>
@@ -162,7 +162,7 @@
                         <form v-on:submit.prevent="saveTaskData">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Task Title</label>
-                                <input type="text" class="form-control" id="title" placeholder="Enter Task Title" v-model="editTaskData.task_title">
+                                <input type="text" class="form-control" id="title" placeholder="Enter Task Title" v-model="editTaskData.title">
                                 <div class="invalid-feedback" v-if="errors.title">{{errors.title[0]}}</div>
                             </div>
                             <div class="mb-3">
@@ -171,7 +171,7 @@
                                         class="form-control"
                                         name="description"
                                         id="description"
-                                        v-model="editTaskData.task_description"
+                                        v-model="editTaskData.Description"
                                         :placeholder="[[translate('Enter Description')]]"
                                 > </textarea>
                             </div>
@@ -183,7 +183,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-8"> <label for="assignee" class="form-label">{{ translate('Assignee') }}</label>
-                                    <select class="form-control"  id="assignee" name="assignee" v-model="editTaskData.task_user_id">
+                                    <select class="form-control"  id="assignee" name="assignee" v-model="editTaskData.user_id">
                                         <option value="">Choose Assignee</option>
                                         <option value=0>UnAssign</option>
                                         <option value=1 >Tosif</option>
@@ -304,7 +304,7 @@ export default {
         showEditTaskModal() {
             this.$refs.EditTaskModal.show();
         },
-        async AddTask() {
+        /*async AddTask() {
             let formData = new FormData();
             this.taskData.category_id = 1;
             formData.append('title', this.taskData.title);
@@ -330,7 +330,7 @@ export default {
                 });
             }
            this.hideAddTaskModal();
-        },
+        },*/
         async getCategories() {
             try{
                 const response = await todoService.getToDolist();
@@ -350,7 +350,7 @@ export default {
            //
 
         },
-        async loadTasks() {
+      /*  async loadTasks() {
             try {
                 //const response = await todoService.getToDoTasks();
                // console.log(response);
@@ -370,49 +370,21 @@ export default {
                 if (tempTask.length) {
                     category.tasks =tempTask;
                 }
-                /*category.tasks = [
+                /!*category.tasks = [
                     {id : 1, category_id : 1, order :  1, taskName : 'Task 1'}
-                ];*/
+                ];*!/
             })
            // console.log(this.categories);
-        },
+        },*/
        async changeOrder(data) {
            let fromCategory = data.from.id;
            let toCategory = data.to.id;
            let draggedElement = data.draggedContext.element;
-           let task_id = draggedElement.task_id;
+           let task_id = draggedElement.id;
 
             if (task_id !== null) {
                     try {
                         const response = await todoService.updateCategory({id : task_id, toCategory : toCategory});
-                       //console.log(response);
-                        this.categories.map((category,index) => {
-
-                            console.log(category.category_id ,toCategory);
-                            if (category.category_id == fromCategory) {
-                              // console.log(category.tasks ,response.data.data, 'in');
-                                category.tasks.forEach((val,index) => {
-                                   // console.log(v,v.task_id ,response.data.data.id,v,'obj');
-                                    // console.log(v.task_id, response.data.data.id,'obj-->');
-                                     console.log(val,index,val.task_id,task_id,'obj-->',this.tasks);
-                                    if(val.task_id == task_id) {
-                                        delete index;
-                                       // console.log(v,v.task_id ,response.data.data.id,v,'obj');
-                                       // this.v = Object.assign({}, this.v, response.data.data)
-                                        //v.task_id = response.data.task_id
-                                    }
-                                });
-
-                            }
-
-                        });
-                        //console.log(this.categories);
-                        /*let category = this.categories[toCategory-1];
-                        for(let index in category) {
-                                console.log(category);
-                        }
-*/
-
                     }catch (e) {
                         console.log(e)
                     }
@@ -424,15 +396,15 @@ export default {
         },
         async saveTaskData() {
             let formData = new FormData();
-            formData.append('title', this.editTaskData.task_title);
+            formData.append('title', this.editTaskData.title);
             formData.append('categoryID', this.editTaskData.category_id);
-            formData.append('description', this.editTaskData.task_description);
+            formData.append('description', this.editTaskData.Description);
             formData.append('priority', this.editTaskData.priority);
-            formData.append('id', this.editTaskData.task_id);
+            formData.append('id', this.editTaskData.id);
             formData.append('_method','PUT');
             try
             {
-                const response = await todoService.UpdateList(this.editTaskData.task_id,formData);
+                const response = await todoService.UpdateList(this.editTaskData.id,formData);
                 this.categories.map(categories => {
 
                    /* categories.map(task => {
