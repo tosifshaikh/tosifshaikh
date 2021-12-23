@@ -9,31 +9,33 @@
             <badge v-if="task.priority" :color="badgeColor"></badge>
             <div class="flex align-top float-right">
             <!--            <button class="float-xl-right" ><span class="fas fa-trash-alt" ></span></button>-->
-            <span class="text-sm text-gray-600">{{formatDate(task.updated_at)}}</span>
+
+                <img
+                        class="w-6 h-6 rounded-full ml-3"
+                        src="https://pickaface.net/gallery/avatar/unr_sample_161118_2054_ynlrg.png"
+                        alt="Avatar"
+                >
         </div>
         </div>
 
         <div class="flex justify-content-lg-end">
 
-
-
-
-
         </div>
 
         <div class="flex mt-4 justify-between items-start-l">
-            <img
-                    class="w-6 h-6 rounded-full ml-3"
-                    src="https://pickaface.net/gallery/avatar/unr_sample_161118_2054_ynlrg.png"
-                    alt="Avatar"
-            >
-            <div class="context-menu-container" id="context-menu-items">
-                <ul>
-                    <li>Menu Item 1</li>
-                    <li>Menu Item 2</li>
-                    <li>Menu Item 3</li>
-                    ...
-                </ul>
+            <span class="text-sm text-gray-600">{{formatDate(task.updated_at)}}</span>
+        <Label v-if="task.type" :data="labelText"></Label>
+
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown float-right">
+            <button class="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Click">
+                <span class="fas fa-ellipsis-v text-gray-600"></span>
+            </button>
+            <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item text-muted text-sm" href="#" @click="showEditTaskModal">  <span class="fas fa-edit mr-2"></span>Edit</a>
+                <a class="dropdown-item text-muted text-sm" href="#" @click="hideEditTaskModal">  <span class="fas fa-trash-alt mr-2"></span>Delete</a>
+
             </div>
         </div>
 
@@ -41,15 +43,19 @@
 </template>
 <script>
 import Badge from "./Badge";
+import Label from "./Label";
 export default {
     components: {
-        Badge
+        Badge, Label
     },
     props: {
         task: {
             type: Object,
             default: () => ({})
-        }
+        },
+        showEditTaskModal :Function,
+        hideEditTaskModal : Function
+
     },
     computed: {
         badgeColor() {
@@ -67,6 +73,14 @@ export default {
                 default: "teal"
             };*/
             return mappings[this.task.priority] || mappings.default;
+        },
+        labelText() {
+            const type = {
+                1 : {color : 'red', name : 'Bug'},
+                2 : {color : 'green', name : 'Features'},
+
+            }
+            return type[this.task.type];
         }
     }
 };
