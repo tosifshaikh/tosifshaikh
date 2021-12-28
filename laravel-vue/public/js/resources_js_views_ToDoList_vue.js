@@ -141,9 +141,9 @@ __webpack_require__.r(__webpack_exports__);
       "default": function _default() {
         return {};
       }
-    },
-    showEditTaskModal: Function,
-    hideEditTaskModal: Function
+    } // showEditTaskModal :Function,
+    //  hideEditTaskModal : Function
+
   },
   computed: {
     badgeColor: function badgeColor() {
@@ -219,6 +219,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -690,7 +691,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editTask: function editTask(task) {
-      this.editTaskData = _objectSpread({}, task);
+      this.editTaskData = _objectSpread({}, task); // console.log(task);
+
       this.showEditTaskModal();
     },
     saveTaskData: function saveTaskData() {
@@ -716,11 +718,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 11:
                 response = _context4.sent;
+                console.log(response.data);
 
                 _this4.categories.map(function (categories) {
-                  if (product.id == response.data.id) {
-                    for (var key in response.data) {
-                      product[key] = response.data[key];
+                  if (product.id == response.data.data.id) {
+                    for (var key in response.data.data) {
+                      product[key] = response.data.data[key];
                     }
                   }
                 });
@@ -734,11 +737,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
                 _this4.editTaskData = _this4.EditData;
-                _context4.next = 21;
+                _context4.next = 22;
                 break;
 
-              case 18:
-                _context4.prev = 18;
+              case 19:
+                _context4.prev = 19;
                 _context4.t0 = _context4["catch"](8);
 
                 if (_context4.t0.response.status) {
@@ -751,12 +754,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
 
-              case 21:
+              case 22:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[8, 18]]);
+        }, _callee4, null, [[8, 19]]);
       }))();
     }
   }
@@ -5081,23 +5084,16 @@ var render = function () {
               {
                 staticClass: "dropdown-item text-muted text-sm",
                 attrs: { href: "#" },
-                on: { click: _vm.showEditTaskModal },
+                on: {
+                  click: function ($event) {
+                    return _vm.$emit("click-me", "editTask")
+                  },
+                },
               },
               [_c("span", { staticClass: "fas fa-edit mr-2" }), _vm._v("Edit")]
             ),
             _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item text-muted text-sm",
-                attrs: { href: "#" },
-                on: { click: _vm.hideEditTaskModal },
-              },
-              [
-                _c("span", { staticClass: "fas fa-trash-alt mr-2" }),
-                _vm._v("Delete"),
-              ]
-            ),
+            _vm._m(2),
           ]
         ),
       ]),
@@ -5136,6 +5132,16 @@ var staticRenderFns = [
         },
       },
       [_c("span", { staticClass: "fas fa-ellipsis-v text-gray-600" })]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "dropdown-item text-muted text-sm", attrs: { href: "#" } },
+      [_c("span", { staticClass: "fas fa-trash-alt mr-2" }), _vm._v("Delete")]
     )
   },
 ]
@@ -5244,6 +5250,11 @@ var render = function () {
                           key: task.id,
                           staticClass: "mt-3 cursor-move",
                           attrs: { task: task, id: task.id },
+                          on: {
+                            "click-me": function ($event) {
+                              return _vm.editTask(task)
+                            },
+                          },
                         })
                       }),
                       1
@@ -5762,7 +5773,7 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "mb-3" }, [
+                _c("div", { staticClass: "row mb-3" }, [
                   _c("div", { staticClass: "col-md-8" }, [
                     _c(
                       "label",

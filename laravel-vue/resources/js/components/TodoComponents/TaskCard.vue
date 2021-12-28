@@ -33,8 +33,8 @@
                 <span class="fas fa-ellipsis-v text-gray-600"></span>
             </button>
             <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item text-muted text-sm" href="#" @click="showEditTaskModal">  <span class="fas fa-edit mr-2"></span>Edit</a>
-                <a class="dropdown-item text-muted text-sm" href="#" @click="hideEditTaskModal">  <span class="fas fa-trash-alt mr-2"></span>Delete</a>
+                <a class="dropdown-item text-muted text-sm" href="#"  @click="$emit('click-me','editTask')">  <span class="fas fa-edit mr-2"></span>Edit</a>
+                <a class="dropdown-item text-muted text-sm" href="#">  <span class="fas fa-trash-alt mr-2"></span>Delete</a>
 
             </div>
         </div>
@@ -53,8 +53,8 @@ export default {
             type: Object,
             default: () => ({})
         },
-        showEditTaskModal :Function,
-        hideEditTaskModal : Function
+       // showEditTaskModal :Function,
+      //  hideEditTaskModal : Function
 
     },
     computed: {
