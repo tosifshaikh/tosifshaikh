@@ -35,7 +35,9 @@
                                 :key="element.id"
                                 class="bg-gray-100 rounded-lg px-3 py-3 column-width rounded mr-4"
                         >
-                            <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{element.category_name}}</p>
+                            <div>
+                                <p class="text-gray-700 font-semibold font-sans tracking-wide text-center"><span class="text-sm">{{element.category_name}}</span> <button class="btn btn-primary btn-sm ml-2" v-if="element.id == 1" @click="showAddTaskModal" title="Add Task"><span class="fa fa-plus" ></span></button></p>
+                            </div>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
 
                             <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"   :list="element.tasks"  :id="element.id">
@@ -106,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-
+-->
                 <b-modal ref="TaskModal" hide-footer title="Add Task">
                     <div class="d-block">
                         <form v-on:submit.prevent="AddTask">
@@ -130,21 +132,28 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-4"> <label for="priority" class="form-label">{{ translate('Enter Priority') }}</label>
+                                <div class="col-md-6"> <label for="priority" class="form-label">{{ translate('Choose Priority') }}</label>
                                     <select class="form-control"  id="priority" name="priority" v-model="taskData.priority">
                                         <option value="">Choose Priority</option>
                                         <option v-for="(priority,index) in priority" :value="index" :key="index">{{ priority.name }}</option>
                                     </select>
                                 </div>
+                                <div class="col-md-4"> <label for="Type" class="form-label">{{ translate('Choose Type') }}</label>
+                                    <select class="form-control"  id="Type" name="Type" v-model="taskData.type">
+                                        <option v-for="(taskType,index) in taskType" v-bind:value="taskType.value" :key="index" >{{ taskType.name }}</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
                                 <div class="col-md-8"> <label for="assignee" class="form-label">{{ translate('Assignee') }}</label>
                                     <select class="form-control"  id="assignee" name="assignee" v-model="taskData.user_id">
                                         <option value="">Choose Assignee</option>
-                                        <option value=0>UnAssign</option>
+                                        <option value=0>Unassign</option>
                                         <option value=1 >Tosif</option>
                                     </select>
                                 </div>
                             </div>
-
 
                             <hr>
                             <div class="text-right">
@@ -176,12 +185,19 @@
                                 > </textarea>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-4"> <label for="priority" class="form-label">{{ translate('Enter Priority') }}</label>
+                                <div class="col-md-6"> <label for="priority" class="form-label">{{ translate('Choose Priority') }}</label>
                                     <select class="form-control"  id="priority" name="priority" v-model="editTaskData.priority">
                                         <option value="">Choose Priority</option>
                                         <option v-for="(priority,index) in priority" :value="index" :key="index">{{ priority.name }}</option>
                                     </select>
                                 </div>
+                                <div class="col-md-4"> <label for="Type" class="form-label">{{ translate('Choose Type') }}</label>
+                                    <select class="form-control"  id="Type" name="Type" v-model="editTaskData.type">
+                                        <option v-for="(taskType,index) in taskType" v-bind:value="taskType.value" :key="index" >{{ taskType.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <div class="col-md-8"> <label for="assignee" class="form-label">{{ translate('Assignee') }}</label>
                                     <select class="form-control"  id="assignee" name="assignee" v-model="editTaskData.user_id">
                                         <option value="">Choose Assignee</option>
@@ -200,8 +216,8 @@
                     </div>
 
                 </b-modal>
-            </div>-->
-        </div>
+            </div>
+
 
 
 </template>
@@ -250,48 +266,47 @@ export default {
     data() {
         return {
             time : '',
-            taskData : {
-                title : '',
-                description : '',
-                priority : '',
-                category_id : 1,
-                user_id : 1
-            },
-            editTaskData : {
-                title : '',
-                description : '',
-                priority : '',
-                category_id : '',
-                user_id : ''
-            },
+            taskData :  this.resetData,
+            editTaskData : this.EditData,
             errors : {},
-            categoryList : [
-                { id : 1, category : 'Backlog'},
-                { id : 2, category : 'To Do'},
-                { id : 3, category : 'In Progress'},
-                { id : 4, category : 'Done'},
-            ],
-            tasks : [
-                { id : 1, category_id : 1,order : 0, taskName : 'Task 1', title : 'Task 1', priority : 1},
-                { id : 2, category_id : 1, order :1,taskName : 'Task 2', title : 'Task 2', priority : 2},
-                { id : 3, category_id : 2, order: 2,taskName : 'Task 3', title : 'Task 3', priority : 1},
-                { id : 4, category_id : 3, order :3, taskName : 'Task 4', title : 'Task 4', priority : 3},
-            ],
             categories : [],
             priority : {
                 1 : {color : 'badge badge-danger', name : 'High'},
                 2 : {color : 'badge badge-warning', name: 'Medium'},
                 3 : {color : 'badge badge-primary', name : 'Low'}
             },
+            taskType : [
+                    { value : 1 , name : 'Bug'},
+                    { value : 2 , name : 'Features'}
+            ]
 
         }
     },
     mounted() {
-       // this.categories = this.categoryList;
         this.getCategories();
-       // this.loadTasks();
     },
     methods : {
+        resetData : function() {
+                      return {
+                          title: '',
+                          description: '',
+                          priority: '',
+                          category_id: 1,
+                          user_id: 1,
+                          type: 1
+                      }
+        },
+        EditData : function() {
+            return  {
+                title : '',
+                description : '',
+                priority : '',
+                category_id : '',
+                user_id : '',
+                type : ''
+            }
+
+        },
         hideAddTaskModal() {
             this.$refs.TaskModal.hide();
         },
@@ -304,24 +319,30 @@ export default {
         showEditTaskModal() {
             this.$refs.EditTaskModal.show();
         },
-        /*async AddTask() {
+        async AddTask() {
             let formData = new FormData();
             this.taskData.category_id = 1;
             formData.append('title', this.taskData.title);
             formData.append('categoryID', this.taskData.category_id);
             formData.append('description', this.taskData.description);
             formData.append('priority', this.taskData.priority);
+            formData.append('type', this.taskData.type);
             formData.append('_method','POST');
             try
             {
                 const response = await todoService.addList(formData);
+                this.categories.map(category => {
+                   if(category.id == response.data.data.category_id) {
+                       return category.tasks.push(response.data.data);
+                   }
+                });
+
                 this.flashMessage.success({
                     message: response.data.message,
                     time: this.$getConst('TIME'),
                     blockClass: 'custom-block-class'
                 });
-                this.taskData = [];
-
+                this.taskData = this.resetData;
             }catch (e) {
                 this.flashMessage.error({
                     message: this.translate(e),
@@ -330,14 +351,11 @@ export default {
                 });
             }
            this.hideAddTaskModal();
-        },*/
+        },
         async getCategories() {
             try{
                 const response = await todoService.getToDolist();
                 this.categories = response.data;
-                console.log(this.categories);
-                //this.categories.tasks= [];
-               // this.loadTasks();
             }
             catch (e) {
                 this.flashMessage.error({
@@ -346,36 +364,7 @@ export default {
                     blockClass: 'custom-block-class'
                 });
             }
-
-           //
-
         },
-      /*  async loadTasks() {
-            try {
-                //const response = await todoService.getToDoTasks();
-               // console.log(response);
-            }
-            catch (e) {
-
-            }
-            this.categories.map(category => {
-               // console.log(category)
-                let tempTask = [];
-                for(let index in this.tasks) {
-                    if (this.tasks[index].category_id == category.id) {
-                        tempTask.push(this.tasks[index]);
-                        //category.tasks.push(this.tasks[index])
-                    }
-                }
-                if (tempTask.length) {
-                    category.tasks =tempTask;
-                }
-                /!*category.tasks = [
-                    {id : 1, category_id : 1, order :  1, taskName : 'Task 1'}
-                ];*!/
-            })
-           // console.log(this.categories);
-        },*/
        async changeOrder(data) {
            let fromCategory = data.from.id;
            let toCategory = data.to.id;
@@ -400,22 +389,18 @@ export default {
             formData.append('categoryID', this.editTaskData.category_id);
             formData.append('description', this.editTaskData.Description);
             formData.append('priority', this.editTaskData.priority);
+            formData.append('type', this.editTaskData.type);
             formData.append('id', this.editTaskData.id);
             formData.append('_method','PUT');
             try
             {
                 const response = await todoService.UpdateList(this.editTaskData.id,formData);
                 this.categories.map(categories => {
-
-                   /* categories.map(task => {
-                        console.log(task);
-                    })
-*/
-                    /*if (product.id == response.data.id) {
+                    if (product.id == response.data.id) {
                         for (let key in response.data) {
                             product[key] = response.data[key];
                         }
-                    }*/
+                    }
                 });
                 this.hideEditTaskModal();
                 this.flashMessage.success({
@@ -423,7 +408,7 @@ export default {
                     time: this.$getConst('TIME'),
                     blockClass: 'custom-block-class'
                 });
-                this.taskData = [];
+                this.editTaskData = this.EditData;
 
             }catch (e) {
                 if (e.response.status) {
