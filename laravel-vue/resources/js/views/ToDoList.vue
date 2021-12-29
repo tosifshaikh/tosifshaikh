@@ -49,6 +49,7 @@
                                         :task="task"
                                         class="mt-3 cursor-move"
                                         :id="task.id"
+                                        @click-me="editTask(task)"
                                 ></task-card>
 
                                 <!-- </transition-group> -->
@@ -197,7 +198,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            <div class="row mb-3">
                                 <div class="col-md-8"> <label for="assignee" class="form-label">{{ translate('Assignee') }}</label>
                                     <select class="form-control"  id="assignee" name="assignee" v-model="editTaskData.user_id">
                                         <option value="">Choose Assignee</option>
@@ -381,6 +382,7 @@ export default {
         },
         editTask(task) {
          this.editTaskData = {...task};
+        // console.log(task);
             this.showEditTaskModal();
         },
         async saveTaskData() {
@@ -394,11 +396,11 @@ export default {
             formData.append('_method','PUT');
             try
             {
-                const response = await todoService.UpdateList(this.editTaskData.id,formData);
+                const response = await todoService.UpdateList(this.editTaskData.id,formData); console.log(response.data)
                 this.categories.map(categories => {
-                    if (product.id == response.data.id) {
-                        for (let key in response.data) {
-                            product[key] = response.data[key];
+                    if (product.id == response.data.data.id) {
+                        for (let key in response.data.data) {
+                            product[key] = response.data.data[key];
                         }
                     }
                 });
