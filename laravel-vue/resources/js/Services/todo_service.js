@@ -13,4 +13,7 @@ export function UpdateList(id,data){
 export function updateCategory(data){
     return http().patch('/ToDoList/Category-Update/', data);
 }
+export function deleteTask(id){
+    return http().delete(`/ToDoList/${id}`);
+}
 

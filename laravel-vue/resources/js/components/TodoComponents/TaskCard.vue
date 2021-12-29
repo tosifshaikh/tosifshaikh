@@ -34,7 +34,7 @@
             </button>
             <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item text-muted text-sm" href="#"  @click="$emit('click-me','editTask')">  <span class="fas fa-edit mr-2"></span>Edit</a>
-                <a class="dropdown-item text-muted text-sm" href="#">  <span class="fas fa-trash-alt mr-2"></span>Delete</a>
+                <a class="dropdown-item text-muted text-sm" href="#" @click="$emit('delete-me', 'deleteTask')">  <span class="fas fa-trash-alt mr-2"></span>Delete</a>
 
             </div>
         </div>

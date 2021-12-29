@@ -31,7 +31,7 @@
                 <div class="">
                     <div class="min-h-screen flex overflow-x-scroll py-12">
                         <div
-                                v-for="element in categories"
+                                v-for="(element,ind) in categories"
                                 :key="element.id"
                                 class="bg-gray-100 rounded-lg px-3 py-3 column-width rounded mr-4"
                         >
@@ -40,7 +40,7 @@
                             </div>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
 
-                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"   :list="element.tasks"  :id="element.id">
+                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"  :key="ind" :list="element.tasks"  :id="element.id">
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
 
                                 <task-card
@@ -50,6 +50,7 @@
                                         class="mt-3 cursor-move"
                                         :id="task.id"
                                         @click-me="editTask(task)"
+                                        @delete-me="deleteTask(task.id)"
                                 ></task-card>
 
                                 <!-- </transition-group> -->
@@ -225,8 +226,6 @@
 <script>
 import draggable from 'vuedraggable';
 import * as todoService from '../Services/todo_service';
-import * as ProductService from "../Services/product_service";
-import {getToDolist} from "../Services/todo_service";
 import TaskCard from "../components/TodoComponents/TaskCard.vue";
 export default {
     name: "ToDoList",
@@ -286,7 +285,8 @@ export default {
     mounted() {
         this.getCategories();
     },
-    methods : {
+
+        methods : {
         resetData : function() {
                       return {
                           title: '',
@@ -375,6 +375,23 @@ export default {
             if (task_id !== null) {
                     try {
                         const response = await todoService.updateCategory({id : task_id, toCategory : toCategory});
+                        this.categories.map(categories => {
+
+                            if(categories.id == toCategory) {
+                                console.log( categories.tasks,categories.tasks['0'],'task')
+                                for(let c in categories.tasks) {
+                                    console.log( categories.tasks[0],'task_id',task_id)
+                                }
+                               // categories.tasks.forEach((element, index)=>{
+
+                                    /*if (element.id == task_id) {
+
+                                        categories.tasks[index].category_id = toCategory;
+                                    }*/
+                              //  })
+                            }
+                        });
+                        console.log(this.categories,'changeOrder');
                     }catch (e) {
                         console.log(e)
                     }
@@ -382,8 +399,8 @@ export default {
         },
         editTask(task) {
          this.editTaskData = {...task};
-        // console.log(task);
-            this.showEditTaskModal();
+            console.log(task,'editTask');
+         this.showEditTaskModal();
         },
         async saveTaskData() {
             let formData = new FormData();
@@ -396,12 +413,15 @@ export default {
             formData.append('_method','PUT');
             try
             {
-                const response = await todoService.UpdateList(this.editTaskData.id,formData); console.log(response.data)
+                const response = await todoService.UpdateList(this.editTaskData.id,formData);
+
                 this.categories.map(categories => {
-                    if (product.id == response.data.data.id) {
-                        for (let key in response.data.data) {
-                            product[key] = response.data.data[key];
-                        }
+                   if (categories.id == response.data.data.category_id) {
+                       categories.tasks.forEach((element, index)=>{
+                           if (element.id == response.data.data.id) {
+                               categories.tasks[index] = response.data.data;
+                           }
+                       });
                     }
                 });
                 this.hideEditTaskModal();
@@ -424,6 +444,42 @@ export default {
                 }
 
             }
+        },
+        deleteTask(id) {
+            const flash = this.flashMessage;
+           this.$swal({
+                title: 'Are you sure?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes Delete it!',
+                cancelButtonText: 'No, Keep it!',
+                showLoaderOnConfirm: true
+            }).then((result) => {
+                if(result.value) {
+                    try
+                    {
+                        const response = todoService.deleteTask(id);
+                        flash.success({
+                            message: response.data.message,
+                            time: this.$getConst('TIME'),
+                            blockClass: 'custom-block-class'
+                        });
+                        this.categories.map(categories => {
+                            if (categories.id == response.data.data.category_id) {
+                                categories.tasks.forEach((element, index)=>{
+                                    if (element.id == response.data.data.id) {
+                                        console.log(categories.tasks[index])
+                                        delete categories.tasks[index];
+                                    }
+                                });
+                            }
+                        });
+                    }catch (e) {
+
+                    }
+
+                }
+            });
         }
 
     }

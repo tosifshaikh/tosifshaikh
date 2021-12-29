@@ -176,5 +176,12 @@ class ToDoListController extends Controller
 
     public function destroy($id)
     {
+        $data = $this->ToDoListTask->find($id);
+        if (!$data->delete()) {
+            return response()->json(['message' => __('message.Error Msg'),
+                'status_code' => config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'), ], config('constant.STATUS.INTERNAL_SERVER_ERROR_CODE'));
+        }
+
+        return response()->json(['data' => $data->toArray(), 'message' => __('message.Task.Delete')], config('constant.STATUS.SUCCESS_CODE'));
     }
 }

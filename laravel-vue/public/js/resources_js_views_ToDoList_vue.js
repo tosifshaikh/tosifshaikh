@@ -205,11 +205,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/todo_service */ "./resources/js/Services/todo_service.js");
-/* harmony import */ var _Services_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Services/product_service */ "./resources/js/Services/product_service.js");
-/* harmony import */ var _components_TodoComponents_TaskCard_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/TodoComponents/TaskCard.vue */ "./resources/js/components/TodoComponents/TaskCard.vue");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+/* harmony import */ var _components_TodoComponents_TaskCard_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/TodoComponents/TaskCard.vue */ "./resources/js/components/TodoComponents/TaskCard.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -443,8 +442,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-
-
+//
 
 
 
@@ -452,7 +450,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "ToDoList",
   components: {
     draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_1___default()),
-    TaskCard: _components_TodoComponents_TaskCard_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    TaskCard: _components_TodoComponents_TaskCard_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   beforeDestroy: function beforeDestroy() {
     // prevent memory leak
@@ -649,6 +647,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     changeOrder: function changeOrder(data) {
+      var _this4 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var fromCategory, toCategory, draggedElement, task_id, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
@@ -661,7 +661,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 task_id = draggedElement.id;
 
                 if (!(task_id !== null)) {
-                  _context3.next = 14;
+                  _context3.next = 16;
                   break;
                 }
 
@@ -674,29 +674,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 8:
                 response = _context3.sent;
-                _context3.next = 14;
+
+                _this4.categories.map(function (categories) {
+                  if (categories.id == toCategory) {
+                    console.log(categories.tasks, categories.tasks['0'], 'task');
+
+                    for (var c in categories.tasks) {
+                      console.log(categories.tasks[0], 'task_id', task_id);
+                    } // categories.tasks.forEach((element, index)=>{
+
+                    /*if (element.id == task_id) {
+                         categories.tasks[index].category_id = toCategory;
+                    }*/
+                    //  })
+
+                  }
+                });
+
+                console.log(_this4.categories, 'changeOrder');
+                _context3.next = 16;
                 break;
 
-              case 11:
-                _context3.prev = 11;
+              case 13:
+                _context3.prev = 13;
                 _context3.t0 = _context3["catch"](5);
                 console.log(_context3.t0);
 
-              case 14:
+              case 16:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[5, 11]]);
+        }, _callee3, null, [[5, 13]]);
       }))();
     },
     editTask: function editTask(task) {
-      this.editTaskData = _objectSpread({}, task); // console.log(task);
-
+      this.editTaskData = _objectSpread({}, task);
+      console.log(task, 'editTask');
       this.showEditTaskModal();
     },
     saveTaskData: function saveTaskData() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         var formData, response;
@@ -705,104 +723,101 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 formData = new FormData();
-                formData.append('title', _this4.editTaskData.title);
-                formData.append('categoryID', _this4.editTaskData.category_id);
-                formData.append('description', _this4.editTaskData.Description);
-                formData.append('priority', _this4.editTaskData.priority);
-                formData.append('type', _this4.editTaskData.type);
-                formData.append('id', _this4.editTaskData.id);
+                formData.append('title', _this5.editTaskData.title);
+                formData.append('categoryID', _this5.editTaskData.category_id);
+                formData.append('description', _this5.editTaskData.Description);
+                formData.append('priority', _this5.editTaskData.priority);
+                formData.append('type', _this5.editTaskData.type);
+                formData.append('id', _this5.editTaskData.id);
                 formData.append('_method', 'PUT');
                 _context4.prev = 8;
                 _context4.next = 11;
-                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.UpdateList(_this4.editTaskData.id, formData);
+                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.UpdateList(_this5.editTaskData.id, formData);
 
               case 11:
                 response = _context4.sent;
-                console.log(response.data);
 
-                _this4.categories.map(function (categories) {
-                  if (product.id == response.data.data.id) {
-                    for (var key in response.data.data) {
-                      product[key] = response.data.data[key];
-                    }
+                _this5.categories.map(function (categories) {
+                  if (categories.id == response.data.data.category_id) {
+                    categories.tasks.forEach(function (element, index) {
+                      if (element.id == response.data.data.id) {
+                        categories.tasks[index] = response.data.data;
+                      }
+                    });
                   }
                 });
 
-                _this4.hideEditTaskModal();
+                _this5.hideEditTaskModal();
 
-                _this4.flashMessage.success({
+                _this5.flashMessage.success({
                   message: response.data.message,
-                  time: _this4.$getConst('TIME'),
+                  time: _this5.$getConst('TIME'),
                   blockClass: 'custom-block-class'
                 });
 
-                _this4.editTaskData = _this4.EditData;
-                _context4.next = 22;
+                _this5.editTaskData = _this5.EditData;
+                _context4.next = 21;
                 break;
 
-              case 19:
-                _context4.prev = 19;
+              case 18:
+                _context4.prev = 18;
                 _context4.t0 = _context4["catch"](8);
 
                 if (_context4.t0.response.status) {
-                  _this4.errors = _context4.t0.response.data.errors;
+                  _this5.errors = _context4.t0.response.data.errors;
                 } else {
-                  _this4.flashMessage.error({
-                    message: _this4.translate(_context4.t0),
-                    time: _this4.$getConst('TIME'),
+                  _this5.flashMessage.error({
+                    message: _this5.translate(_context4.t0),
+                    time: _this5.$getConst('TIME'),
                     blockClass: 'custom-block-class'
                   });
                 }
 
-              case 22:
+              case 21:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[8, 19]]);
+        }, _callee4, null, [[8, 18]]);
       }))();
+    },
+    deleteTask: function deleteTask(id) {
+      var _this6 = this;
+
+      var flash = this.flashMessage;
+      this.$swal({
+        title: 'Are you sure?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes Delete it!',
+        cancelButtonText: 'No, Keep it!',
+        showLoaderOnConfirm: true
+      }).then(function (result) {
+        if (result.value) {
+          try {
+            var response = _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.deleteTask(id);
+            flash.success({
+              message: response.data.message,
+              time: _this6.$getConst('TIME'),
+              blockClass: 'custom-block-class'
+            });
+
+            _this6.categories.map(function (categories) {
+              if (categories.id == response.data.data.category_id) {
+                categories.tasks.forEach(function (element, index) {
+                  if (element.id == response.data.data.id) {
+                    console.log(categories.tasks[index]);
+                    delete categories.tasks[index];
+                  }
+                });
+              }
+            });
+          } catch (e) {}
+        }
+      });
     }
   }
 });
-
-/***/ }),
-
-/***/ "./resources/js/Services/product_service.js":
-/*!**************************************************!*\
-  !*** ./resources/js/Services/product_service.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createProduct": () => (/* binding */ createProduct),
-/* harmony export */   "getCategories": () => (/* binding */ getCategories),
-/* harmony export */   "loadProducts": () => (/* binding */ loadProducts),
-/* harmony export */   "deleteProduct": () => (/* binding */ deleteProduct),
-/* harmony export */   "updateProduct": () => (/* binding */ updateProduct),
-/* harmony export */   "loadMore": () => (/* binding */ loadMore)
-/* harmony export */ });
-/* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
-
-function createProduct(data) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post('/products', data);
-}
-function getCategories() {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/get_categories');
-}
-function loadProducts() {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get('/products');
-}
-function deleteProduct(id) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)()["delete"]("/products/".concat(id));
-}
-function updateProduct(id, data) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.httpFile)().post("/products/".concat(id), data);
-}
-function loadMore(nextpage) {
-  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get("/products?page=".concat(nextpage));
-}
 
 /***/ }),
 
@@ -818,7 +833,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getToDolist": () => (/* binding */ getToDolist),
 /* harmony export */   "addList": () => (/* binding */ addList),
 /* harmony export */   "UpdateList": () => (/* binding */ UpdateList),
-/* harmony export */   "updateCategory": () => (/* binding */ updateCategory)
+/* harmony export */   "updateCategory": () => (/* binding */ updateCategory),
+/* harmony export */   "deleteTask": () => (/* binding */ deleteTask)
 /* harmony export */ });
 /* harmony import */ var _http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http_service */ "./resources/js/Services/http_service.js");
 
@@ -834,13 +850,16 @@ function UpdateList(id, data) {
 function updateCategory(data) {
   return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().patch('/ToDoList/Category-Update/', data);
 }
+function deleteTask(id) {
+  return (0,_http_service__WEBPACK_IMPORTED_MODULE_0__.http)()["delete"]("/ToDoList/".concat(id));
+}
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -848,11 +867,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
 // Imports
 
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.kanban-column[data-v-50038f7a] {\n    min-height: 300px;\n}\n.avatar[data-v-50038f7a] {\n    vertical-align: middle;\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n}\n.column-width[data-v-50038f7a] {\n    min-width: 320px;\n    width: 320px;\n}\n/* Unfortunately @apply cannot be setup in codesandbox,\nbut you'd use \"@apply border opacity-50 border-blue-500 bg-gray-200\" here */\n.ghost-card[data-v-50038f7a] {\n    opacity: 0.5;\n    background: #F7FAFC;\n    border: 1px solid #4299e1;\n}\n.cardClass[data-v-50038f7a]{\n    min-height: 300px;\n}\n", ""]);
 // Exports
@@ -4578,10 +4597,10 @@ Sortable.mount(Remove, Revert);
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4591,7 +4610,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&");
 
             
 
@@ -4600,11 +4619,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -4838,7 +4857,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ToDoList_vue_vue_type_style_index_0_id_50038f7a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/ToDoList.vue?vue&type=style&index=0&id=50038f7a&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -5093,7 +5112,22 @@ var render = function () {
               [_c("span", { staticClass: "fas fa-edit mr-2" }), _vm._v("Edit")]
             ),
             _vm._v(" "),
-            _vm._m(2),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item text-muted text-sm",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.$emit("delete-me", "deleteTask")
+                  },
+                },
+              },
+              [
+                _c("span", { staticClass: "fas fa-trash-alt mr-2" }),
+                _vm._v("Delete"),
+              ]
+            ),
           ]
         ),
       ]),
@@ -5132,16 +5166,6 @@ var staticRenderFns = [
         },
       },
       [_c("span", { staticClass: "fas fa-ellipsis-v text-gray-600" })]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "dropdown-item text-muted text-sm", attrs: { href: "#" } },
-      [_c("span", { staticClass: "fas fa-trash-alt mr-2" }), _vm._v("Delete")]
     )
   },
 ]
@@ -5196,7 +5220,7 @@ var render = function () {
             _c(
               "div",
               { staticClass: "min-h-screen flex overflow-x-scroll py-12" },
-              _vm._l(_vm.categories, function (element) {
+              _vm._l(_vm.categories, function (element, ind) {
                 return _c(
                   "div",
                   {
@@ -5235,6 +5259,7 @@ var render = function () {
                     _c(
                       "draggable",
                       {
+                        key: ind,
                         staticClass: "cardClass",
                         attrs: {
                           animation: 200,
@@ -5253,6 +5278,9 @@ var render = function () {
                           on: {
                             "click-me": function ($event) {
                               return _vm.editTask(task)
+                            },
+                            "delete-me": function ($event) {
+                              return _vm.deleteTask(task.id)
                             },
                           },
                         })
