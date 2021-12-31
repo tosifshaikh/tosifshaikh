@@ -23,30 +23,25 @@ class ToDoListController extends Controller
         $this->ToDoListTask = $toDoListTask;
     }
 
-    public function prepareData($TaskCategory = [], $task = [])
+    public function prepareData($task = [])
     {
-        //dd($TaskCategory);
-        foreach ($TaskCategory as $k => $value) {
-            $TaskCategory[$k]['tasks'] = [];
+        $taskArr = [];
             foreach ($task as $taskey => $taskValue) {
-                // echo $value['category_id'];
-                if ($value['id'] == $taskValue['category_id']) {
-                    $task[$taskey]['order'] = 1;
-                    $task[$taskey]['type'] = 1;
-                    $TaskCategory[$k]['tasks'][] = $task[$taskey];
-                }
+                $task[$taskey]['order'] = 1;
+                $task[$taskey]['type'] = 1;
+                    $taskArr[$taskValue['category_id']][$taskValue['id']]=$taskValue;
             }
-        }
 
-        return $TaskCategory;
+        return $taskArr;
     }
 
     public function index()
     {
-        // $TaskCategory = $this->ToDoListCategory->select('id as category_id','category as category_name')->get()->keyBy('category_id')->toArray();
-        $TaskCategory = $this->ToDoListCategory->select('id', 'category as category_name')->get()->toArray();
+         $TaskCategory = $this->ToDoListCategory->select('id','category as category_name')->get()->keyBy('id')->toArray();
+
+//         $TaskCategory = $this->ToDoListCategory->select('id', 'category as category_name')->get()->toArray();
         // $taskList =  $this->toDoListTask->select('id as task_id','category_id','category as category_name')->get()->toArray();
-        $task = $this->ToDoListTask->select(
+        $tasks = $this->ToDoListTask->select(
             'id',
             'category_id',
             'priority',
@@ -55,7 +50,7 @@ class ToDoListController extends Controller
             'user_id',
             'updated_at'
         )->get()->toArray();
-        $data = $this->prepareData($TaskCategory, $task);
+        $tasks = $this->prepareData($tasks);
         //  $TaskCategory->task=$task;
         /* $data = DB::table('todolist_category')->select("todolist_category.id as category_id",
              "todolist_category.category as category_name",
@@ -63,7 +58,7 @@ class ToDoListController extends Controller
              "tasks.Description as task_description",
              "tasks.priority as task_priority",
              "tasks.user_id as task_user_id")->leftJoin("tasks", "tasks.category_id", "=", "todolist_category.id")->get();*/
-        return response()->json($data, config('constant.STATUS.SUCCESS_CODE'));
+        return response()->json(['Categories' => $TaskCategory, 'Tasks' => $tasks], config('constant.STATUS.SUCCESS_CODE'));
     }
 
     /**

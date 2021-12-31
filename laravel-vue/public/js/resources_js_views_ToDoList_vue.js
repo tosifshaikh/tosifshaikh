@@ -212,6 +212,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -488,7 +490,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       taskData: this.resetData,
       editTaskData: this.EditData,
       errors: {},
-      categories: [],
+      categories: {},
+      Tasks: {},
       priority: {
         1: {
           color: 'badge badge-danger',
@@ -572,11 +575,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 11:
                 response = _context.sent;
 
-                _this2.categories.map(function (category) {
-                  if (category.id == response.data.data.category_id) {
-                    return category.tasks.push(response.data.data);
-                  }
-                });
+                if (!_this2.Tasks[response.data.data.category_id]) {
+                  _this2.Tasks[response.data.data.category_id] = {};
+                } //  this.Tasks[response.data.data.category_id].
+
+
+                _this2.$set(_this2.Tasks, response.data.data.category_id, response.data.data); //  this.Tasks[this.taskData.category_id][response.data.data.id]=response.data.data;
+
+                /* this.categories.map(category => {
+                    if(category.id == response.data.data.category_id) {
+                        return category.tasks.push(response.data.data);
+                    }
+                 });*/
+
+
+                console.log(_this2.taskData, 'add');
 
                 _this2.flashMessage.success({
                   message: response.data.message,
@@ -585,11 +598,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
                 _this2.taskData = _this2.resetData;
-                _context.next = 20;
+                _context.next = 22;
                 break;
 
-              case 17:
-                _context.prev = 17;
+              case 19:
+                _context.prev = 19;
                 _context.t0 = _context["catch"](8);
 
                 _this2.flashMessage.error({
@@ -598,15 +611,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   blockClass: 'custom-block-class'
                 });
 
-              case 20:
+              case 22:
                 _this2.hideAddTaskModal();
 
-              case 21:
+              case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[8, 17]]);
+        }, _callee, null, [[8, 19]]);
       }))();
     },
     getCategories: function getCategories() {
@@ -624,12 +637,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context2.sent;
-                _this3.categories = response.data;
-                _context2.next = 10;
+                _this3.categories = response.data.Categories;
+                _this3.Tasks = response.data.Tasks;
+                _context2.next = 11;
                 break;
 
-              case 7:
-                _context2.prev = 7;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
 
                 _this3.flashMessage.error({
@@ -638,12 +652,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   blockClass: 'custom-block-class'
                 });
 
-              case 10:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 7]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
     changeOrder: function changeOrder(data) {
@@ -675,21 +689,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 8:
                 response = _context3.sent;
 
-                _this4.categories.map(function (categories) {
-                  if (categories.id == toCategory) {
-                    console.log(categories.tasks, categories.tasks['0'], 'task');
-
-                    for (var c in categories.tasks) {
-                      console.log(categories.tasks[0], 'task_id', task_id);
-                    } // categories.tasks.forEach((element, index)=>{
-
-                    /*if (element.id == task_id) {
-                         categories.tasks[index].category_id = toCategory;
-                    }*/
-                    //  })
-
+                _this4.categories.forEach(function (ele, indx) {
+                  if (ele.id == toCategory) {
+                    console.log(_typeof(ele.tasks), ele.tasks[0]);
+                    /* ele.tasks.forEach((element, index)=>{
+                         console.log( element,'task_id',task_id)
+                     });*/
                   }
                 });
+                /*this.categories.map(cat => {
+                     if(cat.id == toCategory) {
+                        console.log( cat.tasks,cat.tasks['0'],'task')
+                        for(let c in cat.tasks) {
+                            console.log( cat.tasks[0],'task_id',task_id)
+                        }
+                       // categories.tasks.forEach((element, index)=>{
+                             /!*if (element.id == task_id) {
+                                 categories.tasks[index].category_id = toCategory;
+                            }*!/
+                      //  })
+                    }
+                });*/
+
 
                 console.log(_this4.categories, 'changeOrder');
                 _context3.next = 16;
@@ -5270,7 +5291,7 @@ var render = function () {
                           id: element.id,
                         },
                       },
-                      _vm._l(element.tasks, function (task) {
+                      _vm._l(_vm.Tasks[element.id], function (task) {
                         return _c("task-card", {
                           key: task.id,
                           staticClass: "mt-3 cursor-move",

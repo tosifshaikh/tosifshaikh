@@ -44,7 +44,7 @@
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
 
                                 <task-card
-                                        v-for="(task) in element.tasks"
+                                        v-for="(task) in Tasks[element.id]"
                                         :key="task.id"
                                         :task="task"
                                         class="mt-3 cursor-move"
@@ -269,7 +269,8 @@ export default {
             taskData :  this.resetData,
             editTaskData : this.EditData,
             errors : {},
-            categories : [],
+            categories : {},
+            Tasks : {},
             priority : {
                 1 : {color : 'badge badge-danger', name : 'High'},
                 2 : {color : 'badge badge-warning', name: 'Medium'},
@@ -332,12 +333,18 @@ export default {
             try
             {
                 const response = await todoService.addList(formData);
-                this.categories.map(category => {
+                if(! this.Tasks[response.data.data.category_id]) {
+                    this.Tasks[response.data.data.category_id] = {}
+                }
+              //  this.Tasks[response.data.data.category_id].
+                this.$set(this.Tasks, response.data.data.category_id, response.data.data);
+              //  this.Tasks[this.taskData.category_id][response.data.data.id]=response.data.data;
+               /* this.categories.map(category => {
                    if(category.id == response.data.data.category_id) {
                        return category.tasks.push(response.data.data);
                    }
-                });
-
+                });*/
+console.log(this.taskData,'add');
                 this.flashMessage.success({
                     message: response.data.message,
                     time: this.$getConst('TIME'),
@@ -356,7 +363,8 @@ export default {
         async getCategories() {
             try{
                 const response = await todoService.getToDolist();
-                this.categories = response.data;
+                this.categories = response.data.Categories;
+                this.Tasks = response.data.Tasks;
             }
             catch (e) {
                 this.flashMessage.error({
@@ -375,22 +383,30 @@ export default {
             if (task_id !== null) {
                     try {
                         const response = await todoService.updateCategory({id : task_id, toCategory : toCategory});
-                        this.categories.map(categories => {
+                        this.categories.forEach( (ele,indx) => {
+                        if (ele.id == toCategory) {
+                            console.log(typeof ele.tasks,ele.tasks[0])
+                           /* ele.tasks.forEach((element, index)=>{
+                                console.log( element,'task_id',task_id)
+                            });*/
+                           }
+                        });
+                        /*this.categories.map(cat => {
 
-                            if(categories.id == toCategory) {
-                                console.log( categories.tasks,categories.tasks['0'],'task')
-                                for(let c in categories.tasks) {
-                                    console.log( categories.tasks[0],'task_id',task_id)
+                            if(cat.id == toCategory) {
+                                console.log( cat.tasks,cat.tasks['0'],'task')
+                                for(let c in cat.tasks) {
+                                    console.log( cat.tasks[0],'task_id',task_id)
                                 }
                                // categories.tasks.forEach((element, index)=>{
 
-                                    /*if (element.id == task_id) {
+                                    /!*if (element.id == task_id) {
 
                                         categories.tasks[index].category_id = toCategory;
-                                    }*/
+                                    }*!/
                               //  })
                             }
-                        });
+                        });*/
                         console.log(this.categories,'changeOrder');
                     }catch (e) {
                         console.log(e)
