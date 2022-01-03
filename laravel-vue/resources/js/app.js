@@ -9,12 +9,15 @@ import FlashMessage from '@smartweb/vue-flash-message';
 import Constants from '../js/src/plugins/constants';
 import i18n from '../../src/i18n';
 import moment from 'moment';
+import VueSweetalert2 from 'vue-sweetalert2';
 //import VueCryptojs from 'vue-cryptojs';
-
+Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue);
 Vue.use(FlashMessage);
 Vue.use(Constants);
 Vue.use(moment);
+
+
 Vue.filter('formatDate', function(value) {
     if (value) {
         return moment(String(value)).format('MMM-D')

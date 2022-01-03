@@ -14,5 +14,5 @@ return [
     ],
     'category' => ['Deleted' => 'Category deleted successfully!'],
     'Product' => ['Deleted' => 'Product deleted successfully!'],
-    'Task' => ['Add' => 'Task Added Successfully.', 'Edit' => 'Task Updated Successfully.'],
+    'Task' => ['Add' => 'Task Added Successfully.', 'Edit' => 'Task Updated Successfully.', 'Delete' => 'Task Deleted Successfully.'],
 ];
