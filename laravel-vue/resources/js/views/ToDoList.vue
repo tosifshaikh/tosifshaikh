@@ -1,14 +1,5 @@
 //https://codesandbox.io/s/animated-draggable-kanban-board-with-tailwind-and-vue-1ry0p?ref=madewithvuejs.com&file=/src/App.vue
 <template>
- <div class="container mt-5">
-     <div class="row">
-         <div class="col form-inline">
-
-         </div>
-     </div>
- </div>
-</template>
-<template>
     <div class="container-fluid px-4">
         <ol class="breadcrumb mt-4">
             <li class="breadcrumb-item active">
@@ -40,7 +31,7 @@
                             </div>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
 
-                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"  :key="ind" :list="element.tasks"  :id="element.id">
+                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"  :key="ind"   :id="element.id" >
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
 
                                 <task-card
@@ -374,7 +365,7 @@ console.log(this.taskData,'add');
                 });
             }
         },
-       async changeOrder(data) {
+       async changeOrder(data) {console.log(data);return
            let fromCategory = data.from.id;
            let toCategory = data.to.id;
            let draggedElement = data.draggedContext.element;
@@ -383,6 +374,7 @@ console.log(this.taskData,'add');
             if (task_id !== null) {
                     try {
                         const response = await todoService.updateCategory({id : task_id, toCategory : toCategory});
+                        console.log(response,'response');
                         this.categories.forEach( (ele,indx) => {
                         if (ele.id == toCategory) {
                             console.log(typeof ele.tasks,ele.tasks[0])
