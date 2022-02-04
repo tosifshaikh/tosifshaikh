@@ -436,15 +436,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -669,25 +660,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                fromCategory = data.from.id;
-                toCategory = data.to.id;
-                draggedElement = data.draggedContext.element;
-                task_id = draggedElement.id;
+                console.log(data);
+                return _context3.abrupt("return");
 
-                if (!(task_id !== null)) {
-                  _context3.next = 16;
-                  break;
-                }
-
-                _context3.prev = 5;
-                _context3.next = 8;
-                return _Services_todo_service__WEBPACK_IMPORTED_MODULE_2__.updateCategory({
-                  id: task_id,
-                  toCategory: toCategory
-                });
-
-              case 8:
+              case 10:
                 response = _context3.sent;
+                console.log(response, 'response');
 
                 _this4.categories.forEach(function (ele, indx) {
                   if (ele.id == toCategory) {
@@ -713,20 +691,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
                 console.log(_this4.categories, 'changeOrder');
-                _context3.next = 16;
+                _context3.next = 19;
                 break;
 
-              case 13:
-                _context3.prev = 13;
-                _context3.t0 = _context3["catch"](5);
+              case 16:
+                _context3.prev = 16;
+                _context3.t0 = _context3["catch"](7);
                 console.log(_context3.t0);
 
-              case 16:
+              case 19:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[5, 13]]);
+        }, _callee3, null, [[7, 16]]);
       }))();
     },
     editTask: function editTask(task) {
@@ -5287,7 +5265,6 @@ var render = function () {
                           "ghost-class": "ghost-card",
                           group: "tasks",
                           move: _vm.changeOrder,
-                          list: element.tasks,
                           id: element.id,
                         },
                       },
