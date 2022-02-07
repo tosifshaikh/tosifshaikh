@@ -212,14 +212,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -481,7 +480,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       taskData: this.resetData,
       editTaskData: this.EditData,
       errors: {},
-      categories: {},
+      categories: [],
       Tasks: {},
       priority: {
         1: {
@@ -628,8 +627,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 response = _context2.sent;
-                _this3.categories = response.data.Categories;
-                _this3.Tasks = response.data.Tasks;
+                _this3.categories = response.data;
+
+                _this3.categories[2].tasks.sort(function (a, b) {
+                  return a.priority.localeCompare(b.priority);
+                }); // this.categories = response.data.Categories;
+                // this.Tasks = response.data.Tasks;
+
+
                 _context2.next = 11;
                 break;
 
@@ -651,30 +656,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2, null, [[0, 8]]);
       }))();
     },
+    isDraggable: function isDraggable(context) {
+      console.log('vsdvsdv');
+    },
     changeOrder: function changeOrder(data) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var fromCategory, toCategory, draggedElement, task_id, response;
+        var fromCategory, toCategory, draggedElement, task_id, response, cat;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                console.log(data);
+                //https://codepen.io/naffarn/pen/KKdVRRE
+                fromCategory = data.from.id;
+                toCategory = data.to.id;
+                draggedElement = data.draggedContext.element;
+                task_id = draggedElement.id;
+                console.log(_this4.isDraggable, data.draggedContext);
                 return _context3.abrupt("return");
 
               case 10:
                 response = _context3.sent;
-                console.log(response, 'response');
+                console.log(response, 'response', _this4.categories, toCategory);
 
-                _this4.categories.forEach(function (ele, indx) {
-                  if (ele.id == toCategory) {
-                    console.log(_typeof(ele.tasks), ele.tasks[0]);
-                    /* ele.tasks.forEach((element, index)=>{
-                         console.log( element,'task_id',task_id)
-                     });*/
+                for (cat in _this4.categories) {
+                  if (cat == toCategory) {
+                    console.log(cat, toCategory, 'toCategory', _this4.categories[cat].tasks);
+
+                    _this4.categories[cat].tasks.forEach(function (ele, indx) {
+                      console.log(ele.id, task_id, 'task_id');
+
+                      if (ele.id == task_id) {//Vue.$set( this.categories[cat].tasks[indx], 'category_id', toCategory);
+                      }
+                    });
                   }
-                });
+                } // console.log(ele,'ele')
+                //                          if (ele.id == task_id) {
+                //                             // console.log(ele.id, ele.category_id);
+                //                              ele.category_id = toCategory;
+                //                             // console.log(ele,ele.tasks)
+                //                         //    /* ele.tasks.forEach((element, index)=>{
+                //                         //         console.log( element,'task_id',task_id)
+                //                         //     });*/
+                //                         }
+
                 /*this.categories.map(cat => {
                      if(cat.id == toCategory) {
                         console.log( cat.tasks,cat.tasks['0'],'task')
@@ -5262,13 +5288,14 @@ var render = function () {
                         staticClass: "cardClass",
                         attrs: {
                           animation: 200,
-                          "ghost-class": "ghost-card",
                           group: "tasks",
                           move: _vm.changeOrder,
                           id: element.id,
+                          value: element.tasks,
                         },
+                        on: { change: _vm.colChange },
                       },
-                      _vm._l(_vm.Tasks[element.id], function (task) {
+                      _vm._l(element.tasks, function (task) {
                         return _c("task-card", {
                           key: task.id,
                           staticClass: "mt-3 cursor-move",

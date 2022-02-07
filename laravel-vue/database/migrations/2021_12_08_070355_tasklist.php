@@ -18,6 +18,7 @@ class Tasklist extends Migration
             $table->integer('category_id');
             $table->text('title');
             $table->text('Description');
+            $table->integer('task_order')->default(0);
             $table->tinyInteger('priority')->default(0);
             $table->tinyInteger('type')->default(0);
             $table->integer('user_id');

@@ -33,6 +33,7 @@
     "moment": "^2.29.1",
     "polyfill": "^0.1.0",
     "stream": "^0.0.2",
+    "tsconfig.json": "^1.0.10",
     "vue-cryptojs": "^2.1.6",
     "vue-i18n": "^8.0.0",
     "vue-moment": "^4.1.0",

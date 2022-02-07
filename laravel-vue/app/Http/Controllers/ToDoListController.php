@@ -23,16 +23,22 @@ class ToDoListController extends Controller
         $this->ToDoListTask = $toDoListTask;
     }
 
-    public function prepareData($task = [])
+    public function prepareData($TaskCategory = [], $task = [])
     {
-        $taskArr = [];
-            foreach ($task as $taskey => $taskValue) {
-                $task[$taskey]['order'] = 1;
-                $task[$taskey]['type'] = 1;
-                    $taskArr[$taskValue['category_id']][$taskValue['id']]=$taskValue;
-            }
+        foreach ($TaskCategory as $k => $value) {
 
-        return $taskArr;
+            $TaskCategory[$k]['tasks'] = [];
+            $order = 0;
+            foreach ($task as $taskey => $taskValue) {
+                if ($value['id'] == $taskValue['category_id']) {
+                    $task[$taskey]['order']      = $order++;
+                    $task[$taskey]['type']       = 1;
+                    $TaskCategory[$k]['tasks'][] = $task[$taskey];
+                }
+            }
+        }
+
+        return $TaskCategory;
     }
 
     public function index()
@@ -50,7 +56,7 @@ class ToDoListController extends Controller
             'user_id',
             'updated_at'
         )->get()->toArray();
-        $tasks = $this->prepareData($tasks);
+        $data = $this->prepareData($TaskCategory, $tasks);
         //  $TaskCategory->task=$task;
         /* $data = DB::table('todolist_category')->select("todolist_category.id as category_id",
              "todolist_category.category as category_name",
@@ -58,7 +64,7 @@ class ToDoListController extends Controller
              "tasks.Description as task_description",
              "tasks.priority as task_priority",
              "tasks.user_id as task_user_id")->leftJoin("tasks", "tasks.category_id", "=", "todolist_category.id")->get();*/
-        return response()->json(['Categories' => $TaskCategory, 'Tasks' => $tasks], config('constant.STATUS.SUCCESS_CODE'));
+        return response()->json($data, config('constant.STATUS.SUCCESS_CODE'));
     }
 
     /**

@@ -31,11 +31,12 @@
                             </div>
                             <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
 
-                            <draggable  :animation="200" ghost-class="ghost-card" group="tasks" class="cardClass" :move="changeOrder"  :key="ind"   :id="element.id" >
+                            <draggable  :animation="200"  group="tasks" class="cardClass" :move="changeOrder"  :key="ind"   :id="element.id" :value='element.tasks'
+                            @change="colChange">
                                 <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
 
                                 <task-card
-                                        v-for="(task) in Tasks[element.id]"
+                                        v-for="(task) in element.tasks"
                                         :key="task.id"
                                         :task="task"
                                         class="mt-3 cursor-move"
@@ -253,14 +254,16 @@ export default {
                 ghostClass: 'ghost'
             };
         },
+
     },
+
     data() {
         return {
             time : '',
             taskData :  this.resetData,
             editTaskData : this.EditData,
             errors : {},
-            categories : {},
+            categories : [],
             Tasks : {},
             priority : {
                 1 : {color : 'badge badge-danger', name : 'High'},
@@ -277,6 +280,7 @@ export default {
     mounted() {
         this.getCategories();
     },
+
 
         methods : {
         resetData : function() {
@@ -354,8 +358,14 @@ console.log(this.taskData,'add');
         async getCategories() {
             try{
                 const response = await todoService.getToDolist();
-                this.categories = response.data.Categories;
-                this.Tasks = response.data.Tasks;
+                this.categories = response.data;
+                this.categories[2].tasks.sort((a, b) =>
+          a.priority.localeCompare(b.priority)
+);
+
+
+               // this.categories = response.data.Categories;
+               // this.Tasks = response.data.Tasks;
             }
             catch (e) {
                 this.flashMessage.error({
@@ -365,24 +375,47 @@ console.log(this.taskData,'add');
                 });
             }
         },
-       async changeOrder(data) {console.log(data);return
+
+        isDraggable(context) {
+console.log('vsdvsdv');
+       }
+       ,
+       async changeOrder(data) {
+           //https://codepen.io/naffarn/pen/KKdVRRE
            let fromCategory = data.from.id;
            let toCategory = data.to.id;
            let draggedElement = data.draggedContext.element;
            let task_id = draggedElement.id;
-
+console.log(this.isDraggable,data.draggedContext);return
             if (task_id !== null) {
                     try {
                         const response = await todoService.updateCategory({id : task_id, toCategory : toCategory});
-                        console.log(response,'response');
-                        this.categories.forEach( (ele,indx) => {
-                        if (ele.id == toCategory) {
-                            console.log(typeof ele.tasks,ele.tasks[0])
-                           /* ele.tasks.forEach((element, index)=>{
-                                console.log( element,'task_id',task_id)
-                            });*/
-                           }
-                        });
+                        console.log(response,'response',this.categories,toCategory);
+
+                            for(let cat in this.categories) {
+
+                                if(cat == toCategory) {
+                                      console.log(cat,toCategory,'toCategory', this.categories[cat].tasks)
+                                    this.categories[cat].tasks.forEach( (ele,indx) => {
+                                        console.log(ele.id,task_id,'task_id')
+                                            if(ele.id == task_id) {
+                                                //Vue.$set( this.categories[cat].tasks[indx], 'category_id', toCategory);
+                                            }
+                                    });
+                                }
+
+                            }
+
+// console.log(ele,'ele')
+//                          if (ele.id == task_id) {
+//                             // console.log(ele.id, ele.category_id);
+//                              ele.category_id = toCategory;
+//                             // console.log(ele,ele.tasks)
+//                         //    /* ele.tasks.forEach((element, index)=>{
+//                         //         console.log( element,'task_id',task_id)
+//                         //     });*/
+//                         }
+
                         /*this.categories.map(cat => {
 
                             if(cat.id == toCategory) {
