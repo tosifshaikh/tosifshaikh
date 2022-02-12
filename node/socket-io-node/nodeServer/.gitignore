@@ -1,0 +1,13 @@
+Thumbs.db
+hr/Thumbs.db
+img/Thumbs.db
+
+node_modules/
+
+.vscode
+
+.project
+.settings/
+/.idea
+
+
