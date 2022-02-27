@@ -1,22 +1,40 @@
-<template>
-<div>
-  
-       <router-view >
 
-    </router-view>
-   
+<template>
+<div id="app">
+   <div class="loader-bg">
+		<div class="loader-track">
+			<div class="loader-fill"></div>
+		</div>
+	</div>
+  <Navbar />
+  <Header/> 
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        
+      <router-view ></router-view>
+        </div>
+     
+     
+    </div>
+ 
  
   
+
 </div>
+
 </template>
 <script>
-
+import Navbar from "./components/navbar.vue"
+import Header from "./components/header.vue"
 export default {
     name: "App",
-    
+    components :{
+    Header,
+    Navbar,
+     },
     mounted() {
          this.$nextTick(()=>{
-          var script = document.createElement('script');
+         /*  var script = document.createElement('script');
           script.setAttribute('src','/js/vendor-all.min.js');
           
           document.head.appendChild(script);
@@ -25,7 +43,7 @@ export default {
           document.head.appendChild(script);
           var script = document.createElement('script');
           script.setAttribute('src','/js/pcoded.min.js');
-          document.head.appendChild(script); 
+          document.head.appendChild(script);  */
        }); 
     },
 }

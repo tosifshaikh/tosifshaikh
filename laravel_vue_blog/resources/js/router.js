@@ -1,32 +1,25 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import dashboard from '../js/components/dashboard.vue';
 
 Vue.use(Router)
 const routes = [
     {
         path: "/",
-        name: "dashboard",
-        components: {
-            default: import('./pages/home.vue'),
-            dashboard: import('../js/components/dashboard.vue')
-            
-        },
-       // component: () => import('./pages/home.vue'),
-        meta: {
-          layout : 'dashboard'  
-        },
-        children: [
-            {
-                path: "/tags", name: "tags",
-                component: () => import('./pages/tags.vue'),
-                meta: {
-                    layout : 'tags'  
-                  }
-            },
-            
-        ]
+        redirect : "/dashboard"
+    }
+    ,
+    {
+        path: "/dashboard",
+        name : "dashboard",
+        component: () => import('./components/dashboard.vue'),
+        
     },
+    {
+        path: "/tags",
+            name : "tags",
+            component: () => import('./components/pages/tags.vue'),
+    }
+    
    
 ]
 

@@ -5,7 +5,8 @@ export default {
         }
     },
     methods: {
-        callApi(method,url,dataObj ) {
+        callApi(method, url, dataObj) {
+            console.log(method, url, dataObj);
             try {
                 axios({
                     method: method,

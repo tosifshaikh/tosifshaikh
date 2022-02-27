@@ -75,7 +75,14 @@
 
 <script>
 export default {
-    name : "tag"
+    name : "tag",
+    async created() {
+        const res= await this.callApi('post','/app/create_tag',{tagName : 'testtag'});
+          console.log(res)
+        if (res.status == 200) {
+            console.log(res)
+        }
+    },
 }
 </script>
 
