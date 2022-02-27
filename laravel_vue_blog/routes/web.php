@@ -10,9 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/post/create_tag','TagController@index');
+Route::post('/app/create_tag',[TagController::class,'addTag']);
+Route::get('/app/get_tag',[TagController::class,'getTag']);
+Route::post('/app/edit_tag',[TagController::class,'editTag']);
+Route::post('/app/delete_tag',[TagController::class,'deleteTag']);
+
+
 
 Route::get('/', function () {
     return view('welcome');

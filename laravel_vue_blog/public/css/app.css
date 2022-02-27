@@ -20270,7 +20270,7 @@ pre[class*=language-]:before {
 }
 
 .pcoded-header {
-    z-index: 1029;
+    z-index: 1;
     position: relative;
     display: flex;
     min-height: 56px;
