@@ -102,10 +102,10 @@
                      <Modal
                     v-model="customFlags.EditModal"
                     title="Edit Category" :mask-closable="false" :closable='false'>
-                       <Input v-model="editCategoryData.categoryName" placeholder="Edit category Name" />
+                       <Input v-model="editCategoryData.category_name" placeholder="Edit category Name" />
                         <div class="space"></div>
-                         <Upload
-                    ref="uploads"
+                         <Upload v-show="isIconImageNew"
+                    ref="editUploads"
                     type="drag" :headers="{'x-csrf-token' : token, 'X-Requested-With' : 'XMLHttpRequest'}"
                     :on-success="handleSuccess"
                     :format="['jpg','jpeg','png']"
@@ -121,7 +121,7 @@
                     </Upload>
                      <div class="demo-upload-list" v-if="editCategoryData.iconImage">
 
-                        <img :src="`/uploads/category/${editCategoryData.iconImage}`" alt="">
+                        <img :src="`${editCategoryData.iconImage}`" alt="">
                         <div class="demo-upload-list-cover">
                         <Icon type="ios-eye-outline"></Icon>
                         <Icon type="ios-trash-outline" @click="deleteImage"></Icon>
@@ -191,7 +191,8 @@ export default {
                 EditModal :false,
                 index: -1,
 
-            }
+            },
+            isIconImageNew : false,
         }
     },
     methods: {
@@ -221,7 +222,7 @@ export default {
               }
               this.categoryData = {}; */
         },
-       editData() {
+     /*   editData() {
            this.customFlags.isEdit = true;
            this.customFlags.EditModal = true;
 
@@ -243,8 +244,8 @@ export default {
                         this.error('Some error occured');
                    }
 
-              } */
-        },
+              }
+        }, */
         async saveData(){
                 if (this.customFlags.isAdd) {
                     if (this.categoryData.categoryName.trim() == '') {
@@ -301,11 +302,12 @@ export default {
 
         },
         showEditModal(data,index) {
-            let obj = {
+           /*  let obj = {
                 id:data.id,
                 categoryName : data.category_name
-            }
-            this.editCategoryData = obj;
+            } */
+            this.customFlags.isEdit = true;
+            this.editCategoryData = data;
             this.customFlags.EditModal =true;
             this.customFlags.index = index;
         },
@@ -328,7 +330,12 @@ export default {
 
         },
         handleSuccess (res, file) {
-                this.categoryData.iconImage = res;
+                if (this.customFlags.isAdd) {
+                    this.categoryData.iconImage = res;
+                }
+                  if (this.customFlags.isEdit) {
+                        this.editCategoryData.iconImage= res;
+                  }
             },
             handleFormatError (file) {
                 this.$Notice.warning({
@@ -349,18 +356,32 @@ export default {
                 });
             },
            async deleteImage() {
-                let image= this.categoryData.iconImage;
+           if (this.customFlags.isAdd) {
+                var image= this.categoryData.iconImage;
                 this.categoryData.iconImage= '';
                 this.$refs.uploads.clearFiles();
-                const res= await this.callApi('post','app/delete_image',{imageName : image});
+           }
+            if (this.customFlags.isEdit) {
+                var image= this.editCategoryData.iconImage;
+                this.editCategoryData.iconImage= '';
+                this.$refs.editUploads.clearFiles();
+                this.isIconImageNew = true;
+            }
+
+                 const res= await this.callApi('post','app/delete_image',{imageName : image});
                 if(res.status!=200) {
+                    if (this.customFlags.isAdd) {
                         this.categoryData.iconImage = image;
+                    }
+                     if (this.customFlags.isEdit) {
+                          this.editCategoryData.iconImage= image;
+                     }
                         this.error();
                 }
             }
 
     },
-      async created() { console.log(this.headers)
+      async created() {
           this.token = window.Laravel.csrfToken;
         const res = await this.callApi('get','/app/get_category');
         if (res.status == 200) {

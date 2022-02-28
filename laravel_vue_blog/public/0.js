@@ -210,7 +210,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isEdit: false,
         EditModal: false,
         index: -1
-      }
+      },
+      isIconImageNew: false
     };
   },
   methods: {
@@ -238,27 +239,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
                     this.categoryData = {}; */
     },
-    editData: function editData() {
-      this.customFlags.isEdit = true;
-      this.customFlags.EditModal = true;
-      /*   if (this.editCategoryData.categoryName.trim() == '') {
-            return this.error('Category Name is required');
-        }
-          const res =  await this.callApi('post','/app/edit_category',this.editCategoryData);
-          if (res.status == 200) {
-              this.categories[this.index].categoryName=this.editCategoryData.categoryName;
-              this.success('Category has been edited successfully!');
-              this.EditModal = false;
-          } else{
-              if (res.status == 422) {
-                  if (res.data.errors.categoryName) {
-                      this.info(res.data.errors.categoryName[0]);
+
+    /*   editData() {
+          this.customFlags.isEdit = true;
+          this.customFlags.EditModal = true;
+           /*   if (this.editCategoryData.categoryName.trim() == '') {
+               return this.error('Category Name is required');
+           }
+             const res =  await this.callApi('post','/app/edit_category',this.editCategoryData);
+             if (res.status == 200) {
+                 this.categories[this.index].categoryName=this.editCategoryData.categoryName;
+                 this.success('Category has been edited successfully!');
+                 this.EditModal = false;
+             } else{
+                 if (res.status == 422) {
+                     if (res.data.errors.categoryName) {
+                         this.info(res.data.errors.categoryName[0]);
+                     }
+                  } else {
+                       this.error('Some error occured');
                   }
-               } else {
-                    this.error('Some error occured');
-               }
-           } */
-    },
+              }
+       }, */
     saveData: function saveData() {
       var _this = this;
 
@@ -367,11 +369,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     showEditModal: function showEditModal(data, index) {
-      var obj = {
-        id: data.id,
-        categoryName: data.category_name
-      };
-      this.editCategoryData = obj;
+      /*  let obj = {
+           id:data.id,
+           categoryName : data.category_name
+       } */
+      this.customFlags.isEdit = true;
+      this.editCategoryData = data;
       this.customFlags.EditModal = true;
       this.customFlags.index = index;
     },
@@ -416,7 +419,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     handleSuccess: function handleSuccess(res, file) {
-      this.categoryData.iconImage = res;
+      if (this.customFlags.isAdd) {
+        this.categoryData.iconImage = res;
+      }
+
+      if (this.customFlags.isEdit) {
+        this.editCategoryData.iconImage = res;
+      }
     },
     handleFormatError: function handleFormatError(file) {
       this.$Notice.warning({
@@ -445,26 +454,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                image = _this3.categoryData.iconImage;
-                _this3.categoryData.iconImage = '';
+                if (_this3.customFlags.isAdd) {
+                  image = _this3.categoryData.iconImage;
+                  _this3.categoryData.iconImage = '';
 
-                _this3.$refs.uploads.clearFiles();
+                  _this3.$refs.uploads.clearFiles();
+                }
 
-                _context3.next = 5;
+                if (_this3.customFlags.isEdit) {
+                  image = _this3.editCategoryData.iconImage;
+                  _this3.editCategoryData.iconImage = '';
+
+                  _this3.$refs.editUploads.clearFiles();
+
+                  _this3.isIconImageNew = true;
+                }
+
+                _context3.next = 4;
                 return _this3.callApi('post', 'app/delete_image', {
                   imageName: image
                 });
 
-              case 5:
+              case 4:
                 res = _context3.sent;
 
                 if (res.status != 200) {
-                  _this3.categoryData.iconImage = image;
+                  if (_this3.customFlags.isAdd) {
+                    _this3.categoryData.iconImage = image;
+                  }
+
+                  if (_this3.customFlags.isEdit) {
+                    _this3.editCategoryData.iconImage = image;
+                  }
 
                   _this3.error();
                 }
 
-              case 7:
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -482,19 +508,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              console.log(_this4.headers);
               _this4.token = window.Laravel.csrfToken;
-              _context4.next = 4;
+              _context4.next = 3;
               return _this4.callApi('get', '/app/get_category');
 
-            case 4:
+            case 3:
               res = _context4.sent;
 
               if (res.status == 200) {
                 _this4.categories = res.data;
               }
 
-            case 6:
+            case 5:
             case "end":
               return _context4.stop();
           }
@@ -829,11 +854,11 @@ var render = function () {
                 _c("Input", {
                   attrs: { placeholder: "Edit category Name" },
                   model: {
-                    value: _vm.editCategoryData.categoryName,
+                    value: _vm.editCategoryData.category_name,
                     callback: function ($$v) {
-                      _vm.$set(_vm.editCategoryData, "categoryName", $$v)
+                      _vm.$set(_vm.editCategoryData, "category_name", $$v)
                     },
-                    expression: "editCategoryData.categoryName",
+                    expression: "editCategoryData.category_name",
                   },
                 }),
                 _vm._v(" "),
@@ -842,7 +867,15 @@ var render = function () {
                 _c(
                   "Upload",
                   {
-                    ref: "uploads",
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.isIconImageNew,
+                        expression: "isIconImageNew",
+                      },
+                    ],
+                    ref: "editUploads",
                     attrs: {
                       type: "drag",
                       headers: {
@@ -879,9 +912,7 @@ var render = function () {
                   ? _c("div", { staticClass: "demo-upload-list" }, [
                       _c("img", {
                         attrs: {
-                          src:
-                            "/uploads/category/" +
-                            _vm.editCategoryData.iconImage,
+                          src: "" + _vm.editCategoryData.iconImage,
                           alt: "",
                         },
                       }),
