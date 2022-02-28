@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,10 @@ Route::post('/app/create_tag',[TagController::class,'addTag']);
 Route::get('/app/get_tag',[TagController::class,'getTag']);
 Route::post('/app/edit_tag',[TagController::class,'editTag']);
 Route::post('/app/delete_tag',[TagController::class,'deleteTag']);
+Route::post('/app/upload',[CategoryController::class,'upload']);
+Route::post('/app/delete_image',[CategoryController::class,'deleteImage']);
+Route::post('/app/create_category',[CategoryController::class,'addCategory']);
+Route::get('/app/get_category',[CategoryController::class,'getCategory']);
 
 
 

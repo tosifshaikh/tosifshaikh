@@ -1,7 +1,7 @@
 export default {
     data() {
         return {
-            
+
         }
     },
     methods: {
@@ -21,25 +21,25 @@ export default {
         info (description ,title='Hey') {
             this.$Notice.info({
                 title: title,
-                desc: description ? description : ''  
+                desc: description ? description : ''
             });
         },
         success (description ,title='Great') {
             this.$Notice.success({
                 title: title,
-                desc: description ? description : ''  
+                desc: description ? description : ''
             });
         },
         warning (description, title = 'Oops') {
             this.$Notice.warning({
                 title: title,
-                desc: description ? description : ''  
+                desc: description ? description : ''
             });
         },
-        error (description, title = 'Oops') {
+        error (description='Some error occured!', title = 'Oops') {
             this.$Notice.error({
                 title: title,
-                desc: description ? description : ''  
+                desc: description ? description : ''
             });
         }
     },

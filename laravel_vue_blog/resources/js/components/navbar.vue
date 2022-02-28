@@ -36,9 +36,8 @@
 					
 					</li>
 					<li class="nav-item">
-						<router-link to="/tags" class="nav-link">
-								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
-						</router-link>
+					
+						
 					    <!-- <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
@@ -46,29 +45,21 @@
 					    </ul> -->
 					</li>
 					<li class="nav-item pcoded-menu-caption">
-						<label>UI Element</label>
+						<label>Admin</label>
 					</li>
+
 					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Basic</span></a>
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
 						<ul class="pcoded-submenu">
-							<li><a href="bc_alert.html">Alert</a></li>
-							<li><a href="bc_button.html">Button</a></li>
-							<li><a href="bc_badges.html">Badges</a></li>
-							<li><a href="bc_breadcrumb-pagination.html">Breadcrumb & paggination</a></li>
-							<li><a href="bc_card.html">Cards</a></li>
-							<li><a href="bc_collapse.html">Collapse</a></li>
-							<li><a href="bc_carousel.html">Carousel</a></li>
-							<li><a href="bc_grid.html">Grid system</a></li>
-							<li><a href="bc_progress.html">Progress</a></li>
-							<li><a href="bc_modal.html">Modal</a></li>
-							<li><a href="bc_spinner.html">Spinner</a></li>
-							<li><a href="bc_tabs.html">Tabs & pills</a></li>
-							<li><a href="bc_typography.html">Typography</a></li>
-							<li><a href="bc_tooltip-popover.html">Tooltip & popovers</a></li>
-							<li><a href="bc_toasts.html">Toasts</a></li>
-							<li><a href="bc_extra.html">Other</a></li>
+							<li><router-link to="/tags" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
+						</router-link></li>
+							<li><router-link to="/category" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Category</span>
+						</router-link></li>
 						</ul>
 					</li>
+
 					<li class="nav-item pcoded-menu-caption">
 					    <label>Forms &amp; table</label>
 					</li>
