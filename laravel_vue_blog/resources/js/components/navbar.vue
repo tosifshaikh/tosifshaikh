@@ -1,12 +1,12 @@
 <template>
 
-	
+
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
 	<nav class="pcoded-navbar  ">
 		<div class="navbar-wrapper  ">
 			<div class="navbar-content scroll-div " >
-				
+
 				<div class="">
 					<div class="main-menu-header">
 						<img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
@@ -23,7 +23,7 @@
 						</ul>
 					</div>
 				</div>
-				
+
 				<ul class="nav pcoded-inner-navbar ">
 					<li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
@@ -32,12 +32,12 @@
 						<router-link to="/" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span>
 						</router-link>
-						
-					
+
+
 					</li>
 					<li class="nav-item">
-					
-						
+
+
 					    <!-- <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
@@ -56,6 +56,9 @@
 						</router-link></li>
 							<li><router-link to="/category" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Category</span>
+						</router-link></li>
+                        <li><router-link to="/admin-users" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Admin Users</span>
 						</router-link></li>
 						</ul>
 					</li>
@@ -91,7 +94,7 @@
 					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>
 
 				</ul>
-				
+
 				<!-- <div class="card text-center">
 					<div class="card-block">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -101,7 +104,7 @@
 						<a href="https://1.envato.market/PgJNQ" target="_blank" class="btn btn-primary btn-sm text-white m-0">Upgrade</a>
 					</div>
 				</div> -->
-				
+
 			</div>
 		</div>
 	</nav>

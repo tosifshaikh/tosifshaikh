@@ -23,6 +23,8 @@ Route::post('/app/upload',[CategoryController::class,'upload']);
 Route::post('/app/delete_image',[CategoryController::class,'deleteImage']);
 Route::post('/app/create_category',[CategoryController::class,'addCategory']);
 Route::get('/app/get_category',[CategoryController::class,'getCategory']);
+Route::post('/app/delete_category',[CategoryController::class,'delete']);
+Route::post('/app/edit_category',[CategoryController::class,'edit']);
 
 
 

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import adminusers from './admin/pages/AdminUsers.vue';
 Vue.use(Router)
 const routes = [
     {
@@ -12,7 +12,7 @@ const routes = [
         path: "/dashboard",
         name : "dashboard",
         component: () => import('./components/dashboard.vue'),
-        
+
     },
     {
         path: "/tags",
@@ -23,9 +23,14 @@ const routes = [
         path: "/category",
             name : "category",
             component: () => import('./admin/pages/category.vue'),
+    },
+    {
+        path: "/admin-users",
+            name : "adminusers",
+            component: adminusers,
     }
-    
-   
+
+
 ]
 
 const router = new Router({

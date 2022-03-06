@@ -1,5 +1,6 @@
 require('./bootstrap');
 import Vue from 'vue';
+import store from './store.js';
 import App from './App.vue';
 import router from './router.js';
 import ViewUI from 'view-design';
@@ -17,9 +18,9 @@ Vue.mixin(common);
  //window.addEventListener('load', function () {
     const app = new Vue({
         el: "#app",
-        router,
+        router,store,
         render : h => h(App)
-    }) 
+    })
 //}) ;
 /* const app = new Vue({
     el: "#app",

@@ -29,7 +29,8 @@ class CategoryController extends Controller
     }
     public function deleteFileFromServer($fileName)
     {
-       $filePath  = public_path().$fileName;
+      // $filePath  = public_path().$fileName;
+      $filePath = $fileName;
        if (file_exists($filePath)) {
            @unlink( $filePath );
        }
@@ -43,11 +44,36 @@ class CategoryController extends Controller
         ]);
        return $this->category->create([
            'category_name' => $request->categoryName,
-           'iconImage' => '/uploads/category/'.$request->iconImage
+           'iconImage' => $request->iconImage
        ]);
     }
     public function getCategory(Request $request)
     {
-        return$this->category->orderBy('id','desc')->get();
+        return $this->category->orderBy('id','desc')->get();
+    }
+    public function delete(Request $request)
+    {
+        $this->validate($request,[
+            'id' => 'required'
+        ]);
+        $this->deleteFileFromServer( $request->iconImage);
+       return $this->category->where('id','=',$request->id)->delete();
+    }
+    public function edit(Request $request)
+    {
+
+        $this->validate($request,[
+            'category_name' => 'required',
+            'iconImage' => 'required',
+            'id' => 'required'
+        ]);
+
+        $oldData = $this->category->find($request->id);
+
+        $this->deleteFileFromServer( $oldData->iconImage);
+
+       return $this->category->where('id',$request->id)->update(['iconImage' => $request->iconImage,'category_name' => $request->category_name]);
+
+
     }
 }

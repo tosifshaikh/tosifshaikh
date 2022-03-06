@@ -81,7 +81,7 @@
                     </Upload>
                         <div class="demo-upload-list" v-if="categoryData.iconImage">
 
-                        <img :src="`/uploads/category/${categoryData.iconImage}`" alt="">
+                        <img :src="`${categoryData.iconImage}`" alt="">
                         <div class="demo-upload-list-cover">
                         <Icon type="ios-eye-outline"></Icon>
                         <Icon type="ios-trash-outline" @click="deleteImage"></Icon>
@@ -130,13 +130,14 @@
                         </div>
 
                     <div slot="footer">
-                    <Button type="default" @click="customFlags.EditModal=false">Close</Button>
+                    <Button type="default" @click="closeEditModal">Close</Button>
                     <Button type="primary" @click="saveData" :disabled="isAdding" :loading='isAdding'>{{isAdding ? 'Updating...' : 'Update'}}</Button>
                     </div>
                     </Modal>
 
+                   <deleteModal />
 
-                    <Modal v-model="showDeleteModal" width="360">
+                <!--     <Modal v-model="showDeleteModal" width="360">
                     <p slot="header" style="color:#f60;text-align:center">
                     <Icon type="ios-information-circle"></Icon>
                     <span>Delete confirmation</span>
@@ -145,9 +146,9 @@
                     <p>Are you sure you want to delete this tag?.</p>
                     </div>
                     <div slot="footer">
-                    <Button type="error" size="large" long :loading="modalLoading" @click="deleteTag">Delete</Button>
+                    <Button type="error" size="large" long :loading="modalLoading" @click="remove">Delete</Button>
                     </div>
-                    </Modal>
+                    </Modal> -->
                 </div>
             </div>
      </div>
@@ -156,6 +157,9 @@
 </template>
 
 <script>
+import deleteModal from '../components/DeleteModal.vue';
+import { mapGetters } from 'vuex';
+
 export default {
     name : "category",
     data() {
@@ -195,57 +199,15 @@ export default {
             isIconImageNew : false,
         }
     },
+     mounted() {
+        // this.getdata();
+     },
     methods: {
         addData() {
            this.customFlags.isAdd = true;
            this.customFlags.AddModal=true;
-
-
-/*
-            if (this.categoryData.categoryName.trim() == '') {
-                return this.error('Category Name is required');
-            }
-              const res =  await this.callApi('post','/app/create_category',this.categoryData);
-              if (res.status == 201) {
-                 // this.tags.unshift(res.data);
-                  this.success('Category has been added successfully!');
-                  this.AddModal = false;
-              } else{
-                  if (res.status == 422) {
-                      if (res.data.errors.categoryName) {
-                          this.info(res.data.errors.categoryName[0]);
-                      }
-                   } else {
-                        this.error('Some error occured');
-                   }
-
-              }
-              this.categoryData = {}; */
         },
-     /*   editData() {
-           this.customFlags.isEdit = true;
-           this.customFlags.EditModal = true;
 
-
-          /*   if (this.editCategoryData.categoryName.trim() == '') {
-                return this.error('Category Name is required');
-            }
-              const res =  await this.callApi('post','/app/edit_category',this.editCategoryData);
-              if (res.status == 200) {
-                  this.categories[this.index].categoryName=this.editCategoryData.categoryName;
-                  this.success('Category has been edited successfully!');
-                  this.EditModal = false;
-              } else{
-                  if (res.status == 422) {
-                      if (res.data.errors.categoryName) {
-                          this.info(res.data.errors.categoryName[0]);
-                      }
-                   } else {
-                        this.error('Some error occured');
-                   }
-
-              }
-        }, */
         async saveData(){
                 if (this.customFlags.isAdd) {
                     if (this.categoryData.categoryName.trim() == '') {
@@ -277,18 +239,18 @@ export default {
                     this.customFlags.AddModal = false;
                 }
                 if (this.customFlags.isEdit) {
-                    if (this.editCategoryData.categoryName.trim() == '') {
+                    if (this.editCategoryData.category_name.trim() == '') {
                         return this.error('Category Name is required');
                     }
                     const res =  await this.callApi('post','/app/edit_category',this.editCategoryData);
                     if (res.status == 200) {
-                        this.categories[this.customFlags.index].categoryName=this.editCategoryData.categoryName;
+                        this.categories[this.customFlags.index].categoryName=this.editCategoryData.category_name;
                         this.success('Category has been edited successfully!');
 
                     } else{
                         if (res.status == 422) {
-                            if (res.data.errors.categoryName) {
-                                this.info(res.data.errors.categoryName[0]);
+                            if (res.data.errors.category_name) {
+                                this.info(res.data.errors.category_name[0]);
                             }
                         } else {
                             this.error('Some error occured');
@@ -311,25 +273,35 @@ export default {
             this.customFlags.EditModal =true;
             this.customFlags.index = index;
         },
-        showDeletingModal(tag,index) {
-            this.deleteItem = tag;
+        showDeletingModal(data,index) {
+            const deleteModalObj = {
+            showDeleteModal: true,
+            deleteURL: 'app/delete_tag',
+            data: data,
+            deleteIndex: index,
+            isDeleted : false,
+             msg : 'Category has been deleted successfully!',
+        }
+        this.$store.commit('setDeletingModalObj', deleteModalObj);
+            /* this.deleteItem = tag;
             this.deleteIndex = index;
-            this.showDeleteModal = true;
+            this.showDeleteModal = true; */
         },
-        async deleteTag() {
+       /*  async remove() {
              this.modalLoading = true;
                 const res= await this.callApi('post','app/delete_category', this.deleteItem);
                 if (res.status == 200) {
                     this.categories.splice(this.deleteIndex,1);
-                     this.success('Tag has been deleted successfully!');
+                     this.success('Category has been deleted successfully!');
                 } else {
                      this.error();
                 }
                  this.modalLoading = false;
                        this.showDeleteModal = false;
 
-        },
+        } ,*/
         handleSuccess (res, file) {
+            res= `/uploads/category/${res}`;
                 if (this.customFlags.isAdd) {
                     this.categoryData.iconImage = res;
                 }
@@ -355,6 +327,10 @@ export default {
                     desc: `${file.errors.file.length ?  file.errors.file[0]: 'Something went wrong!'}`
                 });
             },
+            closeEditModal(){
+                this.customFlags.isEdit = false;
+                 this.showDeleteModal = false;
+            },
            async deleteImage() {
            if (this.customFlags.isAdd) {
                 var image= this.categoryData.iconImage;
@@ -378,16 +354,38 @@ export default {
                      }
                         this.error();
                 }
+            },
+            async getdata() {
+                this.token = window.Laravel.csrfToken;
+                const res = await this.callApi('get','/app/get_category');
+                if (res.status == 200) {
+                 this.categories = res.data;
+                }
             }
 
     },
-      async created() {
-          this.token = window.Laravel.csrfToken;
+       created() {
+           this.getdata();
+         /*  this.token = window.Laravel.csrfToken;
         const res = await this.callApi('get','/app/get_category');
         if (res.status == 200) {
             this.categories = res.data;
-        }
+        } */
     },
+    components: {
+        deleteModal,
+    },computed: {
+  ...mapGetters([
+            'getdeleteModalObj',
+        ])
+    },watch :{
+   getdeleteModalObj(value) {
+                if (value.isDeleted) {
+                      this.categories.splice(value.deleteIndex,1);
+                    console.log(value,'cateogrywattch',value.deleteIndex);
+                }
+            }
+    }
 }
 </script>
 

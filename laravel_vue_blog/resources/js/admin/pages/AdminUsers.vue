@@ -11,7 +11,7 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="#!">Tags</a></li>
+                            <li class="breadcrumb-item"><a href="#!">Admin Users</a></li>
                         </ul>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                          <Button @click="AddModal=true"><Icon type="md-add" /> Add tag</Button>
+                          <Button @click="AddModal=true"><Icon type="md-add" /> Add admin user</Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -61,12 +61,19 @@
 
                     <Modal
                     v-model="AddModal"
-                    title="Add Tag" :mask-closable="false" :closable='false'>
-                       <Input v-model="tagData.tagName" placeholder="Add Tag Name" style="width: 300px" />
-
+                    title="Add Admin" :mask-closable="false" :closable='false'>
+                      <div class="space">
+                        <Input type="text" v-model="tagData.tagName" placeholder="Full Name" style="width: 300px" />
+                      </div>
+                    <div class="space">
+                            <Input type="email" v-model="tagData.tagName" placeholder="Email" style="width: 300px" />
+                    </div>
+                    <div class="space">
+                    <Input type="password" v-model="tagData.tagName" placeholder="Password" style="width: 300px" />
+                    </div>
                     <div slot="footer">
                     <Button type="default" @click="AddModal=false">Close</Button>
-                    <Button type="primary" @click="addTag" :disabled="isAdding" :loading='isAdding'>{{isAdding ? 'Adding...' : 'Add Tag'}}</Button>
+                    <Button type="primary" @click="addTag" :disabled="isAdding" :loading='isAdding'>{{isAdding ? 'Saving...' : 'Save'}}</Button>
                     </div>
                     </Modal>
 
@@ -108,7 +115,7 @@ import deleteModal from '../components/DeleteModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    name : "tag",
+    name : "adminusers",
     data() {
         return {
             tagData : {
@@ -233,5 +240,8 @@ export default {
 </script>
 
 <style>
-
+.space{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 </style>
