@@ -23,7 +23,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                          <Button @click="AddModal=true"><Icon type="md-add" /> Add admin user</Button>
+                          <Button @click="addData"><Icon type="md-add" /> Add admin user</Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -33,22 +33,21 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Tag Name</th>
-                                        <th>Created At</th>
-                                        <th>Actions</th>
+                                        <th v-for="(header,indx) in headers" :key="indx">{{header.name}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(tag,i) in tags" :key="i">
+                                     <tr v-for="(val,i) in dataList" :key="i">
                                         <td>{{i+1}}</td>
-                                        <td>{{tag.tagName}}</td>
-                                        <td>{{tag.created_at}}</td>
-                                        <td> <Button type="info" size="small" @click="showEditModal(tag,i)">Edit</Button>
-                                            <Button type="error" size="small" @click="showDeletingModal(tag,i)" :loading="tag.isDeleteting">Delete</Button>
+                                        <td>{{val.fullName}}</td>
+                                        <td>{{val.email}}</td>
+                                        <td>{{userTypes[val.userType]}}</td>
+                                        <td>{{val.created_at}}</td>
+                                        <td> <Button type="info" size="small" @click="showEditModal(val,i)">Edit</Button>
+                                            <Button type="error" size="small" @click="showDeletingModal(val,i)" :loading="customFlags.isLoading">Delete</Button>
                                         </td>
                                     </tr>
-                                    <tr v-if="tags.length <=0">
+                                    <tr v-if="dataList.length <=0">
                                         <td>No Data</td>
 
                                     </tr>
@@ -60,36 +59,56 @@
                     <!-- ADD Modal box-->
 
                     <Modal
-                    v-model="AddModal"
+                    v-model="customFlags.AddModal"
                     title="Add Admin" :mask-closable="false" :closable='false'>
                       <div class="space">
-                        <Input type="text" v-model="tagData.tagName" placeholder="Full Name" style="width: 300px" />
+                        <Input type="text" v-model="adminUserData.fullName" placeholder="Full Name" style="width: 300px" />
                       </div>
                     <div class="space">
-                            <Input type="email" v-model="tagData.tagName" placeholder="Email" style="width: 300px" />
+                            <Input type="email" v-model="adminUserData.email" placeholder="Email" style="width: 300px" />
                     </div>
                     <div class="space">
-                    <Input type="password" v-model="tagData.tagName" placeholder="Password" style="width: 300px" />
+                    <Input type="password" v-model="adminUserData.pass" placeholder="Password" style="width: 300px" />
+                    </div>
+                    <div class="space">
+                    <Select v-model="adminUserData.userType" style="width:200px" placeholder="Select Admin Type">
+                    <Option  value="0">Admin</Option>
+                    <Option  value="1">Editor</Option>
+                    </Select>
                     </div>
                     <div slot="footer">
-                    <Button type="default" @click="AddModal=false">Close</Button>
-                    <Button type="primary" @click="addTag" :disabled="isAdding" :loading='isAdding'>{{isAdding ? 'Saving...' : 'Save'}}</Button>
+                    <Button type="default" @click="customFlags.closeEditModal">Close</Button>
+                    <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading=' customFlags.isAdding'>{{customFlags.isAdding ? 'Saving...' : 'Save'}}</Button>
                     </div>
                     </Modal>
 
 
-                     <Modal
-                    v-model="EditModal"
+                 <Modal
+                    v-model="customFlags.EditModal"
                     title="Edit Tag" :mask-closable="false" :closable='false'>
-                       <Input v-model="editTagData.tagName" placeholder="Edit Tag Name" style="width: 300px" />
+                       <div class="space">
+                        <Input type="text" v-model="adminUserData.fullName" placeholder="Full Name" style="width: 300px" />
+                      </div>
+                    <div class="space">
+                            <Input type="email" v-model="adminUserData.email" placeholder="Email" style="width: 300px" />
+                    </div>
+                    <div class="space">
+                    <Input type="password" v-model="adminUserData.pass" placeholder="Password" style="width: 300px" />
+                    </div>
+                    <div class="space">
+                    <Select v-model="adminUserData.userType" style="width:200px" placeholder="Select Admin Type">
+                    <Option  value="0">Admin</Option>
+                    <Option  value="1">Editor</Option>
+                    </Select>
+                    </div>
 
                     <div slot="footer">
-                    <Button type="default" @click="EditModal=false">Close</Button>
-                    <Button type="primary" @click="editTag" :disabled="isAdding" :loading='isAdding'>{{isAdding ? 'Editing...' : 'Edit Tag'}}</Button>
+                    <Button type="default" @click="customFlags.closeEditModal">Close</Button>
+                    <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading='customFlags.isAdding'>{{customFlags.isAdding ? 'Editing...' : 'Edit Tag'}}</Button>
                     </div>
                     </Modal>
-
-                    <deleteModal />
+    <!--
+                    <deleteModal /> -->
 
                    <!--  <Modal v-model="showDeleteModal" width="360">
                     <p slot="header" style="color:#f60;text-align:center">
@@ -118,77 +137,142 @@ export default {
     name : "adminusers",
     data() {
         return {
-            tagData : {
-                tagName : '',
+            adminUserData : {
+                fullName : '',
+                pass : '',
+                email : '',
+                userType : '0',
+            },
+             customFlags : {
+                isAdd : false,
+                AddModal :false,
+                isEdit : false,
+                EditModal :false,
+                index: -1,
+                deleteItem : {},
+                deleteIndex:-1,
+                showDeleteModal : false,
+                isLoading : false,
+                closeEditModal :  false,
+            },
+            dataList : [],
+             headers : [
+                   {name : '#'},
+                   {name : 'Name'},
+                   {name : 'Email'},
+                   {name : 'User Type'},
+                   {name : 'Created At'},
+                   {name : 'Actions'},
+            ],
+            userTypes : {
+                0 : 'Admin',
+                1 : 'Editor'
+            }
 
-            }, tags : [],
-            AddModal :false,
-            EditModal :false,
-            isAdding : false,
-            editTagData : {
-                tagName : '',
-            },index: -1,
-            showDeleteModal : false,
-            deleteItem : {},
-            deleteIndex:-1,
-            modalLoading : false
+
+
+
+
+           /*  editAdminUserData  : {
+                fullName : '',
+                pass : '',
+                email : '',
+                userType : '',
+            }, */
         }
     },
-     mounted() {
 
-         this.getdata();
-     },
     methods: {
-       async addTag() {
-            if (this.tagData.tagName.trim() == '') {
-                return this.error('Tag Name is required');
-            }
-              const res =  await this.callApi('post','/app/create_tag',this.tagData);
-              if (res.status == 201) {
-                  this.tags.unshift(res.data);
-                  this.success('Tag has been added successfully!');
-                  this.AddModal = false;
-              } else{
-                  if (res.status == 422) {
-                      if (res.data.errors.tagName) {
-                          this.info(res.data.errors.tagName[0]);
-                      }
-                   } else {
-                        this.error('Some error occured');
-                   }
+       addData() {
+           this.customFlags.isAdd = true;
+           this.customFlags.AddModal=true;
+           this.customFlags.closeEditModal = true;
+        },
+         showEditModal(data,index) {
+           /*  let obj = {
+                id:data.id,
+                categoryName : data.category_name
+            } */
+            console.log('eeee');
+            this.customFlags.isEdit = true;
+            this.adminUserData = data;
+            this.customFlags.EditModal =true;
+            this.customFlags.index = index;
+        },
+         async saveData(){
+                 this.customFlags.isAdding = true;
+                if (this.customFlags.isAdd) {
+                   /*  if (this.adminUserData.fullName.trim() == '') {
+                        return this.error('Full Name is required');
+                    }
+                    if (this.adminUserData.email.trim() == '') {
+                        return this.error('Email is required');
+                    }
+                    if (this.adminUserData.pass.trim() == '') {
+                        return this.error('Password is required');
+                    }
+                    if (this.adminUserData.userType.trim() == '') {
+                        return this.error('UserType is required');
+                    } */
 
-              }
-              this.tagData = {};
-        },
-      async editTag() {
-            if (this.editTagData.tagName.trim() == '') {
-                return this.error('Tag Name is required');
-            }
-              const res =  await this.callApi('post','/app/edit_tag',this.editTagData);
-              if (res.status == 200) {
-                  this.tags[this.index].tagName=this.editTagData.tagName;
-                  this.success('Tag has been edited successfully!');
-                  this.EditModal = false;
-              } else{
-                  if (res.status == 422) {
-                      if (res.data.errors.tagName) {
-                          this.info(res.data.errors.tagName[0]);
-                      }
-                   } else {
-                        this.error('Some error occured');
-                   }
+                    const res =  await this.callApi('post','/app/create_user',this.adminUserData);
+                    if (res.status == 201) {
+                        this.dataList.unshift(res.data);
+                        this.success('User has been added successfully!');
+                         this.adminUserData = {};
+                    } else{
+                    if (res.status == 422) {
 
-              }
+
+                        if (res.data.errors.fullName) {
+                            this.info(res.data.errors.fullName[0]);
+                        }
+                        if (res.data.errors.email) {
+                            this.info(res.data.errors.email[0]);
+                        }
+                        if (res.data.errors.pass) {
+                            this.info(res.data.errors.pass[0]);
+                        }
+                        if (res.data.errors.userType) {
+                            this.info(res.data.errors.userType[0]);
+                        }
+
+                    } else {
+                            this.error('Some error occured');
+                        }
+
+                    }
+                    this.adminUserData = {};
+                    this.customFlags.isAdd = false;
+                    this.customFlags.AddModal = false;
+                    this.customFlags.isAdding = false;
+                }
+                if (this.customFlags.isEdit) {
+                    if (this.editCategoryData.category_name.trim() == '') {
+                        return this.error('Category Name is required');
+                    }
+                    const res =  await this.callApi('post','/app/edit_category',this.editCategoryData);
+                    if (res.status == 200) {
+                        this.categories[this.customFlags.index].categoryName=this.editCategoryData.category_name;
+                        this.success('Category has been edited successfully!');
+
+                    } else{
+                        if (res.status == 422) {
+                            if (res.data.errors.category_name) {
+                                this.info(res.data.errors.category_name[0]);
+                            }
+                        } else {
+                            this.error('Some error occured');
+                        }
+
+                    }
+                    this.customFlags.isEdit = false;
+                    this.customFlags.EditModal = false;
+                    this.editCategoryData= {};
+                }
+
         },
-        showEditModal(tag,index) {
-            let obj = {
-                id:tag.id,
-                tagName : tag.tagName
-            }
-            this.editTagData = obj;
-            this.EditModal =true;
-            this.index = index;
-        },
+
         showDeletingModal(data,index) {
           /*   this.deleteItem = data;
             this.deleteIndex = index;
@@ -206,14 +290,15 @@ export default {
          async getdata() {
 
                 this.token = window.Laravel.csrfToken;
-                const res = await this.callApi('get','/app/get_tag');
+                const res = await this.callApi('get','/app/get_user');
                 if (res.status == 200) {
-                    this.tags = res.data;
+                    this.dataList = res.data;
                 }
             }
 
     },
        created() {
+           console.log(1);
             this.getdata();
        /*  const res = await this.callApi('get','/app/get_tag');
         if (res.status == 200) {

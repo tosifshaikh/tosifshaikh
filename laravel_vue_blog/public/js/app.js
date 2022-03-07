@@ -2337,137 +2337,194 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "adminusers",
   data: function data() {
     return {
-      tagData: {
-        tagName: ''
+      adminUserData: {
+        fullName: '',
+        pass: '',
+        email: '',
+        userType: '0'
       },
-      tags: [],
-      AddModal: false,
-      EditModal: false,
-      isAdding: false,
-      editTagData: {
-        tagName: ''
+      customFlags: {
+        isAdd: false,
+        AddModal: false,
+        isEdit: false,
+        EditModal: false,
+        index: -1,
+        deleteItem: {},
+        deleteIndex: -1,
+        showDeleteModal: false,
+        isLoading: false,
+        closeEditModal: false
       },
-      index: -1,
-      showDeleteModal: false,
-      deleteItem: {},
-      deleteIndex: -1,
-      modalLoading: false
+      dataList: [],
+      headers: [{
+        name: '#'
+      }, {
+        name: 'Name'
+      }, {
+        name: 'Email'
+      }, {
+        name: 'User Type'
+      }, {
+        name: 'Created At'
+      }, {
+        name: 'Actions'
+      }],
+      userTypes: {
+        0: 'Admin',
+        1: 'Editor'
+      }
+      /*  editAdminUserData  : {
+           fullName : '',
+           pass : '',
+           email : '',
+           userType : '',
+       }, */
+
     };
   },
-  mounted: function mounted() {
-    this.getdata();
-  },
   methods: {
-    addTag: function addTag() {
+    addData: function addData() {
+      this.customFlags.isAdd = true;
+      this.customFlags.AddModal = true;
+      this.customFlags.closeEditModal = true;
+    },
+    showEditModal: function showEditModal(data, index) {
+      /*  let obj = {
+           id:data.id,
+           categoryName : data.category_name
+       } */
+      console.log('eeee');
+      this.customFlags.isEdit = true;
+      this.adminUserData = data;
+      this.customFlags.EditModal = true;
+      this.customFlags.index = index;
+    },
+    saveData: function saveData() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var res;
+        var res, _res;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.tagData.tagName.trim() == '')) {
-                  _context.next = 2;
+                _this.customFlags.isAdding = true;
+
+                if (!_this.customFlags.isAdd) {
+                  _context.next = 10;
                   break;
                 }
 
-                return _context.abrupt("return", _this.error('Tag Name is required'));
-
-              case 2:
                 _context.next = 4;
-                return _this.callApi('post', '/app/create_tag', _this.tagData);
+                return _this.callApi('post', '/app/create_user', _this.adminUserData);
 
               case 4:
                 res = _context.sent;
 
                 if (res.status == 201) {
-                  _this.tags.unshift(res.data);
+                  _this.dataList.unshift(res.data);
 
-                  _this.success('Tag has been added successfully!');
+                  _this.success('User has been added successfully!');
 
-                  _this.AddModal = false;
+                  _this.adminUserData = {};
                 } else {
                   if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                      _this.info(res.data.errors.tagName[0]);
+                    if (res.data.errors.fullName) {
+                      _this.info(res.data.errors.fullName[0]);
+                    }
+
+                    if (res.data.errors.email) {
+                      _this.info(res.data.errors.email[0]);
+                    }
+
+                    if (res.data.errors.pass) {
+                      _this.info(res.data.errors.pass[0]);
+                    }
+
+                    if (res.data.errors.userType) {
+                      _this.info(res.data.errors.userType[0]);
                     }
                   } else {
                     _this.error('Some error occured');
                   }
                 }
 
-                _this.tagData = {};
+                _this.adminUserData = {};
+                _this.customFlags.isAdd = false;
+                _this.customFlags.AddModal = false;
+                _this.customFlags.isAdding = false;
 
-              case 7:
+              case 10:
+                if (!_this.customFlags.isEdit) {
+                  _context.next = 20;
+                  break;
+                }
+
+                if (!(_this.editCategoryData.category_name.trim() == '')) {
+                  _context.next = 13;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error('Category Name is required'));
+
+              case 13:
+                _context.next = 15;
+                return _this.callApi('post', '/app/edit_category', _this.editCategoryData);
+
+              case 15:
+                _res = _context.sent;
+
+                if (_res.status == 200) {
+                  _this.categories[_this.customFlags.index].categoryName = _this.editCategoryData.category_name;
+
+                  _this.success('Category has been edited successfully!');
+                } else {
+                  if (_res.status == 422) {
+                    if (_res.data.errors.category_name) {
+                      _this.info(_res.data.errors.category_name[0]);
+                    }
+                  } else {
+                    _this.error('Some error occured');
+                  }
+                }
+
+                _this.customFlags.isEdit = false;
+                _this.customFlags.EditModal = false;
+                _this.editCategoryData = {};
+
+              case 20:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
-    },
-    editTag: function editTag() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!(_this2.editTagData.tagName.trim() == '')) {
-                  _context2.next = 2;
-                  break;
-                }
-
-                return _context2.abrupt("return", _this2.error('Tag Name is required'));
-
-              case 2:
-                _context2.next = 4;
-                return _this2.callApi('post', '/app/edit_tag', _this2.editTagData);
-
-              case 4:
-                res = _context2.sent;
-
-                if (res.status == 200) {
-                  _this2.tags[_this2.index].tagName = _this2.editTagData.tagName;
-
-                  _this2.success('Tag has been edited successfully!');
-
-                  _this2.EditModal = false;
-                } else {
-                  if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                      _this2.info(res.data.errors.tagName[0]);
-                    }
-                  } else {
-                    _this2.error('Some error occured');
-                  }
-                }
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    showEditModal: function showEditModal(tag, index) {
-      var obj = {
-        id: tag.id,
-        tagName: tag.tagName
-      };
-      this.editTagData = obj;
-      this.EditModal = true;
-      this.index = index;
     },
     showDeletingModal: function showDeletingModal(data, index) {
       /*   this.deleteItem = data;
@@ -2484,35 +2541,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$store.commit('setDeletingModalObj', deleteModalObj);
     },
     getdata: function getdata() {
-      var _this3 = this;
+      var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.token = window.Laravel.csrfToken;
-                _context3.next = 3;
-                return _this3.callApi('get', '/app/get_tag');
+                _this2.token = window.Laravel.csrfToken;
+                _context2.next = 3;
+                return _this2.callApi('get', '/app/get_user');
 
               case 3:
-                res = _context3.sent;
+                res = _context2.sent;
 
                 if (res.status == 200) {
-                  _this3.tags = res.data;
+                  _this2.dataList = res.data;
                 }
 
               case 5:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     }
   },
   created: function created() {
+    console.log(1);
     this.getdata();
     /*  const res = await this.callApi('get','/app/get_tag');
      if (res.status == 200) {
@@ -68310,13 +68368,7 @@ var render = function () {
               [
                 _c(
                   "Button",
-                  {
-                    on: {
-                      click: function ($event) {
-                        _vm.AddModal = true
-                      },
-                    },
-                  },
+                  { on: { click: _vm.addData } },
                   [
                     _c("Icon", { attrs: { type: "md-add" } }),
                     _vm._v(" Add admin user"),
@@ -68330,18 +68382,34 @@ var render = function () {
             _c("div", { staticClass: "card-body table-border-style" }, [
               _c("div", { staticClass: "table-responsive" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(1),
+                  _c("thead", [
+                    _c(
+                      "tr",
+                      _vm._l(_vm.headers, function (header, indx) {
+                        return _c("th", { key: indx }, [
+                          _vm._v(_vm._s(header.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
                     [
-                      _vm._l(_vm.tags, function (tag, i) {
+                      _vm._l(_vm.dataList, function (val, i) {
                         return _c("tr", { key: i }, [
                           _c("td", [_vm._v(_vm._s(i + 1))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(tag.tagName))]),
+                          _c("td", [_vm._v(_vm._s(val.fullName))]),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(tag.created_at))]),
+                          _c("td", [_vm._v(_vm._s(val.email))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.userTypes[val.userType])),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(val.created_at))]),
                           _vm._v(" "),
                           _c(
                             "td",
@@ -68352,7 +68420,7 @@ var render = function () {
                                   attrs: { type: "info", size: "small" },
                                   on: {
                                     click: function ($event) {
-                                      return _vm.showEditModal(tag, i)
+                                      return _vm.showEditModal(val, i)
                                     },
                                   },
                                 },
@@ -68365,11 +68433,11 @@ var render = function () {
                                   attrs: {
                                     type: "error",
                                     size: "small",
-                                    loading: tag.isDeleteting,
+                                    loading: _vm.customFlags.isLoading,
                                   },
                                   on: {
                                     click: function ($event) {
-                                      return _vm.showDeletingModal(tag, i)
+                                      return _vm.showDeletingModal(val, i)
                                     },
                                   },
                                 },
@@ -68381,7 +68449,7 @@ var render = function () {
                         ])
                       }),
                       _vm._v(" "),
-                      _vm.tags.length <= 0
+                      _vm.dataList.length <= 0
                         ? _c("tr", [_c("td", [_vm._v("No Data")])])
                         : _vm._e(),
                     ],
@@ -68400,11 +68468,11 @@ var render = function () {
                   closable: false,
                 },
                 model: {
-                  value: _vm.AddModal,
+                  value: _vm.customFlags.AddModal,
                   callback: function ($$v) {
-                    _vm.AddModal = $$v
+                    _vm.$set(_vm.customFlags, "AddModal", $$v)
                   },
-                  expression: "AddModal",
+                  expression: "customFlags.AddModal",
                 },
               },
               [
@@ -68416,11 +68484,11 @@ var render = function () {
                       staticStyle: { width: "300px" },
                       attrs: { type: "text", placeholder: "Full Name" },
                       model: {
-                        value: _vm.tagData.tagName,
+                        value: _vm.adminUserData.fullName,
                         callback: function ($$v) {
-                          _vm.$set(_vm.tagData, "tagName", $$v)
+                          _vm.$set(_vm.adminUserData, "fullName", $$v)
                         },
-                        expression: "tagData.tagName",
+                        expression: "adminUserData.fullName",
                       },
                     }),
                   ],
@@ -68435,11 +68503,11 @@ var render = function () {
                       staticStyle: { width: "300px" },
                       attrs: { type: "email", placeholder: "Email" },
                       model: {
-                        value: _vm.tagData.tagName,
+                        value: _vm.adminUserData.email,
                         callback: function ($$v) {
-                          _vm.$set(_vm.tagData, "tagName", $$v)
+                          _vm.$set(_vm.adminUserData, "email", $$v)
                         },
-                        expression: "tagData.tagName",
+                        expression: "adminUserData.email",
                       },
                     }),
                   ],
@@ -68454,13 +68522,45 @@ var render = function () {
                       staticStyle: { width: "300px" },
                       attrs: { type: "password", placeholder: "Password" },
                       model: {
-                        value: _vm.tagData.tagName,
+                        value: _vm.adminUserData.pass,
                         callback: function ($$v) {
-                          _vm.$set(_vm.tagData, "tagName", $$v)
+                          _vm.$set(_vm.adminUserData, "pass", $$v)
                         },
-                        expression: "tagData.tagName",
+                        expression: "adminUserData.pass",
                       },
                     }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "space" },
+                  [
+                    _c(
+                      "Select",
+                      {
+                        staticStyle: { width: "200px" },
+                        attrs: { placeholder: "Select Admin Type" },
+                        model: {
+                          value: _vm.adminUserData.userType,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.adminUserData, "userType", $$v)
+                          },
+                          expression: "adminUserData.userType",
+                        },
+                      },
+                      [
+                        _c("Option", { attrs: { value: "0" } }, [
+                          _vm._v("Admin"),
+                        ]),
+                        _vm._v(" "),
+                        _c("Option", { attrs: { value: "1" } }, [
+                          _vm._v("Editor"),
+                        ]),
+                      ],
+                      1
+                    ),
                   ],
                   1
                 ),
@@ -68473,11 +68573,7 @@ var render = function () {
                       "Button",
                       {
                         attrs: { type: "default" },
-                        on: {
-                          click: function ($event) {
-                            _vm.AddModal = false
-                          },
-                        },
+                        on: { click: _vm.customFlags.closeEditModal },
                       },
                       [_vm._v("Close")]
                     ),
@@ -68487,12 +68583,18 @@ var render = function () {
                       {
                         attrs: {
                           type: "primary",
-                          disabled: _vm.isAdding,
-                          loading: _vm.isAdding,
+                          disabled: _vm.customFlags.isAdding,
+                          loading: _vm.customFlags.isAdding,
                         },
-                        on: { click: _vm.addTag },
+                        on: { click: _vm.saveData },
                       },
-                      [_vm._v(_vm._s(_vm.isAdding ? "Saving..." : "Save"))]
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.customFlags.isAdding ? "Saving..." : "Save"
+                          )
+                        ),
+                      ]
                     ),
                   ],
                   1
@@ -68509,25 +68611,102 @@ var render = function () {
                   closable: false,
                 },
                 model: {
-                  value: _vm.EditModal,
+                  value: _vm.customFlags.EditModal,
                   callback: function ($$v) {
-                    _vm.EditModal = $$v
+                    _vm.$set(_vm.customFlags, "EditModal", $$v)
                   },
-                  expression: "EditModal",
+                  expression: "customFlags.EditModal",
                 },
               },
               [
-                _c("Input", {
-                  staticStyle: { width: "300px" },
-                  attrs: { placeholder: "Edit Tag Name" },
-                  model: {
-                    value: _vm.editTagData.tagName,
-                    callback: function ($$v) {
-                      _vm.$set(_vm.editTagData, "tagName", $$v)
-                    },
-                    expression: "editTagData.tagName",
-                  },
-                }),
+                _c(
+                  "div",
+                  { staticClass: "space" },
+                  [
+                    _c("Input", {
+                      staticStyle: { width: "300px" },
+                      attrs: { type: "text", placeholder: "Full Name" },
+                      model: {
+                        value: _vm.adminUserData.fullName,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.adminUserData, "fullName", $$v)
+                        },
+                        expression: "adminUserData.fullName",
+                      },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "space" },
+                  [
+                    _c("Input", {
+                      staticStyle: { width: "300px" },
+                      attrs: { type: "email", placeholder: "Email" },
+                      model: {
+                        value: _vm.adminUserData.email,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.adminUserData, "email", $$v)
+                        },
+                        expression: "adminUserData.email",
+                      },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "space" },
+                  [
+                    _c("Input", {
+                      staticStyle: { width: "300px" },
+                      attrs: { type: "password", placeholder: "Password" },
+                      model: {
+                        value: _vm.adminUserData.pass,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.adminUserData, "pass", $$v)
+                        },
+                        expression: "adminUserData.pass",
+                      },
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "space" },
+                  [
+                    _c(
+                      "Select",
+                      {
+                        staticStyle: { width: "200px" },
+                        attrs: { placeholder: "Select Admin Type" },
+                        model: {
+                          value: _vm.adminUserData.userType,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.adminUserData, "userType", $$v)
+                          },
+                          expression: "adminUserData.userType",
+                        },
+                      },
+                      [
+                        _c("Option", { attrs: { value: "0" } }, [
+                          _vm._v("Admin"),
+                        ]),
+                        _vm._v(" "),
+                        _c("Option", { attrs: { value: "1" } }, [
+                          _vm._v("Editor"),
+                        ]),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -68537,11 +68716,7 @@ var render = function () {
                       "Button",
                       {
                         attrs: { type: "default" },
-                        on: {
-                          click: function ($event) {
-                            _vm.EditModal = false
-                          },
-                        },
+                        on: { click: _vm.customFlags.closeEditModal },
                       },
                       [_vm._v("Close")]
                     ),
@@ -68551,21 +68726,24 @@ var render = function () {
                       {
                         attrs: {
                           type: "primary",
-                          disabled: _vm.isAdding,
-                          loading: _vm.isAdding,
+                          disabled: _vm.customFlags.isAdding,
+                          loading: _vm.customFlags.isAdding,
                         },
-                        on: { click: _vm.editTag },
+                        on: { click: _vm.saveData },
                       },
-                      [_vm._v(_vm._s(_vm.isAdding ? "Editing..." : "Edit Tag"))]
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.customFlags.isAdding ? "Editing..." : "Edit Tag"
+                          )
+                        ),
+                      ]
                     ),
                   ],
                   1
                 ),
-              ],
-              1
+              ]
             ),
-            _vm._v(" "),
-            _c("deleteModal"),
           ],
           1
         ),
@@ -68603,22 +68781,6 @@ var staticRenderFns = [
             ]),
           ]),
         ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Tag Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Created At")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Actions")]),
       ]),
     ])
   },
@@ -86986,13 +87148,13 @@ var routes = [{
   path: "/tags",
   name: "tags",
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./admin/pages/tags.vue */ "./resources/js/admin/pages/tags.vue"));
+    return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./admin/pages/tags.vue */ "./resources/js/admin/pages/tags.vue"));
   }
 }, {
   path: "/category",
   name: "category",
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./admin/pages/category.vue */ "./resources/js/admin/pages/category.vue"));
+    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./admin/pages/category.vue */ "./resources/js/admin/pages/category.vue"));
   }
 }, {
   path: "/admin-users",

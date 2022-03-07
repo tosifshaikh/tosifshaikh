@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,10 @@ Route::post('/app/create_category',[CategoryController::class,'addCategory']);
 Route::get('/app/get_category',[CategoryController::class,'getCategory']);
 Route::post('/app/delete_category',[CategoryController::class,'delete']);
 Route::post('/app/edit_category',[CategoryController::class,'edit']);
+Route::post('/app/create_user',[AdminController::class,'create']);
+Route::get('/app/get_user',[AdminController::class,'index']);
+Route::post('/app/delete_user',[AdminController::class,'destroy']);
+Route::post('/app/edit_user',[AdminController::class,'edit']);
 
 
 
