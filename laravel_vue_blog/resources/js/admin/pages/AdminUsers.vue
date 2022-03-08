@@ -77,7 +77,7 @@
                     </Select>
                     </div>
                     <div slot="footer">
-                    <Button type="default" @click="customFlags.closeEditModal">Close</Button>
+                    <Button type="default" @click="customFlags.AddModal=false">Close</Button>
                     <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading=' customFlags.isAdding'>{{customFlags.isAdding ? 'Saving...' : 'Save'}}</Button>
                     </div>
                     </Modal>
@@ -103,8 +103,8 @@
                     </div>
 
                     <div slot="footer">
-                    <Button type="default" @click="customFlags.closeEditModal">Close</Button>
-                    <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading='customFlags.isAdding'>{{customFlags.isAdding ? 'Editing...' : 'Edit Tag'}}</Button>
+                    <Button type="default" @click="customFlags.EditModal=false">Close</Button>
+                    <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading='customFlags.isAdding'>{{customFlags.isAdding ? 'Updating...' : 'Update'}}</Button>
                     </div>
                     </Modal>
     <!--
@@ -167,7 +167,7 @@ export default {
             userTypes : {
                 0 : 'Admin',
                 1 : 'Editor'
-            }
+            },
 
 
 
@@ -189,13 +189,16 @@ export default {
            this.customFlags.closeEditModal = true;
         },
          showEditModal(data,index) {
-           /*  let obj = {
+             let obj = {
                 id:data.id,
-                categoryName : data.category_name
-            } */
-            console.log('eeee');
+                fullName : data.fullName,
+                pass: '',
+                email : data.email,
+                userType : data.userType.toString()
+            }
+            console.log(obj,data,data.userType)
             this.customFlags.isEdit = true;
-            this.adminUserData = data;
+            this.adminUserData = obj;
             this.customFlags.EditModal =true;
             this.customFlags.index = index;
         },
@@ -222,20 +225,7 @@ export default {
                          this.adminUserData = {};
                     } else{
                     if (res.status == 422) {
-
-
-                        if (res.data.errors.fullName) {
-                            this.info(res.data.errors.fullName[0]);
-                        }
-                        if (res.data.errors.email) {
-                            this.info(res.data.errors.email[0]);
-                        }
-                        if (res.data.errors.pass) {
-                            this.info(res.data.errors.pass[0]);
-                        }
-                        if (res.data.errors.userType) {
-                            this.info(res.data.errors.userType[0]);
-                        }
+                       errorMsg(res.data.errors);
 
                     } else {
                             this.error('Some error occured');
@@ -248,19 +238,22 @@ export default {
                     this.customFlags.isAdding = false;
                 }
                 if (this.customFlags.isEdit) {
-                    if (this.editCategoryData.category_name.trim() == '') {
-                        return this.error('Category Name is required');
+                    if (this.adminUserData.fullName.trim() == '') {
+                        return this.error('Name is required');
                     }
-                    const res =  await this.callApi('post','/app/edit_category',this.editCategoryData);
+                    if (this.adminUserData.email.trim() == '') {
+                        return this.error('Email is required');
+                    }
+
+                    const res =  await this.callApi('post','/app/edit_user',this.adminUserData);
                     if (res.status == 200) {
-                        this.categories[this.customFlags.index].categoryName=this.editCategoryData.category_name;
-                        this.success('Category has been edited successfully!');
+                        this.dataList[this.customFlags.index]=this.adminUserData;
+                        this.success('User has been edited successfully!');
 
                     } else{
                         if (res.status == 422) {
-                            if (res.data.errors.category_name) {
-                                this.info(res.data.errors.category_name[0]);
-                            }
+                            errorMsg(res.data.errors);
+
                         } else {
                             this.error('Some error occured');
                         }
@@ -268,9 +261,27 @@ export default {
                     }
                     this.customFlags.isEdit = false;
                     this.customFlags.EditModal = false;
-                    this.editCategoryData= {};
+                    //this.editCategoryData= {};
+                    this.adminUserData= {};
                 }
 
+        },
+        errorMsg(error){
+                if (error.fullName) {
+                    this.info(error.fullName[0]);
+                }
+                if (error.email) {
+                    this.info(error.email[0]);
+                }
+                if(this.customFlags.isEdit) {
+                    if (error.pass) {
+                        this.info(error.pass[0]);
+                    }
+                }
+
+                if (error.userType) {
+                 this.info(error.userType[0]);
+                }
         },
 
         showDeletingModal(data,index) {

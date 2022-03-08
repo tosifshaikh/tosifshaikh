@@ -2414,13 +2414,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.customFlags.closeEditModal = true;
     },
     showEditModal: function showEditModal(data, index) {
-      /*  let obj = {
-           id:data.id,
-           categoryName : data.category_name
-       } */
-      console.log('eeee');
+      var obj = {
+        id: data.id,
+        fullName: data.fullName,
+        pass: '',
+        email: data.email,
+        userType: data.userType.toString()
+      };
+      console.log(obj, data, data.userType);
       this.customFlags.isEdit = true;
-      this.adminUserData = data;
+      this.adminUserData = obj;
       this.customFlags.EditModal = true;
       this.customFlags.index = index;
     },
@@ -2455,21 +2458,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.adminUserData = {};
                 } else {
                   if (res.status == 422) {
-                    if (res.data.errors.fullName) {
-                      _this.info(res.data.errors.fullName[0]);
-                    }
-
-                    if (res.data.errors.email) {
-                      _this.info(res.data.errors.email[0]);
-                    }
-
-                    if (res.data.errors.pass) {
-                      _this.info(res.data.errors.pass[0]);
-                    }
-
-                    if (res.data.errors.userType) {
-                      _this.info(res.data.errors.userType[0]);
-                    }
+                    errorMsg(res.data.errors);
                   } else {
                     _this.error('Some error occured');
                   }
@@ -2482,49 +2471,75 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 10:
                 if (!_this.customFlags.isEdit) {
-                  _context.next = 20;
+                  _context.next = 22;
                   break;
                 }
 
-                if (!(_this.editCategoryData.category_name.trim() == '')) {
+                if (!(_this.adminUserData.fullName.trim() == '')) {
                   _context.next = 13;
                   break;
                 }
 
-                return _context.abrupt("return", _this.error('Category Name is required'));
+                return _context.abrupt("return", _this.error('Name is required'));
 
               case 13:
-                _context.next = 15;
-                return _this.callApi('post', '/app/edit_category', _this.editCategoryData);
+                if (!(_this.adminUserData.email.trim() == '')) {
+                  _context.next = 15;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error('Email is required'));
 
               case 15:
+                _context.next = 17;
+                return _this.callApi('post', '/app/edit_user', _this.adminUserData);
+
+              case 17:
                 _res = _context.sent;
 
                 if (_res.status == 200) {
-                  _this.categories[_this.customFlags.index].categoryName = _this.editCategoryData.category_name;
+                  _this.dataList[_this.customFlags.index] = _this.adminUserData;
 
-                  _this.success('Category has been edited successfully!');
+                  _this.success('User has been edited successfully!');
                 } else {
                   if (_res.status == 422) {
-                    if (_res.data.errors.category_name) {
-                      _this.info(_res.data.errors.category_name[0]);
-                    }
+                    errorMsg(_res.data.errors);
                   } else {
                     _this.error('Some error occured');
                   }
                 }
 
                 _this.customFlags.isEdit = false;
-                _this.customFlags.EditModal = false;
-                _this.editCategoryData = {};
+                _this.customFlags.EditModal = false; //this.editCategoryData= {};
 
-              case 20:
+                _this.adminUserData = {};
+
+              case 22:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    errorMsg: function errorMsg(error) {
+      if (error.fullName) {
+        this.info(error.fullName[0]);
+      }
+
+      if (error.email) {
+        this.info(error.email[0]);
+      }
+
+      if (this.customFlags.isEdit) {
+        if (error.pass) {
+          this.info(error.pass[0]);
+        }
+      }
+
+      if (error.userType) {
+        this.info(error.userType[0]);
+      }
     },
     showDeletingModal: function showDeletingModal(data, index) {
       /*   this.deleteItem = data;
@@ -68573,7 +68588,11 @@ var render = function () {
                       "Button",
                       {
                         attrs: { type: "default" },
-                        on: { click: _vm.customFlags.closeEditModal },
+                        on: {
+                          click: function ($event) {
+                            _vm.customFlags.AddModal = false
+                          },
+                        },
                       },
                       [_vm._v("Close")]
                     ),
@@ -68716,7 +68735,11 @@ var render = function () {
                       "Button",
                       {
                         attrs: { type: "default" },
-                        on: { click: _vm.customFlags.closeEditModal },
+                        on: {
+                          click: function ($event) {
+                            _vm.customFlags.EditModal = false
+                          },
+                        },
                       },
                       [_vm._v("Close")]
                     ),
@@ -68734,7 +68757,7 @@ var render = function () {
                       [
                         _vm._v(
                           _vm._s(
-                            _vm.customFlags.isAdding ? "Editing..." : "Edit Tag"
+                            _vm.customFlags.isAdding ? "Updating..." : "Update"
                           )
                         ),
                       ]

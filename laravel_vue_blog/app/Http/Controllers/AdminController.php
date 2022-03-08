@@ -22,7 +22,7 @@ class AdminController extends Controller
     {
         $this->validate( $request,[
             'fullName' => 'required',
-            'email' => 'bail|required|email',
+            'email' => 'bail|required|email|unique:users',
             'pass' => 'bail|required|min:6',
             'userType' => 'required',
         ]);
@@ -35,9 +35,25 @@ class AdminController extends Controller
             'userType' => $request->userType,
          ]);
     }
-    public function edit()
+    public function edit(Request $request)
     {
-        # code...
+        $this->validate( $request,[
+            'fullName' => 'required',
+            'email' => "bail|required|email|unique:users,email,$request->id",
+            'pass' => 'min:6',
+            'userType' => 'required',
+        ]);
+      $data =  [
+            'fullName' => $request->fullName,
+            'email' => $request->email,
+            'userType' => $request->userType,
+      ];
+        if ($request->pass) {
+            $data['pass'] = bcrypt($request->pass);
+        }
+
+
+         return  $this->user->where('id',$request->id)->update( $data);
     }
     public function destroy()
     {
