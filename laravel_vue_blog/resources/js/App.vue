@@ -1,24 +1,32 @@
 
 <template>
 <div id="app">
-   <div class="loader-bg">
+    <div v-if="isLoggedIn">
+  <div class="loader-bg">
 		<div class="loader-track">
 			<div class="loader-fill"></div>
 		</div>
 	</div>
   <Navbar />
-  <Header/> 
+  <Header/>
 <div class="pcoded-main-container">
     <div class="pcoded-content">
-        
-      <router-view ></router-view>
+
+       <router-view ></router-view>
         </div>
-     
-     
+
+
     </div>
- 
- 
-  
+
+
+    </div>
+     <router-view ></router-view>
+    <div v-if="isLoggedIn==false">
+ <router-view ></router-view>
+    </div>
+
+
+
 
 </div>
 
@@ -32,11 +40,16 @@ export default {
     Header,
     Navbar,
      },
+     data() {
+         return {
+                isLoggedIn :false
+         }
+     },
     mounted() {
          this.$nextTick(()=>{
          /*  var script = document.createElement('script');
           script.setAttribute('src','/js/vendor-all.min.js');
-          
+
           document.head.appendChild(script);
           var script = document.createElement('script');
           script.setAttribute('src','/js/bootstrap.min.js');
@@ -44,7 +57,7 @@ export default {
           var script = document.createElement('script');
           script.setAttribute('src','/js/pcoded.min.js');
           document.head.appendChild(script);  */
-       }); 
+       });
     },
 }
 </script>

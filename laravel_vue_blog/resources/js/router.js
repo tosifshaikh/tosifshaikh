@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import adminusers from './admin/pages/AdminUsers.vue';
+import login from './components/login.vue';
 Vue.use(Router)
 const routes = [
     {
@@ -28,6 +29,10 @@ const routes = [
         path: "/admin-users",
             name : "adminusers",
             component: adminusers,
+    },{
+        path: "/login",
+            name : "login",
+            component: login,
     }
 
 

@@ -30,6 +30,7 @@ Route::post('/app/create_user',[AdminController::class,'create']);
 Route::get('/app/get_user',[AdminController::class,'index']);
 Route::post('/app/delete_user',[AdminController::class,'destroy']);
 Route::post('/app/edit_user',[AdminController::class,'edit']);
+Route::post('/app/login',[AdminController::class,'login']);
 
 
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -58,5 +58,21 @@ class AdminController extends Controller
     public function destroy()
     {
         # code...
+    }
+    public function login(Request $request)
+    {
+        $this->validate( $request,[
+            'email' => "bail|required|email",
+            'pass' => 'bail|required|min:6',
+        ]);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->pass])) {
+                return response()->json([
+                'msg' => 'You are logged in'
+                ]);
+        } else {
+            return response()->json([
+                'msg' => 'Incorrect Login Details'
+                ],401);
+        }
     }
 }

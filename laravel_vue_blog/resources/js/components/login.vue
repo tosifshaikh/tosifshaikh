@@ -1,0 +1,84 @@
+<template>
+<div class="auth-wrapper">
+	<div class="auth-content text-center">
+		<img src="assets/images/logo.png" alt="" class="img-fluid mb-4">
+		<div class="card borderless">
+			<div class="row align-items-center ">
+				<div class="col-md-12">
+					<div class="card-body">
+						<h4 class="mb-3 f-w-400">Signin</h4>
+						<hr>
+						<div class="form-group mb-3">
+							<input type="email" class="form-control" id="Email" placeholder="Email address" v-model="loginData.email">
+						</div>
+						<div class="form-group mb-4">
+							<input type="password" class="form-control" id="Password" placeholder="***********" v-model="loginData.pass">
+						</div>
+						<div class="custom-control custom-checkbox text-left mb-4 mt-2">
+							<input type="checkbox" class="custom-control-input" id="customCheck1">
+							<label class="custom-control-label" for="customCheck1">Save credentials.</label>
+						</div>
+
+						<button class="btn btn-block btn-primary mb-4" @click="login" :disabled="isLogging" >{{ isLogging ? 'Signing...' : 'Signin'}}</button>
+						<hr>
+						<p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p>
+						<p class="mb-0 text-muted">Don’t have an account? <a href="auth-signup.html" class="f-w-400">Signup</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            loginData : {
+                email : '',
+                pass: ''
+            },
+            isLogging : false,
+        }
+    },
+    methods: {
+      async login() {
+                if (this.loginData.email.trim() == '') {
+                    return this.error('Email is required');
+                }
+                if (this.loginData.pass.trim() == '') {
+                    return this.error('Password is required');
+                }
+                if (this.loginData.pass.length < 6) {
+                    return this.error('Incorrect Login Details');
+                }
+                this.isLogging = true;
+                const res = await this.callApi('post','app/login',this.loginData);
+
+                if (res.status == 200) {
+
+                    this.success(res.data.msg);
+                }
+                else {
+                    if (res.status == 401) {
+                             this.info(res.data.msg);
+                    } else if(res.status == 422) {
+
+                            for(let e in res.data.errors) {
+                                     this.info(res.data.errors[e][0]);
+                            }
+                    }
+                    else {
+                          this.error();
+                    }
+                }
+                this.isLogging = false;
+       }
+    },
+}
+</script>
+
+<style>
+
+</style>
