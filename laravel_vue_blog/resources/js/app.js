@@ -5,22 +5,20 @@ import App from './App.vue';
 import router from './router.js';
 import ViewUI from 'view-design';
 import common from './common';
-//import '../../public/js/vendor-all.min.js'
-//import '../../public/js/bootstrap.min'
-//import '../../public/js/pcoded.min.js'
-//import '../../public/js/pcoded.min.js'
 // import style
 import 'view-design/dist/styles/iview.css';
 
 Vue.use(ViewUI);
 Vue.use(router);
 Vue.mixin(common);
+Vue.component('App', require('./App.vue').default);
  //window.addEventListener('load', function () {
     const app = new Vue({
-        el: "#app",
+        //el: "#app",
+
         router,store,
-        render : h => h(App)
-    })
+      //  render : h => h(App)
+    }).$mount('#app')
 //}) ;
 /* const app = new Vue({
     el: "#app",

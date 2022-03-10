@@ -4,11 +4,11 @@ import adminusers from './admin/pages/AdminUsers.vue';
 import login from './components/login.vue';
 Vue.use(Router)
 const routes = [
-    {
+   /*  {
         path: "/",
         redirect : "/dashboard"
     }
-    ,
+    , */
     {
         path: "/dashboard",
         name : "dashboard",

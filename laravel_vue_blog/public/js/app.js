@@ -2059,17 +2059,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2078,23 +2067,29 @@ __webpack_require__.r(__webpack_exports__);
     Header: _components_header_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Navbar: _components_navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: ["user"],
   data: function data() {
     return {
       isLoggedIn: false
     };
   },
   mounted: function mounted() {
+    //console.log(this.userData)
     this.$nextTick(function () {
       /*  var script = document.createElement('script');
-       script.setAttribute('src','/js/vendor-all.min.js');
-        document.head.appendChild(script);
-       var script = document.createElement('script');
-       script.setAttribute('src','/js/bootstrap.min.js');
-       document.head.appendChild(script);
-       var script = document.createElement('script');
-       script.setAttribute('src','/js/pcoded.min.js');
-       document.head.appendChild(script);  */
+          script.setAttribute('src','/js/vendor-all.min.js');
+           document.head.appendChild(script);
+          var script = document.createElement('script');
+          script.setAttribute('src','/js/bootstrap.min.js');
+          document.head.appendChild(script);
+          var script = document.createElement('script');
+          script.setAttribute('src','/js/pcoded.min.js');
+          document.head.appendChild(script);  */
     });
+  },
+  created: function created() {
+    this.$store.commit('updateUser', this.user);
+    console.log(this.user, this.$router.currentRoute.path);
   }
 });
 
@@ -2931,13 +2926,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res = _context.sent;
 
                 if (res.status == 200) {
-                  _this.success(res.data.msg);
+                  // this.$router.push('/')
+                  window.location = '/dashboard'; // this.success(res.data.msg);
                 } else {
                   if (res.status == 401) {
-                    _this.info(res.data.msg);
+                    _this.error(res.data.msg);
                   } else if (res.status == 422) {
                     for (e in res.data.errors) {
-                      _this.info(res.data.errors[e][0]);
+                      _this.error(res.data.errors[e][0]);
                     }
                   } else {
                     _this.error();
@@ -68369,39 +68365,34 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "app" } },
-    [
-      _vm.isLoggedIn
-        ? _c(
-            "div",
-            [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("Navbar"),
-              _vm._v(" "),
-              _c("Header"),
-              _vm._v(" "),
-              _c("div", { staticClass: "pcoded-main-container" }, [
-                _c(
-                  "div",
-                  { staticClass: "pcoded-content" },
-                  [_c("router-view")],
-                  1
-                ),
-              ]),
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("router-view"),
-      _vm._v(" "),
-      _vm.isLoggedIn == false ? _c("div", [_c("router-view")], 1) : _vm._e(),
-    ],
-    1
-  )
+  return _c("div", { attrs: { id: "app" } }, [
+    _vm.$store.state.user
+      ? _c(
+          "div",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("Navbar"),
+            _vm._v(" "),
+            _c("Header"),
+            _vm._v(" "),
+            _c("div", { staticClass: "pcoded-main-container" }, [
+              _c(
+                "div",
+                { staticClass: "pcoded-content" },
+                [_c("router-view", { key: _vm.$route.fullPath })],
+                1
+              ),
+            ]),
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.$store.state.user == false && this.$router.currentRoute.name == "login"
+      ? _c("div", [_c("router-view", { key: _vm.$route.fullPath })], 1)
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = [
   function () {
@@ -70107,7 +70098,7 @@ var staticRenderFns = [
           ]),
           _vm._v(" "),
           _c("li", { staticClass: "list-group-item" }, [
-            _c("a", { attrs: { href: "auth-normal-sign-in.html" } }, [
+            _c("a", { attrs: { href: "/logout" } }, [
               _c("i", { staticClass: "feather icon-log-out m-r-5" }),
               _vm._v("Logout"),
             ]),
@@ -87180,25 +87171,20 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
- //import '../../public/js/vendor-all.min.js'
-//import '../../public/js/bootstrap.min'
-//import '../../public/js/pcoded.min.js'
-//import '../../public/js/pcoded.min.js'
-// import style
+ // import style
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(view_design__WEBPACK_IMPORTED_MODULE_4___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_router_js__WEBPACK_IMPORTED_MODULE_3__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin(_common__WEBPACK_IMPORTED_MODULE_5__["default"]); //window.addEventListener('load', function () {
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin(_common__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('App', __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue")["default"]); //window.addEventListener('load', function () {
 
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: "#app",
+  //el: "#app",
   router: _router_js__WEBPACK_IMPORTED_MODULE_3__["default"],
-  store: _store_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  render: function render(h) {
-    return h(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
-  }
-}); //}) ;
+  store: _store_js__WEBPACK_IMPORTED_MODULE_1__["default"] //  render : h => h(App)
+
+}).$mount('#app'); //}) ;
 
 /* const app = new Vue({
     el: "#app",
@@ -87554,10 +87540,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var routes = [{
-  path: "/",
-  redirect: "/dashboard"
-}, {
+var routes = [
+/*  {
+     path: "/",
+     redirect : "/dashboard"
+ }
+ , */
+{
   path: "/dashboard",
   name: "dashboard",
   component: function component() {
@@ -87620,12 +87609,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       deleteIndex: -1,
       isDeleted: false,
       msg: ''
-    }
+    },
+    user: false
   },
   getters: {
     getdeleteModalObj: function getdeleteModalObj(state) {
       return state.deleteModalObj;
     }
+    /* loggedInUser(state) {
+        return state.user;
+    } */
+
   },
   mutations: {
     setDeleteModal: function setDeleteModal(state, data) {
@@ -87642,6 +87636,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     setDeletingModalObj: function setDeletingModalObj(state, data) {
       state.deleteModalObj = data;
+    },
+    updateUser: function updateUser(state, data) {
+      state.user = data;
     }
   }
 }));

@@ -19,10 +19,13 @@
     </head>
     <body>
         <div id="app">
-
+            @if(Auth::check())
+            <App :user="{{Auth::user()}}"></App>
+            @else
+            <App :user="false" ></App>
+            @endif
         </div>
         <script src="{{mix('js/app.js')}}"  ></script>
-       <!--  @yield('javascript') -->
         <script src="{{asset('js/vendor-all.min.js')}}"  ></script>
         <script src="{{asset('js/bootstrap.min.js')}}"  ></script>
 

@@ -14,7 +14,31 @@ class AdminController extends Controller
         $this->user = $user;
 
     }
-    public function index()
+    public function index(Request $request)
+    {
+
+        //first check you are logged in and admin user
+        // || if you are already logged in, check if you are an admin user
+        if ((!Auth::check() && $request->path() != 'login')) {
+            return redirect('/login');
+        }
+        if ((!Auth::check() && $request->path() == 'login')) {
+            return view('welcome');
+        }
+
+        $user = Auth::user();
+
+        if ($user->userType == 2) {
+            return redirect('/login');
+        }
+        if ($request->path() == 'login') {
+            return redirect('/');
+        }
+
+
+        return view('welcome');
+    }
+    public function getUser()
     {
         return $this->user->where('userType','!=',2)->orderBy('id','desc')->get();
     }
@@ -62,17 +86,30 @@ class AdminController extends Controller
     public function login(Request $request)
     {
         $this->validate( $request,[
-            'email' => "bail|required|email",
+            'email' => "required|email",
             'pass' => 'bail|required|min:6',
         ]);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->pass])) {
+            $user = Auth::user();
+            if ( $user->userType == 2) {
+                Auth::logout();
                 return response()->json([
-                'msg' => 'You are logged in'
-                ]);
+                    'msg' => 'Incorrect Login Details'
+                    ],401);
+            }
+            return response()->json([
+            'msg' => 'You are logged in',
+            'user' => $user
+            ]);
         } else {
             return response()->json([
                 'msg' => 'Incorrect Login Details'
                 ],401);
         }
+    }
+    public function logout(Request $request)
+    {
+       Auth::logout();
+       return redirect('/login');
     }
 }

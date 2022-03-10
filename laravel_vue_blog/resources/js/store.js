@@ -10,12 +10,15 @@ export default new Vuex.Store({
             deleteIndex: -1,
             isDeleted: false,
             msg : ''
-        }
+        },user : false
     },
     getters: {
         getdeleteModalObj(state) {
             return state.deleteModalObj;
-        }
+        },
+        /* loggedInUser(state) {
+            return state.user;
+        } */
     },
     mutations: {
         setDeleteModal(state, data) {
@@ -33,6 +36,9 @@ export default new Vuex.Store({
         },
         setDeletingModalObj(state,data) {
              state.deleteModalObj=data;
+        },
+        updateUser(state, data) {
+             state.user =data;
         }
     }
 

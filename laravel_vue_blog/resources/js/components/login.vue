@@ -58,15 +58,18 @@ export default {
 
                 if (res.status == 200) {
 
-                    this.success(res.data.msg);
+                  // this.$router.push('/')
+                  window.location = '/dashboard';
+
+                   // this.success(res.data.msg);
                 }
                 else {
                     if (res.status == 401) {
-                             this.info(res.data.msg);
+                             this.error(res.data.msg);
                     } else if(res.status == 422) {
 
                             for(let e in res.data.errors) {
-                                     this.info(res.data.errors[e][0]);
+                                     this.error(res.data.errors[e][0]);
                             }
                     }
                     else {
