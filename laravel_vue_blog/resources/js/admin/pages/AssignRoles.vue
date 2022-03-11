@@ -23,7 +23,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                    <Select v-model="data.id" style="width:300px" placeholder="Select Role Type">
+                    <Select v-model="data.id" style="width:300px" placeholder="Select Role Type" @on-change="adminCheck">
                     <Option  :value="r.id" v-for="(r,i) in roles" :key="i" v-if="roles.length">{{r.roleName}}</Option>
                     </Select>
                        <!--  <h5>Basic Table</h5>
@@ -113,6 +113,7 @@ export default {
                 {resourceName : 'Assign Role',read:false,write:false,update:false,delete:false,name:'assign-roles'},
                 {resourceName : 'Dashboard',read:false,write:false,update:false,delete:false,name:'dashboard'},
                 ],
+            freshResource : [],
                 roles : [],
 
         }
@@ -139,13 +140,27 @@ export default {
                     const res= await this.callApi('post','app/assign-roles',{permission : data,id: this.data.id});
                     if (res.status ==200) {
                          this.success('Role has been assigned successfully!');
+                           let index= this.roles.findIndex(role => role.id == this.data.id);
+                           this.roles[index].permission = data;
                     } else{
                         this.error();
                     }
             },
+            adminCheck(){
+                let index= this.roles.findIndex(role => role.id == this.data.id);
+                let permission= this.roles[index].permission;console.log(permission)
+                if (!permission) {
+                    console.log(this.freshResource,'this.freshResource')
+                    this.resource = this.freshResource;
+                } else {
+                    this.resource = JSON.parse(permission);
+                }
+
+            }
 
     },
        created() {
+            this.freshResource = {...this.resource };
             this.getdata();
     }
 }

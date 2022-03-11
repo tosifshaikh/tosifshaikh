@@ -2683,6 +2683,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2841,6 +2847,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "delete": false,
         name: 'dashboard'
       }],
+      freshResource: [],
       roles: []
     };
   },
@@ -2885,7 +2892,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var data, res;
+        var data, res, index;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2902,6 +2909,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (res.status == 200) {
                   _this2.success('Role has been assigned successfully!');
+
+                  index = _this2.roles.findIndex(function (role) {
+                    return role.id == _this2.data.id;
+                  });
+                  _this2.roles[index].permission = data;
                 } else {
                   _this2.error();
                 }
@@ -2913,9 +2925,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    adminCheck: function adminCheck() {
+      var _this3 = this;
+
+      var index = this.roles.findIndex(function (role) {
+        return role.id == _this3.data.id;
+      });
+      var permission = this.roles[index].permission;
+      console.log(permission);
+
+      if (!permission) {
+        console.log(this.freshResource, 'this.freshResource');
+        this.resource = this.freshResource;
+      } else {
+        this.resource = JSON.parse(permission);
+      }
     }
   },
   created: function created() {
+    this.freshResource = _objectSpread({}, this.resource);
     this.getdata();
   }
 });
@@ -69770,6 +69799,7 @@ var render = function () {
                 {
                   staticStyle: { width: "300px" },
                   attrs: { placeholder: "Select Role Type" },
+                  on: { "on-change": _vm.adminCheck },
                   model: {
                     value: _vm.data.id,
                     callback: function ($$v) {

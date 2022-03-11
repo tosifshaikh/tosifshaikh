@@ -16,7 +16,7 @@ class Admincheck
      */
     public function handle($request, Closure $next)
     {
-        if ($request->path() == '/login') {
+        if ($request->path() == 'app/login') {
             return $next($request);
         }
 
