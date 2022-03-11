@@ -60,12 +60,19 @@
                         <li><router-link to="/admin-users" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Admin Users</span>
 						</router-link></li>
+
 						</ul>
 					</li>
 
 					<li class="nav-item pcoded-menu-caption">
-					    <label>Forms &amp; table</label>
-					</li>
+					    <label>Permissions</label>
+					</li >
+                     <li  class="nav-item"><router-link to="/role-management" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Role</span>
+						</router-link></li>
+                         <li  class="nav-item"><router-link to="/assign-roles" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Assign Roles</span>
+						</router-link></li>
 					<li class="nav-item">
 					    <a href="form_elements.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Forms</span></a>
 					</li>

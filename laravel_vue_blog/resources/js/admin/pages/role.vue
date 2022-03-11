@@ -6,12 +6,12 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="page-header-title">
-                            <h5 class="m-b-10">Tags</h5>
+                            <h5 class="m-b-10">Permissions</h5>
                         </div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="#!">Admin Users</a></li>
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-lock"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Permissions</a></li>
+                            <li class="breadcrumb-item"><a href="#!">{{headerText}} Management</a></li>
                         </ul>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                          <Button @click="addData"><Icon type="md-add" /> Add admin user</Button>
+                          <Button @click="addData"><Icon type="md-add" />Add {{headerText}}</Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -39,9 +39,8 @@
                                 <tbody>
                                      <tr v-for="(val,i) in dataList" :key="i">
                                         <td>{{i+1}}</td>
-                                        <td>{{val.fullName}}</td>
-                                        <td>{{val.email}}</td>
-                                        <td>{{val.role.roleName}}</td>
+                                        <td>{{val.roleName}}</td>
+
                                         <td>{{val.created_at}}</td>
                                         <td> <Button type="info" size="small" @click="showEditModal(val,i)">Edit</Button>
                                             <Button type="error" size="small" @click="showDeletingModal(val,i)" :loading="customFlags.isLoading">Delete</Button>
@@ -60,49 +59,28 @@
 
                     <Modal
                     v-model="customFlags.AddModal"
-                    title="Add Admin" :mask-closable="false" :closable='false'>
+                    :title="`Add ${headerText}`" :mask-closable="false" :closable='false'>
                       <div class="space">
-                        <Input type="text" v-model="adminUserData.fullName" placeholder="Full Name" style="width: 300px" />
+                        <Input type="text" v-model="data.roleName" placeholder="Role name" style="width: 300px" />
                       </div>
-                    <div class="space">
-                            <Input type="email" v-model="adminUserData.email" placeholder="Email" style="width: 300px" />
-                    </div>
-                    <div class="space">
-                    <Input type="password" v-model="adminUserData.pass" placeholder="Password" style="width: 300px" />
-                    </div>
-                    <div class="space">
-                    <Select v-model="adminUserData.role_id" style="width:200px" placeholder="Select Role Type">
-                    <Option  :value="r.id" v-for="(r,i) in roles" :key="i" v-if="roles.length">{{r.roleName}}</Option>
-                    </Select>
-                    </div>
+
                     <div slot="footer">
                     <Button type="default" @click="customFlags.AddModal=false">Close</Button>
-                    <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading=' customFlags.isAdding'>{{customFlags.isAdding ? 'Saving...' : 'Save'}}</Button>
+                    <Button type="primary" @click="saveData" :disabled="customFlags.isLoading" :loading=' customFlags.isLoading'>{{customFlags.isLoading ? 'Saving...' : 'Save'}}</Button>
                     </div>
                     </Modal>
 
 
                  <Modal
                     v-model="customFlags.EditModal"
-                    title="Edit Tag" :mask-closable="false" :closable='false'>
+                    :title="`Edit ${headerText}`" :mask-closable="false" :closable='false'>
                        <div class="space">
-                        <Input type="text" v-model="adminUserData.fullName" placeholder="Full Name" style="width: 300px" />
+                        <Input type="text" v-model="data.roleName" placeholder="Role name" style="width: 300px" />
                       </div>
-                    <div class="space">
-                            <Input type="email" v-model="adminUserData.email" placeholder="Email" style="width: 300px" />
-                    </div>
-                    <div class="space">
-                    <Input type="password" v-model="adminUserData.pass" placeholder="Password" style="width: 300px" />
-                    </div>
-                    <div class="space">
-                     <Select v-model="adminUserData.role_id" style="width:200px" placeholder="Select Role Type">
-                    <Option  :value="r.id" v-for="(r,i) in roles" :key="i" v-if="roles.length">{{r.roleName}}</Option>
-                    </Select>
-                    </div>
 
                     <div slot="footer">
                     <Button type="default" @click="customFlags.EditModal=false">Close</Button>
-                    <Button type="primary" @click="saveData" :disabled="customFlags.isAdding" :loading='customFlags.isAdding'>{{customFlags.isAdding ? 'Updating...' : 'Update'}}</Button>
+                    <Button type="primary" @click="saveData" :disabled="customFlags.isLoading" :loading='customFlags.isLoading'>{{customFlags.isLoading ? 'Updating...' : 'Update'}}</Button>
                     </div>
                     </Modal>
     <!--
@@ -132,14 +110,12 @@ import deleteModal from '../components/DeleteModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    name : "adminusers",
+    name : "role",
     data() {
         return {
-            adminUserData : {
-                fullName : '',
-                pass : '',
-                email : '',
-                role_id : null,
+            headerText : 'Role',
+            data : {
+                roleName : '',
             },
              customFlags : {
                 isAdd : false,
@@ -152,17 +128,19 @@ export default {
                 showDeleteModal : false,
                 isLoading : false,
                 closeEditModal :  false,
+
             },
             dataList : [],
              headers : [
                    {name : '#'},
-                   {name : 'Name'},
-                   {name : 'Email'},
-                   {name : 'Role'},
+                   {name : 'Role Name'},
                    {name : 'Created At'},
                    {name : 'Actions'},
             ],
-            roles : [],
+            userTypes : {
+                0 : 'Admin',
+                1 : 'Editor'
+            },
 
 
 
@@ -186,38 +164,24 @@ export default {
          showEditModal(data,index) {
              let obj = {
                 id:data.id,
-                fullName : data.fullName,
-                pass: '',
-                email : data.email,
-                role_id : data.role_id
+                roleName : data.roleName,
             }
-            console.log(obj,data,data.userType)
             this.customFlags.isEdit = true;
-            this.adminUserData = obj;
+            this.data = obj;
             this.customFlags.EditModal =true;
             this.customFlags.index = index;
         },
          async saveData(){
-                 this.customFlags.isAdding = true;
+                 this.customFlags.isLoading = true;
                 if (this.customFlags.isAdd) {
-                     if (this.adminUserData.fullName.trim() == '') {
-                        return this.error('Full Name is required');
+                   if (this.data.roleName.trim() == '') {
+                        return this.error('Role Name is required');
                     }
-                    if (this.adminUserData.email.trim() == '') {
-                        return this.error('Email is required');
-                    }
-                     if (this.adminUserData.pass.trim() == '') {
-                        return this.error('Password is required');
-                    }
-                    if (!this.adminUserData.role_id) {
-                        return this.error('Role is required');
-                    }
-
-                    const res =  await this.callApi('post','/app/create_user',this.adminUserData);
+                    const res =  await this.callApi('post','/app/create_role',this.data);
                     if (res.status == 201) {
                         this.dataList.unshift(res.data);
-                        this.success('User has been added successfully!');
-                         this.adminUserData = {};
+                        this.success('Role has been added successfully!');
+
                     } else{
                     if (res.status == 422) {
                        errorMsg(res.data.errors);
@@ -227,30 +191,20 @@ export default {
                         }
 
                     }
-                    this.adminUserData = {};
+
                     this.customFlags.isAdd = false;
                     this.customFlags.AddModal = false;
-                    this.customFlags.isAdding = false;
+
                 }
                 if (this.customFlags.isEdit) {
-                    if (this.adminUserData.fullName.trim() == '') {
-                        return this.error('Name is required');
-                    }
-                    if (this.adminUserData.email.trim() == '') {
-                        return this.error('Email is required');
-                    }
-                     if (this.adminUserData.pass.trim() == '') {
-                        return this.error('Password is required');
-                    }
-                    if (!this.adminUserData.role_id) {
-                        return this.error('Role is required');
+                    if (this.data.roleName.trim() == '') {
+                        return this.error('Role Name is required');
                     }
 
-
-                    const res =  await this.callApi('post','/app/edit_user',this.adminUserData);
+                    const res =  await this.callApi('post','/app/edit_role',this.data);
                     if (res.status == 200) {
-                        this.dataList[this.customFlags.index]=this.adminUserData;
-                        this.success('User has been edited successfully!');
+                        this.dataList[this.customFlags.index]=this.data;
+                        this.success('Role has been edited successfully!');
 
                     } else{
                         if (res.status == 422) {
@@ -263,13 +217,15 @@ export default {
                     }
                     this.customFlags.isEdit = false;
                     this.customFlags.EditModal = false;
-                    //this.editCategoryData= {};
-                    this.adminUserData= {};
+
                 }
+                 this.customFlags.isLoading = false;
+                   this.data= {};
 
         },
         errorMsg(error){
-               for(let e in error) {
+
+            for(let e in error) {
                 this.error(error[e][0]);
             }
         },
@@ -291,33 +247,15 @@ export default {
          async getdata() {
 
                 this.token = window.Laravel.csrfToken;
-                //it will run both the API's at once instead of one by one
-            const [res ,resRole] = await Promise.all([
-                this.callApi('get','/app/get_user'),
-                this.callApi('get','/app/get_role')
-            ]);
-               // const res = await this.callApi('get','/app/get_user');
-               // const resRole = await this.callApi('get','/app/get_role');
+                const res = await this.callApi('get','/app/get_role');
                 if (res.status == 200) {
                     this.dataList = res.data;
-                } else {
-                    this.error();
                 }
-                if (resRole.status ==200) {
-                     this.roles = resRole.data;
-                }else {
-                    this.error();
-                }
-
             }
 
     },
        created() {
             this.getdata();
-       /*  const res = await this.callApi('get','/app/get_tag');
-        if (res.status == 200) {
-            this.tags = res.data;
-        } */
     },
      components: {
         deleteModal,
@@ -327,10 +265,8 @@ export default {
         ])
     },watch : {
             getdeleteModalObj(value) {
-                 console.log(value,'valuetagout');
                 if (value.isDeleted) {
                       this.tags.splice(value.deleteIndex,1);
-                    console.log(value,'valuetag',value.deleteIndex);
                 }
 
             }

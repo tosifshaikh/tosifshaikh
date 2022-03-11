@@ -27,8 +27,7 @@ class AdminController extends Controller
         }
 
         $user = Auth::user();
-
-        if ($user->userType == 2) {
+        if ($user->role->isAdmin == 0) {
             return redirect('/login');
         }
         if ($request->path() == 'login') {
@@ -40,7 +39,7 @@ class AdminController extends Controller
     }
     public function getUser()
     {
-        return $this->user->where('userType','!=',2)->orderBy('id','desc')->get();
+        return $this->user->where('role_id','!=',4)->orderBy('id','desc')->get();
     }
     public function create(Request $request)
     {
@@ -48,7 +47,7 @@ class AdminController extends Controller
             'fullName' => 'required',
             'email' => 'bail|required|email|unique:users',
             'pass' => 'bail|required|min:6',
-            'userType' => 'required',
+            'role_id' => 'required',
         ]);
          $pass = bcrypt($request->pass);
 
@@ -56,7 +55,7 @@ class AdminController extends Controller
             'fullName' => $request->fullName,
             'email' => $request->email,
             'password' =>  $pass,
-            'userType' => $request->userType,
+            'role_id' => $request->role_id,
          ]);
     }
     public function edit(Request $request)
@@ -65,12 +64,12 @@ class AdminController extends Controller
             'fullName' => 'required',
             'email' => "bail|required|email|unique:users,email,$request->id",
             'pass' => 'min:6',
-            'userType' => 'required',
+            'role_id' => 'required',
         ]);
       $data =  [
             'fullName' => $request->fullName,
             'email' => $request->email,
-            'userType' => $request->userType,
+            'role_id' => $request->role_id,
       ];
         if ($request->pass) {
             $data['pass'] = bcrypt($request->pass);

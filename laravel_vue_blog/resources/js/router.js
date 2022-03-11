@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import adminusers from './admin/pages/AdminUsers.vue';
 import login from './components/login.vue';
+import role from './admin/pages/role.vue';
+import assignrole from './admin/pages/AssignRoles.vue';
 Vue.use(Router)
 const routes = [
    /*  {
@@ -33,7 +35,17 @@ const routes = [
         path: "/login",
             name : "login",
             component: login,
+    },{
+        path: "/role-management",
+            name : "role-management",
+            component: role,
     }
+    ,{
+        path: "/assign-roles",
+            name : "assign-roles",
+            component: assignrole,
+    }
+
 
 
 ]
