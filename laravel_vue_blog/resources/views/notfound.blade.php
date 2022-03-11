@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" value="{{ csrf_token() }}"/>
 
-        <title>Laravel Full stack</title>
+        <title>Page has no permission</title>
 
         <!-- Styles -->
         <link rel="stylesheet" href='css/app.css'>
@@ -18,17 +18,6 @@
         </script>
     </head>
     <body>
-        <div id="app">
-            @if(Auth::check())
-            <App :user="{{Auth::user()}}"></App>
-            @else
-            <App :user="false" ></App>
-            @endif
-        </div>
-        <script src="{{mix('js/app.js')}}"  ></script>
-        <script src="{{asset('js/vendor-all.min.js')}}"  ></script>
-        <script src="{{asset('js/bootstrap.min.js')}}"  ></script>
-
-        <script src="{{asset('js/pcoded.min.js')}}" ></script>
+            <h1>You don't have enough permission.</h1>
     </body>
 </html>

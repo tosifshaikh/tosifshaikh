@@ -1,33 +1,53 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import dashboard from '../js/components/dashboard.vue';
-
+import adminusers from './admin/pages/AdminUsers.vue';
+import login from './components/login.vue';
+import role from './admin/pages/role.vue';
+import assignrole from './admin/pages/AssignRoles.vue';
 Vue.use(Router)
 const routes = [
-    {
+   /*  {
         path: "/",
-        name: "dashboard",
-        components: {
-            default: import('./pages/home.vue'),
-            dashboard: import('../js/components/dashboard.vue')
-            
-        },
-       // component: () => import('./pages/home.vue'),
-        meta: {
-          layout : 'dashboard'  
-        },
-        children: [
-            {
-                path: "/tags", name: "tags",
-                component: () => import('./pages/tags.vue'),
-                meta: {
-                    layout : 'tags'  
-                  }
-            },
-            
-        ]
+        redirect : "/dashboard"
+    }
+    , */
+    {
+        path: "/dashboard",
+        name : "dashboard",
+        component: () => import('./components/dashboard.vue'),
+
     },
-   
+    {
+        path: "/tags",
+            name : "tags",
+            component: () => import('./admin/pages/tags.vue'),
+    },
+    {
+        path: "/category",
+            name : "category",
+            component: () => import('./admin/pages/category.vue'),
+    },
+    {
+        path: "/admin-users",
+            name : "adminusers",
+            component: adminusers,
+    },{
+        path: "/login",
+            name : "login",
+            component: login,
+    },{
+        path: "/role-management",
+            name : "role-management",
+            component: role,
+    }
+    ,{
+        path: "/assign-roles",
+            name : "assign-roles",
+            component: assignrole,
+    }
+
+
+
 ]
 
 const router = new Router({

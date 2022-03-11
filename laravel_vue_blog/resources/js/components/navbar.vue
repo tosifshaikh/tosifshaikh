@@ -1,12 +1,12 @@
 <template>
 
-	
+
 	<!-- [ Pre-loader ] End -->
 	<!-- [ navigation menu ] start -->
 	<nav class="pcoded-navbar  ">
 		<div class="navbar-wrapper  ">
 			<div class="navbar-content scroll-div " >
-				
+
 				<div class="">
 					<div class="main-menu-header">
 						<img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
@@ -19,11 +19,11 @@
 						<ul class="list-unstyled">
 							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
 							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item"><a href="auth-normal-sign-in.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+							<li class="list-group-item"><a href="/logout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
 						</ul>
 					</div>
 				</div>
-				
+
 				<ul class="nav pcoded-inner-navbar ">
 					<li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
@@ -32,13 +32,12 @@
 						<router-link to="/" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span>
 						</router-link>
-						
-					
+
+
 					</li>
 					<li class="nav-item">
-						<router-link to="/tags" class="nav-link">
-								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
-						</router-link>
+
+
 					    <!-- <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
@@ -46,32 +45,34 @@
 					    </ul> -->
 					</li>
 					<li class="nav-item pcoded-menu-caption">
-						<label>UI Element</label>
+						<label>Admin</label>
 					</li>
+
 					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Basic</span></a>
+						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
 						<ul class="pcoded-submenu">
-							<li><a href="bc_alert.html">Alert</a></li>
-							<li><a href="bc_button.html">Button</a></li>
-							<li><a href="bc_badges.html">Badges</a></li>
-							<li><a href="bc_breadcrumb-pagination.html">Breadcrumb & paggination</a></li>
-							<li><a href="bc_card.html">Cards</a></li>
-							<li><a href="bc_collapse.html">Collapse</a></li>
-							<li><a href="bc_carousel.html">Carousel</a></li>
-							<li><a href="bc_grid.html">Grid system</a></li>
-							<li><a href="bc_progress.html">Progress</a></li>
-							<li><a href="bc_modal.html">Modal</a></li>
-							<li><a href="bc_spinner.html">Spinner</a></li>
-							<li><a href="bc_tabs.html">Tabs & pills</a></li>
-							<li><a href="bc_typography.html">Typography</a></li>
-							<li><a href="bc_tooltip-popover.html">Tooltip & popovers</a></li>
-							<li><a href="bc_toasts.html">Toasts</a></li>
-							<li><a href="bc_extra.html">Other</a></li>
+							<li><router-link to="/tags" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
+						</router-link></li>
+							<li><router-link to="/category" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Category</span>
+						</router-link></li>
+                        <li><router-link to="/admin-users" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Admin Users</span>
+						</router-link></li>
+
 						</ul>
 					</li>
+
 					<li class="nav-item pcoded-menu-caption">
-					    <label>Forms &amp; table</label>
-					</li>
+					    <label>Permissions</label>
+					</li >
+                     <li  class="nav-item"><router-link to="/role-management" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Role</span>
+						</router-link></li>
+                         <li  class="nav-item"><router-link to="/assign-roles" class="nav-link">
+								<span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Assign Roles</span>
+						</router-link></li>
 					<li class="nav-item">
 					    <a href="form_elements.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Forms</span></a>
 					</li>
@@ -100,7 +101,7 @@
 					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>
 
 				</ul>
-				
+
 				<!-- <div class="card text-center">
 					<div class="card-block">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -110,7 +111,7 @@
 						<a href="https://1.envato.market/PgJNQ" target="_blank" class="btn btn-primary btn-sm text-white m-0">Upgrade</a>
 					</div>
 				</div> -->
-				
+
 			</div>
 		</div>
 	</nav>
