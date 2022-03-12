@@ -207,6 +207,7 @@ export default {
 
     },
        created() {
+           console.log(this.isReadPermitted)
             this.getdata();
        /*  const res = await this.callApi('get','/app/get_tag');
         if (res.status == 200) {

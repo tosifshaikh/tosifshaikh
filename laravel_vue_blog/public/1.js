@@ -306,6 +306,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
+    console.log(this.isReadPermitted);
     this.getdata();
     /*  const res = await this.callApi('get','/app/get_tag');
      if (res.status == 200) {
