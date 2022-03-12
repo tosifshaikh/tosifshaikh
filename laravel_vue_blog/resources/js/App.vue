@@ -6,7 +6,7 @@
           <div class="loader-fill"></div>
         </div>
       </div>
-      <Navbar />
+      <Navbar :permission="permission"/>
       <Header />
       <div class="pcoded-main-container">
         <div class="pcoded-content">
@@ -29,7 +29,7 @@ export default {
     Header,
     Navbar,
   },
-  props: ["user"],
+  props: ["user",'permission'],
   data() {
     return {
       isLoggedIn: false,
@@ -52,7 +52,8 @@ export default {
   },
   created() {
       this.$store.commit('updateUser',this.user);
-    console.log(this.user,this.$router.currentRoute.path);
+      this.$store.commit('SetUserPermission',this.permission);
+    /* console.log(this.permission); */
   },
 };
 </script>

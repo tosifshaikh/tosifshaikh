@@ -40,10 +40,14 @@ class AdminController extends Controller
     public function checkForPermission($user, $request)
     {
          $permission = json_decode($user->role->permission);
-         $hasPermission = false;print '<pre>';print_r(  $permission);exit;
+         if(!$permission){
+            return view('welcome');
+         }
+         $hasPermission = false;//print '<pre>';print_r(  $permission);exit;
          foreach ($permission as $key => $value) {
                 if ($value->name == $request->path() && $value->read) {
                     $hasPermission = true;
+                    break;
                 }
          }
          if ( $hasPermission) {

@@ -2067,7 +2067,7 @@ __webpack_require__.r(__webpack_exports__);
     Header: _components_header_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Navbar: _components_navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ["user"],
+  props: ["user", 'permission'],
   data: function data() {
     return {
       isLoggedIn: false
@@ -2089,7 +2089,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$store.commit('updateUser', this.user);
-    console.log(this.user, this.$router.currentRoute.path);
+    this.$store.commit('SetUserPermission', this.permission);
+    /* console.log(this.permission); */
   }
 });
 
@@ -3770,8 +3771,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Navbar"
+  name: "Navbar",
+  props: ['permission'],
+  created: function created() {},
+  computed: {
+    /* countPermission() {
+     return this.permission.length;
+    },
+    readPermission(){
+      return this.permission.filter(x => x.read === true)
+    } */
+  }
 });
 
 /***/ }),
@@ -69163,7 +69182,7 @@ var render = function () {
           [
             _vm._m(0),
             _vm._v(" "),
-            _c("Navbar"),
+            _c("Navbar", { attrs: { permission: _vm.permission } }),
             _vm._v(" "),
             _c("Header"),
             _vm._v(" "),
@@ -71290,152 +71309,59 @@ var render = function () {
       _c("div", { staticClass: "navbar-content scroll-div " }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("ul", { staticClass: "nav pcoded-inner-navbar " }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              _c(
-                "router-link",
-                { staticClass: "nav-link", attrs: { to: "/" } },
-                [
-                  _c("span", { staticClass: "pcoded-micon" }, [
-                    _c("i", { staticClass: "feather icon-home" }),
-                  ]),
-                  _c("span", { staticClass: "pcoded-mtext" }, [
-                    _vm._v("Dashboard"),
-                  ]),
-                ]
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item pcoded-hasmenu" }, [
+        _c(
+          "ul",
+          { staticClass: "nav pcoded-inner-navbar " },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._l(_vm.permission, function (menuItem, i) {
+              return menuItem.read
+                ? _c(
+                    "li",
+                    { key: i, staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { to: menuItem.name },
+                        },
+                        [
+                          _c("span", { staticClass: "pcoded-micon" }, [
+                            _c("i", { staticClass: "feather icon-home" }),
+                          ]),
+                          _c("span", { staticClass: "pcoded-mtext" }, [
+                            _vm._v(_vm._s(menuItem.resourceName)),
+                          ]),
+                        ]
+                      ),
+                    ],
+                    1
+                  )
+                : _vm._e()
+            }),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item" }),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
             _vm._m(3),
             _vm._v(" "),
-            _c("ul", { staticClass: "pcoded-submenu" }, [
-              _c(
-                "li",
-                [
-                  _c(
-                    "router-link",
-                    { staticClass: "nav-link", attrs: { to: "/tags" } },
-                    [
-                      _c("span", { staticClass: "pcoded-micon" }, [
-                        _c("i", { staticClass: "feather icon-home" }),
-                      ]),
-                      _c("span", { staticClass: "pcoded-mtext" }, [
-                        _vm._v("Tags"),
-                      ]),
-                    ]
-                  ),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c(
-                    "router-link",
-                    { staticClass: "nav-link", attrs: { to: "/category" } },
-                    [
-                      _c("span", { staticClass: "pcoded-micon" }, [
-                        _c("i", { staticClass: "feather icon-home" }),
-                      ]),
-                      _c("span", { staticClass: "pcoded-mtext" }, [
-                        _vm._v("Category"),
-                      ]),
-                    ]
-                  ),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c(
-                    "router-link",
-                    { staticClass: "nav-link", attrs: { to: "/admin-users" } },
-                    [
-                      _c("span", { staticClass: "pcoded-micon" }, [
-                        _c("i", { staticClass: "feather icon-home" }),
-                      ]),
-                      _c("span", { staticClass: "pcoded-mtext" }, [
-                        _vm._v("Admin Users"),
-                      ]),
-                    ]
-                  ),
-                ],
-                1
-              ),
-            ]),
-          ]),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              _c(
-                "router-link",
-                { staticClass: "nav-link", attrs: { to: "/role-management" } },
-                [
-                  _c("span", { staticClass: "pcoded-micon" }, [
-                    _c("i", { staticClass: "feather icon-lock" }),
-                  ]),
-                  _c("span", { staticClass: "pcoded-mtext" }, [_vm._v("Role")]),
-                ]
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              _c(
-                "router-link",
-                { staticClass: "nav-link", attrs: { to: "/assign-roles" } },
-                [
-                  _c("span", { staticClass: "pcoded-micon" }, [
-                    _c("i", { staticClass: "feather icon-lock" }),
-                  ]),
-                  _c("span", { staticClass: "pcoded-mtext" }, [
-                    _vm._v("Assign Roles"),
-                  ]),
-                ]
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm._m(5),
-          _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
-          _vm._m(8),
-          _vm._v(" "),
-          _vm._m(9),
-          _vm._v(" "),
-          _vm._m(10),
-          _vm._v(" "),
-          _vm._m(11),
-          _vm._v(" "),
-          _vm._m(12),
-        ]),
+            _vm._m(4),
+            _vm._v(" "),
+            _vm._m(5),
+            _vm._v(" "),
+            _vm._m(6),
+            _vm._v(" "),
+            _vm._m(7),
+            _vm._v(" "),
+            _vm._m(8),
+            _vm._v(" "),
+            _vm._m(9),
+          ],
+          2
+        ),
       ]),
     ]),
   ])
@@ -71497,33 +71423,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "nav-item pcoded-menu-caption" }, [
       _c("label", [_vm._v("Navigation")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item pcoded-menu-caption" }, [
-      _c("label", [_vm._v("Admin")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "nav-link ", attrs: { href: "#!" } }, [
-      _c("span", { staticClass: "pcoded-micon" }, [
-        _c("i", { staticClass: "feather icon-box" }),
-      ]),
-      _c("span", { staticClass: "pcoded-mtext" }, [_vm._v("Master")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item pcoded-menu-caption" }, [
-      _c("label", [_vm._v("Permissions")]),
     ])
   },
   function () {
@@ -88795,6 +88694,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -88866,8 +88771,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: title,
         desc: description ? description : ''
       });
+    },
+    checkUserPermission: function checkUserPermission(key) {
+      if (!this.userPermission) {
+        return true;
+      }
+
+      var isPermitted = false;
+
+      for (var d in this.userPermission) {
+        if (this.$route.name == d.name) {
+          if (d[key]) {
+            isPermitted == true;
+            break;
+          } else {
+            break;
+          }
+        }
+      }
+
+      return isPermitted;
     }
-  }
+  },
+  computed: _objectSpread(_objectSpread({}, mapGetters({
+    'userPermission': 'getUserPermission'
+  })), {}, {
+    isReadPermitted: function isReadPermitted() {
+      return this.checkUserPermission('read');
+    },
+    isWritePermitted: function isWritePermitted() {
+      return this.checkUserPermission('write');
+    },
+    isUpdatePermitted: function isUpdatePermitted() {
+      return this.checkUserPermission('update');
+    },
+    isDeletePermitted: function isDeletePermitted() {
+      return this.checkUserPermission('delete');
+    }
+  })
 });
 
 /***/ }),
@@ -89180,11 +89121,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       isDeleted: false,
       msg: ''
     },
-    user: false
+    user: false,
+    userPermission: null
   },
   getters: {
     getdeleteModalObj: function getdeleteModalObj(state) {
       return state.deleteModalObj;
+    },
+    getUserPermission: function getUserPermission(state) {
+      return state.userPermission;
     }
     /* loggedInUser(state) {
         return state.user;
@@ -89209,6 +89154,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     updateUser: function updateUser(state, data) {
       state.user = data;
+    },
+    SetUserPermission: function SetUserPermission(state, data) {
+      state.userPermission = data;
     }
   }
 }));

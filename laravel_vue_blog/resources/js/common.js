@@ -41,6 +41,41 @@ export default {
                 title: title,
                 desc: description ? description : ''
             });
+        },
+        checkUserPermission(key) {
+            if (!this.userPermission) {
+                return true;
+            }
+            let isPermitted = false;
+            for (let d in this.userPermission) {
+                if (this.$route.name == d.name) {
+                    if (d[key]) {
+                        isPermitted == true;
+                        break;
+                    } else {
+                        break;
+                    }
+                }
+
+            }
+            return isPermitted;
         }
     },
+    computed: {
+        ...mapGetters({
+            'userPermission': 'getUserPermission',
+        }),
+        isReadPermitted() {
+            return this.checkUserPermission('read');
+        },
+        isWritePermitted() {
+            return this.checkUserPermission('write');
+        },
+        isUpdatePermitted() {
+            return this.checkUserPermission('update');
+        },
+        isDeletePermitted() {
+            return this.checkUserPermission('delete');
+        },
+    }
 }
