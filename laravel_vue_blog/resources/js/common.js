@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
@@ -11,10 +12,11 @@ export default {
                  return  await axios({
                     method: method,
                     url: url,
-                    data: dataObj
+                     data: dataObj,
+                     responseType: 'json',
                   });
             } catch (e) {
-                console.log(e,'res')
+              //  console.log(e,'res')
                 return e.response;
             }
         },
@@ -48,9 +50,9 @@ export default {
             }
             let isPermitted = false;
             for (let d in this.userPermission) {
-                if (this.$route.name == d.name) {
-                    if (d[key]) {
-                        isPermitted == true;
+                if (this.$route.name == this.userPermission[d].name) {
+                    if (this.userPermission[d][key]) {
+                        isPermitted = true;
                         break;
                     } else {
                         break;

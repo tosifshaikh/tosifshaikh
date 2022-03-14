@@ -33,6 +33,9 @@ class AdminController extends Controller
         if ($request->path() == 'login') {
             return redirect('/');
         }
+        if ($request->path() == '/') {
+            return redirect('/login');
+        }
         return $this->checkForPermission( $user, $request);
 
         //return view('welcome');
@@ -117,7 +120,7 @@ class AdminController extends Controller
             return response()->json([
             'msg' => 'You are logged in',
             'user' => $user
-            ]);
+            ],200);
         } else {
             return response()->json([
                 'msg' => 'Incorrect Login Details'

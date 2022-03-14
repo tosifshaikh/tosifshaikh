@@ -507,7 +507,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getdeleteModalObj: function getdeleteModalObj(value) {
       if (value.isDeleted) {
         this.categories.splice(value.deleteIndex, 1);
-        console.log(value, 'cateogrywattch', value.deleteIndex);
       }
     }
   }
@@ -596,7 +595,9 @@ var render = function () {
                   "Button",
                   { on: { click: _vm.addData } },
                   [
-                    _c("Icon", { attrs: { type: "md-add" } }),
+                    _vm.isWritePermitted
+                      ? _c("Icon", { attrs: { type: "md-add" } })
+                      : _vm._e(),
                     _vm._v(" Add Category"),
                   ],
                   1
@@ -645,35 +646,42 @@ var render = function () {
                           _c(
                             "td",
                             [
-                              _c(
-                                "Button",
-                                {
-                                  attrs: { type: "info", size: "small" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.showEditModal(category, i)
+                              _vm.isUpdatePermitted
+                                ? _c(
+                                    "Button",
+                                    {
+                                      attrs: { type: "info", size: "small" },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.showEditModal(category, i)
+                                        },
+                                      },
                                     },
-                                  },
-                                },
-                                [_vm._v("Edit")]
-                              ),
+                                    [_vm._v("Edit")]
+                                  )
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c(
-                                "Button",
-                                {
-                                  attrs: {
-                                    type: "error",
-                                    size: "small",
-                                    loading: category.isDeleteting,
-                                  },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.showDeletingModal(category, i)
+                              _vm.isDeletePermitted
+                                ? _c(
+                                    "Button",
+                                    {
+                                      attrs: {
+                                        type: "error",
+                                        size: "small",
+                                        loading: category.isDeleteting,
+                                      },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.showDeletingModal(
+                                            category,
+                                            i
+                                          )
+                                        },
+                                      },
                                     },
-                                  },
-                                },
-                                [_vm._v("Delete")]
-                              ),
+                                    [_vm._v("Delete")]
+                                  )
+                                : _vm._e(),
                             ],
                             1
                           ),

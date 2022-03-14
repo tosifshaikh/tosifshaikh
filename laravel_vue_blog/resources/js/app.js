@@ -11,6 +11,8 @@ import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);
 Vue.use(router);
 Vue.mixin(common);
+import Editor from 'vue-editor-js/src/index'
+Vue.use(Editor)
 Vue.component('App', require('./App.vue').default);
  //window.addEventListener('load', function () {
     const app = new Vue({

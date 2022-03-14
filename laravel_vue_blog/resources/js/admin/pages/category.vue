@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header">
 <!--                           <Button @click="AddModal=true"><Icon type="md-add" /> Add Category</Button>
- -->                          <Button @click="addData"><Icon type="md-add" /> Add Category</Button>
+ -->                          <Button @click="addData"><Icon type="md-add" v-if="isWritePermitted"/> Add Category</Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -44,8 +44,8 @@
                                         <td>{{category.category_name}}</td>
                                         <td><img :src="category.iconImage" alt="" height="50px" width="50px"/></td>
                                         <td>{{category.created_at}}</td>
-                                        <td> <Button type="info" size="small" @click="showEditModal(category,i)">Edit</Button>
-                                            <Button type="error" size="small" @click="showDeletingModal(category,i)" :loading="category.isDeleteting">Delete</Button>
+                                        <td> <Button type="info" size="small" @click="showEditModal(category,i)" v-if="isUpdatePermitted">Edit</Button>
+                                            <Button type="error" size="small" @click="showDeletingModal(category,i)" :loading="category.isDeleteting" v-if="isDeletePermitted">Delete</Button>
                                         </td>
                                     </tr>
                                     <tr v-if="categories.length <=0">
@@ -382,7 +382,6 @@ export default {
    getdeleteModalObj(value) {
                 if (value.isDeleted) {
                       this.categories.splice(value.deleteIndex,1);
-                    console.log(value,'cateogrywattch',value.deleteIndex);
                 }
             }
     }

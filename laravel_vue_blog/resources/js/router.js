@@ -45,7 +45,11 @@ const routes = [
             name : "assign-roles",
             component: assignrole,
     }
-
+    ,{
+        path: "/create-blog",
+            name : "create-blog",
+            component: () => import('./admin/pages/createBlog.vue'),
+    }
 
 
 ]
