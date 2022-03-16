@@ -5,12 +5,15 @@ import App from './App.vue';
 import router from './router.js';
 import ViewUI from 'view-design';
 import common from './common';
+import jsonToHTML from './jsonToHTML';
+
 // import style
 import 'view-design/dist/styles/iview.css';
 
 Vue.use(ViewUI);
 Vue.use(router);
 Vue.mixin(common);
+Vue.mixin(jsonToHTML);
 import Editor from 'vue-editor-js/src/index'
 Vue.use(Editor)
 Vue.component('App', require('./App.vue').default);
