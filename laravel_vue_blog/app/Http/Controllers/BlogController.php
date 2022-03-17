@@ -27,4 +27,9 @@ class BlogController extends Controller
           ]);
           return $imageName;
     }
+    public function slug(Request $request)
+    {
+       $title = 'Title slug';
+       return $title;
+    }
 }
