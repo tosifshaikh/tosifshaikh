@@ -76,6 +76,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 var Paragraph = __webpack_require__(/*! @editorjs/paragraph */ "./node_modules/@editorjs/paragraph/dist/bundle.js");
@@ -300,6 +303,23 @@ var render = function () {
                 config: _vm.config,
                 initialized: _vm.onInitialized,
                 autofocus: "",
+              },
+            }),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "input_field" },
+          [
+            _c("Input", {
+              attrs: {
+                type: "textarea",
+                name: "title",
+                id: "title",
+                rows: 4,
+                placeholder: "post execrpt",
               },
             }),
           ],

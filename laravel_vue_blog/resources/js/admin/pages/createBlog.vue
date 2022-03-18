@@ -43,6 +43,9 @@
 
             </div>
              <div class="input_field">
+                <Input type="textarea" name="title" id="title" :rows="4" placeholder="post execrpt" />
+              </div>
+             <div class="input_field">
                 <input type="text" name="title" id="title" placeholder="Title">
               </div>
                <div class="button_field">

@@ -30,6 +30,12 @@ class BlogController extends Controller
     public function slug(Request $request)
     {
        $title = 'Title slug';
-       return $title;
+       return $this->blog->create([
+            'title' => $title,
+            'post' => 'some post',
+            'post_excerpt' => 'ahead',
+            'user_id' => 1,
+            'metaDescription' => 'ahead',
+       ]);
     }
 }
