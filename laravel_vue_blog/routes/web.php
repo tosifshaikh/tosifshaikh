@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
@@ -42,7 +43,8 @@ Route::prefix('app')->middleware(Admincheck::class)->group(function(){
     Route::post('/assign-roles',[RoleController::class,'assignRole']);
 
 });
-
+Route::post('/create-blog',[BlogController::class,'uploadEditorImage']);
+Route::get('/slug',[BlogController::class,'slug']);
 
   Route::get('/',[AdminController::class,'index']);
     Route::get('/logout',[AdminController::class,'logout']);

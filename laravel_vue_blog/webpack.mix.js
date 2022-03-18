@@ -12,13 +12,13 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css').version();
 mix.styles([
    // 'public/css/bootstrap.min.css',
     'public/css/style.css',
   //  'public/css/layout-dark.css',
    // 'public/css/layout-rtl.css',
-   
+
 ], 'public/css/app.css');
 
 /* mix.combine(['resources/js/external js/bootstrap.min.js',

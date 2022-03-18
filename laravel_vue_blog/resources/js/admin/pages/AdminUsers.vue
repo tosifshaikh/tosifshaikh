@@ -23,7 +23,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                          <Button @click="addData"><Icon type="md-add" /> Add admin user</Button>
+                          <Button @click="addData"><Icon type="md-add" v-if="isWritePermitted"/> Add admin user</Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -43,8 +43,8 @@
                                         <td>{{val.email}}</td>
                                         <td>{{val.role.roleName}}</td>
                                         <td>{{val.created_at}}</td>
-                                        <td> <Button type="info" size="small" @click="showEditModal(val,i)">Edit</Button>
-                                            <Button type="error" size="small" @click="showDeletingModal(val,i)" :loading="customFlags.isLoading">Delete</Button>
+                                        <td> <Button type="info" size="small" @click="showEditModal(val,i)" v-if="isUpdatePermitted">Edit</Button>
+                                            <Button type="error" size="small" @click="showDeletingModal(val,i)" :loading="customFlags.isLoading" v-if="isDeletePermitted">Delete</Button>
                                         </td>
                                     </tr>
                                     <tr v-if="dataList.length <=0">

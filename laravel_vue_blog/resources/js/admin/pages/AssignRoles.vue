@@ -108,6 +108,7 @@ export default {
             resource : [
                 {resourceName : 'Tags',read:false,write:false,update:false,delete:false,name:'tags'},
                 {resourceName : 'Category',read:false,write:false,update:false,delete:false,name:'category'},
+                {resourceName : 'Create Blog',read:false,write:false,update:false,delete:false,name:'create-blog'},
                 {resourceName : 'Admin Users',read:false,write:false,update:false,delete:false,name:'adminusers'},
                 {resourceName : 'Role',read:false,write:false,update:false,delete:false,name:'role-management'},
                 {resourceName : 'Assign Role',read:false,write:false,update:false,delete:false,name:'assign-roles'},

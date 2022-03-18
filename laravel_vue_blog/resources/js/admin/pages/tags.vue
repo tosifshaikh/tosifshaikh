@@ -23,7 +23,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                          <Button @click="AddModal=true"><Icon type="md-add" /> Add tag</Button>
+                          <Button @click="AddModal=true" v-if="isWritePermitted"><Icon type="md-add" /> Add tag</Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -44,8 +44,8 @@
                                         <td>{{i+1}}</td>
                                         <td>{{tag.tagName}}</td>
                                         <td>{{tag.created_at}}</td>
-                                        <td> <Button type="info" size="small" @click="showEditModal(tag,i)">Edit</Button>
-                                            <Button type="error" size="small" @click="showDeletingModal(tag,i)" :loading="tag.isDeleteting">Delete</Button>
+                                        <td> <Button type="info" size="small" @click="showEditModal(tag,i)" v-if="isUpdatePermitted">Edit</Button>
+                                            <Button type="error" size="small" @click="showDeletingModal(tag,i)" :loading="tag.isDeleteting" v-if="isDeletePermitted">Delete</Button>
                                         </td>
                                     </tr>
                                     <tr v-if="tags.length <=0">
@@ -207,7 +207,7 @@ export default {
 
     },
        created() {
-           console.log(this.isReadPermitted)
+           console.log(this.isReadPermitted,'isReadPermitted')
             this.getdata();
        /*  const res = await this.callApi('get','/app/get_tag');
         if (res.status == 200) {

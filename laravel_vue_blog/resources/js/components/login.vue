@@ -55,7 +55,7 @@ export default {
                 }
                 this.isLogging = true;
                 const res = await this.callApi('post','app/login',this.loginData);
-
+console.log(res)
                 if (res.status == 200) {
 
                   // this.$router.push('/')
