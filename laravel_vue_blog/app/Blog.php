@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Blog extends Model
 {
-    protected $fillable = ['title','post','post_excerpt','slug','user_id','featuredImage','meta_description','views'];
+    protected $fillable = ['title','post','post_excerpt','slug','user_id','featuredImage','meta_description','views','jsonData'];
     public function setTitleAttribute($title)
     {
         $this->attributes['slug'] = $this->uniqueSlug($title);

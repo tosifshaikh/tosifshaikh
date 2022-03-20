@@ -79,6 +79,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var Paragraph = __webpack_require__(/*! @editorjs/paragraph */ "./node_modules/@editorjs/paragraph/dist/bundle.js");
@@ -91,8 +99,17 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
   name: "createblog",
   data: function data() {
     return {
-      data: {},
+      data: {
+        title: '',
+        post: '',
+        post_excerpt: '',
+        meta_description: '',
+        category_id: [],
+        jsondata: null
+      },
       articleHTML: '',
+      category: [],
+      isLoading: false,
       config: {
         tools: {
           paragraph: {
@@ -193,22 +210,39 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this2.isLoading = true;
+
                 _this2.$refs.editor._data.state.editor.save().then(function (data) {
                   // Do what you want with the data here
-                  console.log(data.blocks, 'before');
-
                   _this2.outputHTML(data.blocks);
 
-                  console.log(_this2.articleHTML);
+                  _this2.data.post = _this2.articleHTML;
+                  console.log(data.blocks, 'after');
+                  _this2.data.jsondata = JSON.stringify(data.blocks);
                 })["catch"](function (err) {
                   console.log(err);
                 });
 
-              case 1:
+                _context.next = 4;
+                return _this2.callApi('post', 'app/create-blog', _this2.data);
+
+              case 4:
+                res = _context.sent;
+
+                if (res.status == 200) {
+                  _this2.success('Blog has been added successfully!');
+                } else {
+                  _this2.error();
+                }
+
+                _this2.isLoading = false;
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -217,7 +251,35 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
       }))();
     }
   },
-  created: function created() {}
+  created: function created() {
+    var _this3 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _this3.callApi('get', 'app/get_category');
+
+            case 2:
+              res = _context2.sent;
+
+              if (res.status == 200) {
+                _this3.category = res.data;
+              } else {
+                _this3.error();
+              }
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  }
 });
 
 /***/ }),
@@ -234,7 +296,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.space {\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n.blog_editor{\n    width: 1000px;\n    margin-left: 160px;\n    padding: 4px 7px;\n    font-size: 14px;\n    border: 1px solid  #dcdee2;\n    border-radius: 4px;\n    color: #515a6e;\n    background-color: #fff;\n    background-image: none;\n    z-index: -1;\n}\n.blog_editor:hover{\nborder: 1px solid #57a3f3;\n}\n.input_field{\nmargin: 20px 0 0 160px;\nwidth: 1000px;\ndisplay: grid;\nborder: 0px ;\n}\n.button_field{\nmargin: 20px 0 0 160px;\n}\n.input_field:hover{\nborder: 1px solid #57a3f3;\n}\n", ""]);
+exports.push([module.i, "\n.space {\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n.blog_editor{\n    width: 1000px;\n    margin-left: 160px;\n    padding: 4px 7px;\n    font-size: 14px;\n    border: 1px solid  #dcdee2;\n    border-radius: 4px;\n    color: #515a6e;\n    background-color: #fff;\n    background-image: none;\n    z-index: -1;\n}\n.blog_editor:hover{\nborder: 1px solid #57a3f3;\n}\n.input_field{\nmargin: 20px 0 20px 160px;\nwidth: 1000px;\ndisplay: grid;\nborder: 0px ;\n}\n.button_field{\nmargin: 20px 0 0 160px;\n}\n.input_field:hover{\nborder: 1px solid #57a3f3;\n}\n", ""]);
 
 // exports
 
@@ -293,6 +355,34 @@ var render = function () {
       _c("div", { staticClass: "card-header" }),
       _vm._v(" "),
       _c("div", { staticClass: "card-body table-border-style" }, [
+        _c("div", { staticClass: "input_field" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.data.title,
+                expression: "data.title",
+              },
+            ],
+            attrs: {
+              type: "text",
+              name: "title",
+              id: "title",
+              placeholder: "Title",
+            },
+            domProps: { value: _vm.data.title },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.data, "title", $event.target.value)
+              },
+            },
+          }),
+        ]),
+        _vm._v(" "),
         _c(
           "div",
           { staticClass: "table-responsive blog_editor" },
@@ -321,17 +411,90 @@ var render = function () {
                 rows: 4,
                 placeholder: "post execrpt",
               },
+              model: {
+                value: _vm.data.post_excerpt,
+                callback: function ($$v) {
+                  _vm.$set(_vm.data, "post_excerpt", $$v)
+                },
+                expression: "data.post_excerpt",
+              },
             }),
           ],
           1
         ),
         _vm._v(" "),
-        _vm._m(1),
+        _c(
+          "div",
+          { staticClass: "input_field" },
+          [
+            _c(
+              "Select",
+              {
+                attrs: {
+                  filterable: "",
+                  multiple: "",
+                  placeholder: "Select Category",
+                },
+                model: {
+                  value: _vm.data.category_id,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.data, "category_id", $$v)
+                  },
+                  expression: "data.category_id",
+                },
+              },
+              _vm._l(_vm.category, function (c, i) {
+                return _c("Option", { key: i, attrs: { value: c.id } }, [
+                  _vm._v(_vm._s(c.category_name)),
+                ])
+              }),
+              1
+            ),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "input_field" },
+          [
+            _c("Input", {
+              attrs: {
+                type: "textarea",
+                name: "meta_description",
+                id: "meta_description",
+                rows: 4,
+                placeholder: "Meta Description",
+              },
+              model: {
+                value: _vm.data.meta_description,
+                callback: function ($$v) {
+                  _vm.$set(_vm.data, "meta_description", $$v)
+                },
+                expression: "data.meta_description",
+              },
+            }),
+          ],
+          1
+        ),
         _vm._v(" "),
         _c(
           "div",
           { staticClass: "button_field" },
-          [_c("Button", { on: { click: _vm.save } }, [_vm._v("Save")])],
+          [
+            _c(
+              "Button",
+              {
+                attrs: { loding: _vm.isLoading, disabled: _vm.isLoading },
+                on: { click: _vm.save },
+              },
+              [
+                _vm._v(
+                  _vm._s(_vm.isLoading ? "Please Wait...." : "Create Blog")
+                ),
+              ]
+            ),
+          ],
           1
         ),
       ]),
@@ -369,21 +532,6 @@ var staticRenderFns = [
           ]),
         ]),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input_field" }, [
-      _c("input", {
-        attrs: {
-          type: "text",
-          name: "title",
-          id: "title",
-          placeholder: "Title",
-        },
-      }),
     ])
   },
 ]

@@ -42,6 +42,8 @@ Route::prefix('app')->middleware(Admincheck::class)->group(function(){
     Route::post('/edit_role',[RoleController::class,'edit']);
     Route::post('/assign-roles',[RoleController::class,'assignRole']);
 
+    Route::post('/create-blog',[BlogController::class,'createBlog']);
+
 });
 Route::post('/create-blog',[BlogController::class,'uploadEditorImage']);
 Route::get('/slug',[BlogController::class,'slug']);
