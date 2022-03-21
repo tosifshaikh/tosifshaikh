@@ -3298,7 +3298,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (res.status == 200) {
                   //this.success('Category has been deleted successfully!');
-                  _this.success(_this.getdeleteModalObj.msg);
+                  _this.success(_this.getdeleteModalObj.successMsg);
 
                   _this.$store.commit('setDeleteModal', true);
                 } else {
@@ -3717,7 +3717,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         deleteURL: 'app/delete_tag',
         data: data,
         deleteIndex: index,
-        msg: 'Tag has been deleted successfully!',
+        msg: 'Are you sure?',
+        successMsg: 'Tag has been deleted successfully!',
         isDeleted: false
       };
       this.$store.commit('setDeletingModalObj', deleteModalObj);
@@ -3972,6 +3973,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         update: false,
         "delete": false,
         name: 'dashboard'
+      }, {
+        resourceName: 'Blogs',
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: 'blogs'
       }],
       freshResource: [],
       roles: []
@@ -70603,7 +70611,7 @@ var render = function () {
           ),
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
-            _c("p", [_vm._v("Are you sure you want to delete this tag?.")]),
+            _c("p", [_vm._v(_vm._s(_vm.getdeleteModalObj.msg))]),
           ]),
           _vm._v(" "),
           _c(
@@ -90072,7 +90080,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   method: method,
                   url: url,
                   data: dataObj,
-                  responseType: 'json'
+                  //responseType: 'json',
+                  headers: {//'Content-Type': 'multipart/form-data'
+                  }
                 });
 
               case 4:
@@ -90449,13 +90459,13 @@ var routes = [
   path: "/dashboard",
   name: "dashboard",
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/dashboard.vue */ "./resources/js/components/dashboard.vue"));
+    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./components/dashboard.vue */ "./resources/js/components/dashboard.vue"));
   }
 }, {
   path: "/tags",
   name: "tags",
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./admin/pages/tags.vue */ "./resources/js/admin/pages/tags.vue"));
+    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./admin/pages/tags.vue */ "./resources/js/admin/pages/tags.vue"));
   }
 }, {
   path: "/category",
@@ -90484,6 +90494,12 @@ var routes = [
   name: "create-blog",
   component: function component() {
     return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ./admin/pages/createBlog.vue */ "./resources/js/admin/pages/createBlog.vue"));
+  }
+}, {
+  path: "/blogs",
+  name: "blogs",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./admin/pages/Blogs.vue */ "./resources/js/admin/pages/Blogs.vue"));
   }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({

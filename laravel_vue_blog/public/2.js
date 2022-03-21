@@ -13,12 +13,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _editorjs_image__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @editorjs/image */ "./node_modules/@editorjs/image/dist/bundle.js");
 /* harmony import */ var _editorjs_image__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_editorjs_image__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -105,10 +122,12 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
         post_excerpt: '',
         meta_description: '',
         category_id: [],
-        jsondata: null
+        jsondata: null,
+        tag_id: null
       },
       articleHTML: '',
       category: [],
+      tags: [],
       isLoading: false,
       config: {
         tools: {
@@ -150,8 +169,6 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
     };
   },
   methods: {
-    onInitialized: function onInitialized(editor) {//console.log(editor)
-    },
     outputHTML: function outputHTML(articleObj) {
       var _this = this;
 
@@ -206,7 +223,7 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
         }
       });
     },
-    save: function save() {
+    saveData: function saveData(data) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -215,69 +232,99 @@ var Marker = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editor
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.isLoading = true;
-
-                _this2.$refs.editor._data.state.editor.save().then(function (data) {
-                  // Do what you want with the data here
-                  _this2.outputHTML(data.blocks);
-
-                  _this2.data.post = _this2.articleHTML;
-                  console.log(data.blocks, 'after');
-                  _this2.data.jsondata = JSON.stringify(data.blocks);
-                })["catch"](function (err) {
-                  console.log(err);
-                });
-
-                _context.next = 4;
+                _this2.data.post = _this2.articleHTML;
+                console.log(data.blocks, 'after');
+                _this2.data.jsondata = JSON.stringify(data);
+                console.log(_this2.data.jsondata, 'this.data.jsondata');
+                _context.next = 6;
                 return _this2.callApi('post', 'app/create-blog', _this2.data);
 
-              case 4:
+              case 6:
                 res = _context.sent;
+                console.log(_this2.data, 'this.data');
 
                 if (res.status == 200) {
                   _this2.success('Blog has been added successfully!');
+
+                  _this2.$router.push('/blogs');
                 } else {
                   _this2.error();
                 }
 
                 _this2.isLoading = false;
+                _this2.data = {};
 
-              case 7:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    save: function save() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this3.isLoading = true;
+
+                _this3.$refs.editor._data.state.editor.save().then(function (data) {
+                  // Do what you want with the data here
+                  _this3.outputHTML(data.blocks);
+
+                  _this3.saveData(data);
+                  /*  this.data.post = this.articleHTML; console.log( data.blocks,'after')
+                   this.data.jsondata = JSON.stringify( data);console.log( this.data.jsondata,'this.data.jsondata') */
+
+                })["catch"](function (err) {
+                  console.log(err);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var _yield$Promise$all, _yield$Promise$all2, cat, tag;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _context2.next = 2;
-              return _this3.callApi('get', 'app/get_category');
+              _context3.next = 2;
+              return Promise.all([_this4.callApi('get', 'app/get_category'), _this4.callApi('get', 'app/get_tag')]);
 
             case 2:
-              res = _context2.sent;
+              _yield$Promise$all = _context3.sent;
+              _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
+              cat = _yield$Promise$all2[0];
+              tag = _yield$Promise$all2[1];
 
-              if (res.status == 200) {
-                _this3.category = res.data;
+              if (cat.status == 200) {
+                _this4.category = cat.data;
+                _this4.tags = tag.data;
               } else {
-                _this3.error();
+                _this4.error();
               }
 
-            case 4:
+            case 7:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }))();
   }
 });
@@ -389,11 +436,7 @@ var render = function () {
           [
             _c("editor", {
               ref: "editor",
-              attrs: {
-                config: _vm.config,
-                initialized: _vm.onInitialized,
-                autofocus: "",
-              },
+              attrs: { config: _vm.config, autofocus: "" },
             }),
           ],
           1
@@ -446,6 +489,37 @@ var render = function () {
               _vm._l(_vm.category, function (c, i) {
                 return _c("Option", { key: i, attrs: { value: c.id } }, [
                   _vm._v(_vm._s(c.category_name)),
+                ])
+              }),
+              1
+            ),
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "input_field" },
+          [
+            _c(
+              "Select",
+              {
+                attrs: {
+                  filterable: "",
+                  multiple: "",
+                  placeholder: "Select Tag",
+                },
+                model: {
+                  value: _vm.data.tag_id,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.data, "tag_id", $$v)
+                  },
+                  expression: "data.tag_id",
+                },
+              },
+              _vm._l(_vm.tags, function (t, i) {
+                return _c("Option", { key: i, attrs: { value: t.id } }, [
+                  _vm._v(_vm._s(t.tagName)),
                 ])
               }),
               1

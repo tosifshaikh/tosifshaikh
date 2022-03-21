@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\Blogcategory;
+use App\Blogtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
     protected $blog;
-    public function __construct(Blog $blog)
+    protected $blogCategory;
+    protected $blogTag;
+    public function __construct(Blog $blog, Blogcategory $blogCategory, Blogtag $blogTag)
     {
         $this->blog = $blog;
+        $this->blogCategory = $blogCategory;
+        $this->blogTag = $blogTag;
     }
     public function uploadEditorImage(Request $request)
     {
@@ -41,13 +48,47 @@ class BlogController extends Controller
     }
     public function createBlog(Request $request)
     {
-        return $this->blog->create([
-            'title' => $request->title,
-            'post' => $request->post,
-            'post_excerpt' => $request->post_excerpt,
-            'user_id' => Auth::user()->id,
-            'meta_description' => $request->meta_description,
-            'jsonData' => $request->jsondata
-       ]);
+        $categories = $request->category_id;
+        $tags = $request->tag_id;
+        DB::beginTransaction();
+        try {
+            $blogID= $this->blog->create([
+                'title' => $request->title,
+                'slug' => $request->title,
+                'post' => $request->post,
+                'post_excerpt' => $request->post_excerpt,
+                'user_id' => Auth::user()->id,
+                'meta_description' => $request->meta_description,
+                'jsonData' => $request->jsondata
+           ]);
+
+            if (!empty($categories)) {
+                $blogCategories = array_map(function ($v) use ($blogID) {
+                    return ['category_id' => $v, 'blog_id' => $blogID->id];
+                }, $categories);
+                $this->blogCategory->insert($blogCategories);
+            }
+
+            if (!empty($tags)) {
+                $blogTags = array_map(function ($v) use ($blogID) {
+                    return ['tag_id' => $v, 'blog_id' => $blogID->id];
+                }, $tags);
+                $this->blogTag->insert($blogTags);
+            }
+            DB::commit();
+            return 'donje';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return 'Not done';
+        }
+
+    }
+    public function blogData(Request $request)
+    {
+        return $this->blog->with(['tag','cat'])->orderBy('id','desc')->get();
+    }
+    public function deleteBlog(Request $request)
+    {
+       return $this->blog->where('id',$request->id)->delete();
     }
 }

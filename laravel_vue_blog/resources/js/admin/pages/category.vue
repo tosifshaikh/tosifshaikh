@@ -276,7 +276,7 @@ export default {
         showDeletingModal(data,index) {
             const deleteModalObj = {
             showDeleteModal: true,
-            deleteURL: 'app/delete_tag',
+            deleteURL: 'app/delete_category',
             data: data,
             deleteIndex: index,
             isDeleted : false,

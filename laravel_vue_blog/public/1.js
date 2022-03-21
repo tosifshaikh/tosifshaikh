@@ -352,7 +352,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     showDeletingModal: function showDeletingModal(data, index) {
       var deleteModalObj = {
         showDeleteModal: true,
-        deleteURL: 'app/delete_tag',
+        deleteURL: 'app/delete_category',
         data: data,
         deleteIndex: index,
         isDeleted: false,

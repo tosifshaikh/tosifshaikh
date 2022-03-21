@@ -13,7 +13,10 @@ export default {
                     method: method,
                     url: url,
                      data: dataObj,
-                     responseType: 'json',
+                     //responseType: 'json',
+                     headers: {
+                        //'Content-Type': 'multipart/form-data'
+                      }
                   });
             } catch (e) {
               //  console.log(e,'res')

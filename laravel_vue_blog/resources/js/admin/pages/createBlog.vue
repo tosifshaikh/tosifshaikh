@@ -39,7 +39,7 @@
               <editor
                 ref="editor"
                 :config="config"
-                :initialized="onInitialized"
+
 
                 autofocus
               />
@@ -51,6 +51,11 @@
                <div class="input_field">
              <Select  filterable multiple placeholder = "Select Category" v-model="data.category_id" >
                 <Option v-for="(c,i) in category" :value="c.id" :key="i">{{ c.category_name }}</Option>
+            </Select>
+            </div>
+             <div class="input_field">
+             <Select  filterable multiple placeholder = "Select Tag" v-model="data.tag_id" >
+                <Option v-for="(t,i) in tags" :value="t.id" :key="i">{{ t.tagName }}</Option>
             </Select>
             </div>
               <div class="input_field">
@@ -81,10 +86,12 @@ export default {
           post_excerpt : '',
           meta_description : '',
           category_id : [],
-          jsondata : null
+          jsondata : null,
+          tag_id:null
       },
       articleHTML : '',
       category : [],
+      tags : [],
       isLoading : false,
       config: {
           tools: {
@@ -128,9 +135,6 @@ export default {
   },
 
   methods: {
-   onInitialized(editor){
-        //console.log(editor)
-    },
     outputHTML(articleObj){
 
          articleObj.map(obj =>{
@@ -173,6 +177,20 @@ export default {
             }
         });
     },
+    async saveData(data) {
+         this.data.post = this.articleHTML; console.log( data.blocks,'after')
+         this.data.jsondata = JSON.stringify( data);console.log( this.data.jsondata,'this.data.jsondata');
+            const res = await this.callApi('post','app/create-blog',this.data);
+            console.log( this.data,'this.data')
+                      if(res.status ==200) {
+                        this.success('Blog has been added successfully!');
+                        this.$router.push('/blogs');
+                      } else {
+                           this.error();
+                      }
+                      this.isLoading = false;
+                      this.data = {};
+    },
     async save(){
         this.isLoading = true;
        this.$refs.editor._data.state.editor.save()
@@ -180,24 +198,23 @@ export default {
 						// Do what you want with the data here
 
                         this.outputHTML(data.blocks);
-                        this.data.post = this.articleHTML; console.log( data.blocks,'after')
-                        this.data.jsondata = JSON.stringify( data.blocks);
+                         this.saveData(data);
+                       /*  this.data.post = this.articleHTML; console.log( data.blocks,'after')
+                        this.data.jsondata = JSON.stringify( data);console.log( this.data.jsondata,'this.data.jsondata') */
 					})
 					.catch(err => { console.log(err) })
 
-                      const res = await this.callApi('post','app/create-blog',this.data);
-                      if(res.status ==200) {
-                        this.success('Blog has been added successfully!');
-                      } else {
-                           this.error();
-                      }
-                      this.isLoading = false;
     }
   },
   async created() {
-      const res = await this.callApi('get','app/get_category');
-      if(res.status ==200) {
-        this.category = res.data;
+     // const res = await this.callApi('get','app/get_category');
+      const [cat, tag] = await Promise.all([
+          this.callApi('get','app/get_category'),
+          this.callApi('get','app/get_tag')
+      ]);
+      if(cat.status ==200) {
+        this.category = cat.data;
+        this.tags = tag.data;
       } else {
           this.error();
       }

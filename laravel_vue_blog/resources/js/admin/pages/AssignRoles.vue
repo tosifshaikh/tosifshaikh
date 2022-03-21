@@ -113,6 +113,7 @@ export default {
                 {resourceName : 'Role',read:false,write:false,update:false,delete:false,name:'role-management'},
                 {resourceName : 'Assign Role',read:false,write:false,update:false,delete:false,name:'assign-roles'},
                 {resourceName : 'Dashboard',read:false,write:false,update:false,delete:false,name:'dashboard'},
+                {resourceName : 'Blogs',read:false,write:false,update:false,delete:false,name:'blogs'},
                 ],
             freshResource : [],
                 roles : [],

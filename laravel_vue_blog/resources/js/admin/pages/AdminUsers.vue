@@ -283,7 +283,8 @@ export default {
                 deleteURL: 'app/delete_tag',
                 data: data,
                 deleteIndex: index,
-                msg : 'Tag has been deleted successfully!',
+                msg : 'Are you sure?',
+                successMsg : 'Tag has been deleted successfully!',
                 isDeleted : false
             }
                this.$store.commit('setDeletingModalObj', deleteModalObj);
