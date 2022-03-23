@@ -41,8 +41,8 @@
             placeholder="Title"
           />
         </div>
-        <div class="table-responsive blog_editor">
-          <editor v-if="initData" ref="editor" :config="config" autofocus   :initialized="onInitialized"/>
+        <div class="table-responsive blog_editor" id="editorjs">
+        <!--   <editor v-if="initData" ref="editor" :config="config" autofocus   :initialized="onInitialized"/> -->
         </div>
         <div class="input_field">
           <Input
@@ -100,10 +100,18 @@
 </template>
 
 <script>
+//https://codesandbox.io/s/eosbi?file=/src/components/HelloWorld.vue:1360-1370
+import EditorJS from "@editorjs/editorjs";
 import ImageTool from "@editorjs/image";
-const Paragraph = require("@editorjs/paragraph");
-const Header = require("@editorjs/header");
-const Marker = require("@editorjs/marker");
+import Header from '@editorjs/header';
+import Paragraph from "@editorjs/paragraph";
+import InlineCode from "@editorjs/inline-code";
+import Code from "@editorjs/code";
+import Linktool from "@editorjs/link";
+import Checklist from "@editorjs/checklist";
+//const Checklist = require('@editorjs/checklist');
+import Marker from "@editorjs/marker";
+import List from "@editorjs/list";
 export default {
   name: "editblog",
   data() {
@@ -124,7 +132,7 @@ export default {
       blog:[],
       isLoading: false,
       initData : [],
-      config: {
+   /*    config: {
         tools: {
           paragraph: {
             class: Paragraph,
@@ -161,15 +169,116 @@ export default {
           field: "image",
           types: "image/*",
         },
-      },
+        data : []
+      }, */
     };
   },
     mounted(){
-        //this.initDatafn();
+        this.myEditor();
   },
   methods: {
-       onInitialized() {
-           return this.initData;
+      myEditor() {
+       return  EditorJS({
+              holder: "editorjs",
+               initialBlock: "paragraph",
+
+        tools: {
+          paragraph: {
+            class: Paragraph,
+            inlineToolbar: true,
+          },
+
+          header: {
+            class: Header,
+            placeholder: "Enter a header",
+            levels: [1, 2, 3, 4, 5, 6],
+             config: {
+                  defaultLevel: 6
+             }
+
+          },
+           checkList: {
+            class: Checklist,
+            },
+          list: {
+              class : List
+          },
+
+          InlineCode: {
+              class : InlineCode
+          },
+          /* CodeTool : {
+              class : Code
+          }, */
+           LinkTool : {
+              class :Linktool
+          },
+
+
+          /*  Marker: {
+            class: Marker,
+          }, */
+           /* image: {
+             class: ImageTool,
+          // Like in https://github.com/editor-js/image#config-params
+          endpoints: {
+            byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+            byUrl: "http://localhost:8008/fetchUrl",
+          },
+          field: "image",
+          types: "image/*",
+        } */
+         /* ,
+          LinkTool: require("@editorjs/link"),
+          Checklist: require("@editorjs/checklist"),
+          RawTool: require("@editorjs/raw"),
+          marker: {
+            class: Marker,
+          },
+          Warning: require("@editorjs/warning"),
+          Personality: require("@editorjs/personality"),
+          ImageTool: require("@editorjs/image"),
+          Quote: require("@editorjs/quote"), */
+        },
+
+        data : []
+
+        });
+      },
+       async onInitialized(editor) {
+             const id = parseInt(this.$route.params.id);
+            const [blog, cat, tag] = await Promise.all([
+      this.callApi("get", `/app/blog-data/${id}`),
+      this.callApi("get", "/app/get_category"),
+      this.callApi("get", "/app/get_tag"),
+    ]);
+    if (cat.status == 200) {
+      this.category = cat.data;
+      this.tags = tag.data;
+      this.blog = blog.data;console.log(editor)
+      this.initData = JSON.parse(this.blog.jsonData);
+      this.config.data = JSON.parse(this.blog.jsonData);
+     // this.config.data = JSON.parse(this.blog.jsonData);
+    //this.$refs.editor._data.state.editor.render(JSON.parse(this.blog.jsonData))
+  //  editor.render(JSON.parse(this.blog.jsonData));
+      for(let c in cat.data){
+          if(cat.data[c]) {
+            this.data.category_id.push(cat.data[c].id);
+          }
+
+      }
+       for(let t in tag.data){
+           if(tag.data[t]) {
+            this.data.tag_id.push(tag.data[t].id);
+           }
+
+      }
+       this.data = blog.data;
+    } else {
+      this.error();
+    }
+
+          // return this.initData;
       },
     outputHTML(articleObj) {
       articleObj.map((obj) => {
@@ -262,7 +371,7 @@ export default {
     if (!id) {
       return this.$router.push("/notfound");
     }
-    const [blog, cat, tag] = await Promise.all([
+   /*  const [blog, cat, tag] = await Promise.all([
       this.callApi("get", `/app/blog-data/${id}`),
       this.callApi("get", "/app/get_category"),
       this.callApi("get", "/app/get_tag"),
@@ -270,9 +379,10 @@ export default {
     if (cat.status == 200) {
       this.category = cat.data;
       this.tags = tag.data;
-      this.blog = blog.data;console.log(this.$refs.editor._data.state)
+      this.blog = blog.data;console.log(this.$refs.editor._data.state.editor)
       this.initData = JSON.parse(this.blog.jsonData);
-
+     // this.config.data = JSON.parse(this.blog.jsonData);
+    //this.$refs.editor._data.state.editor.render(JSON.parse(this.blog.jsonData))
       for(let c in cat.data){
           if(cat.data[c]) {
             this.data.category_id.push(cat.data[c].id);
@@ -288,7 +398,7 @@ export default {
        this.data = blog.data;
     } else {
       this.error();
-    }
+    } */
   },
 };
 </script>
