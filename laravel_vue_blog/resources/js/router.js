@@ -1,65 +1,81 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import adminusers from './admin/pages/AdminUsers.vue';
-import login from './components/login.vue';
-import role from './admin/pages/role.vue';
-import assignrole from './admin/pages/AssignRoles.vue';
-Vue.use(Router)
+import Vue from "vue";
+import Router from "vue-router";
+import adminusers from "./admin/pages/AdminUsers.vue";
+import login from "./components/login.vue";
+import role from "./admin/pages/role.vue";
+import assignrole from "./admin/pages/AssignRoles.vue";
+import editblog from "./admin/pages/editBlog.vue";
+import notfound from "./admin/pages/notfound.vue";
+Vue.use(Router);
 const routes = [
-   /*  {
-        path: "/",
-        redirect : "/dashboard"
-    }
-    , */
+    /*  {
+         path: "/",
+         redirect : "/dashboard"
+     }
+     , */
     {
         path: "/dashboard",
-        name : "dashboard",
-        component: () => import('./components/dashboard.vue'),
-
+        name: "dashboard",
+        component: () => import("./components/dashboard.vue"),
     },
     {
         path: "/tags",
-            name : "tags",
-            component: () => import('./admin/pages/tags.vue'),
+        name: "tags",
+        component: () => import("./admin/pages/tags.vue"),
     },
     {
         path: "/category",
-            name : "category",
-            component: () => import('./admin/pages/category.vue'),
+        name: "category",
+        component: () => import("./admin/pages/category.vue"),
     },
     {
         path: "/admin-users",
-            name : "adminusers",
-            component: adminusers,
-    },{
+        name: "adminusers",
+        component: adminusers,
+    },
+    {
         path: "/login",
-            name : "login",
-            component: login,
-    },{
+        name: "login",
+        component: login,
+    },
+    {
         path: "/role-management",
-            name : "role-management",
-            component: role,
-    }
-    ,{
+        name: "role-management",
+        component: role,
+    },
+    {
         path: "/assign-roles",
-            name : "assign-roles",
-            component: assignrole,
-    }
-    ,{
+        name: "assign-roles",
+        component: assignrole,
+    },
+    {
         path: "/create-blog",
-            name : "create-blog",
-            component: () => import('./admin/pages/createBlog.vue'),
-    }
-
-
-]
+        name: "create-blog",
+        component: () => import("./admin/pages/createBlog.vue"),
+    },
+    {
+        path: "/blogs",
+        name: "blogs",
+        component: () => import("./admin/pages/Blogs.vue"),
+    },
+    {
+        path: "/editblogs/:id",
+        name: "editblogs",
+        component: editblog,
+    },
+    {
+        path: "*",
+        name: "notfound",
+        component: notfound,
+    },
+];
 
 const router = new Router({
     //to remove # from URL
     //before : http://127.0.0.1:8000/#/home
     //fter : http://127.0.0.1:8000/home
-    mode : 'history',
+    mode: "history",
     routes: routes,
-    linkActiveClass : 'active'
-})
-export default router
+    linkActiveClass: "active",
+});
+export default router;

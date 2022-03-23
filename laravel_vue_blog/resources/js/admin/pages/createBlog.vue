@@ -32,24 +32,37 @@
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
           </div>
           <div class="card-body table-border-style">
+               <div class="input_field">
+                <input type="text" name="title" id="title" v-model="data.title" placeholder="Title">
+              </div>
             <div class="table-responsive blog_editor">
               <editor
                 ref="editor"
                 :config="config"
-                :initialized="onInitialized"
+
 
                 autofocus
               />
 
             </div>
              <div class="input_field">
-                <Input type="textarea" name="title" id="title" :rows="4" placeholder="post execrpt" />
+                <Input type="textarea" name="title" id="title" :rows="4" v-model="data.post_excerpt" placeholder="post execrpt" />
               </div>
+               <div class="input_field">
+             <Select  filterable multiple placeholder = "Select Category" v-model="data.category_id" >
+                <Option v-for="(c,i) in category" :value="c.id" :key="i">{{ c.category_name }}</Option>
+            </Select>
+            </div>
              <div class="input_field">
-                <input type="text" name="title" id="title" placeholder="Title">
+             <Select  filterable multiple placeholder = "Select Tag" v-model="data.tag_id" >
+                <Option v-for="(t,i) in tags" :value="t.id" :key="i">{{ t.tagName }}</Option>
+            </Select>
+            </div>
+              <div class="input_field">
+                <Input type="textarea" name="meta_description" id="meta_description" :rows="4" placeholder="Meta Description" v-model="data.meta_description" />
               </div>
                <div class="button_field">
-              <Button @click="save">Save</Button>
+              <Button @click="save" :loding="isLoading" :disabled="isLoading">{{isLoading ? 'Please Wait....' :  'Create Blog'}}</Button>
                </div>
           </div>
           <!-- ADD Modal box-->
@@ -67,8 +80,19 @@ export default {
   name: "createblog",
   data() {
     return {
-      data: {},
+      data: {
+          title : '',
+          post : '',
+          post_excerpt : '',
+          meta_description : '',
+          category_id : [],
+          jsondata : null,
+          tag_id:null
+      },
       articleHTML : '',
+      category : [],
+      tags : [],
+      isLoading : false,
       config: {
           tools: {
               paragraph : {
@@ -111,9 +135,6 @@ export default {
   },
 
   methods: {
-   onInitialized(editor){
-        //console.log(editor)
-    },
     outputHTML(articleObj){
 
          articleObj.map(obj =>{
@@ -156,18 +177,48 @@ export default {
             }
         });
     },
+    async saveData(data) {
+         this.data.post = this.articleHTML; console.log( data.blocks,'after')
+         this.data.jsondata = JSON.stringify( data);console.log( this.data.jsondata,'this.data.jsondata');
+            const res = await this.callApi('post','app/create-blog',this.data);
+            console.log( this.data,'this.data')
+                      if(res.status ==200) {
+                        this.success('Blog has been added successfully!');
+                        this.$router.push('/blogs');
+                      } else {
+                           this.error();
+                      }
+                      this.isLoading = false;
+                      this.data = {};
+    },
     async save(){
+        this.isLoading = true;
        this.$refs.editor._data.state.editor.save()
 					.then((data) => {
 						// Do what you want with the data here
-  console.log( data.blocks,'before')
+
                         this.outputHTML(data.blocks);
-                        console.log( this.articleHTML)
+                         this.saveData(data);
+                       /*  this.data.post = this.articleHTML; console.log( data.blocks,'after')
+                        this.data.jsondata = JSON.stringify( data);console.log( this.data.jsondata,'this.data.jsondata') */
 					})
 					.catch(err => { console.log(err) })
+
     }
   },
-  created() {},
+  async created() {
+     // const res = await this.callApi('get','app/get_category');
+      const [cat, tag] = await Promise.all([
+          this.callApi('get','app/get_category'),
+          this.callApi('get','app/get_tag')
+      ]);
+      if(cat.status ==200) {
+        this.category = cat.data;
+        this.tags = tag.data;
+      } else {
+          this.error();
+      }
+  },
 }
 </script>
 
@@ -192,7 +243,7 @@ export default {
 border: 1px solid #57a3f3;
 }
 .input_field{
-margin: 20px 0 0 160px;
+margin: 20px 0 20px 160px;
 width: 1000px;
 display: grid;
 border: 0px ;

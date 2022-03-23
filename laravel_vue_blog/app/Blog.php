@@ -7,8 +7,8 @@ use Illuminate\Support\Str;
 
 class Blog extends Model
 {
-    protected $fillable = ['title','post','post_excerpt','slug','user_id','featuredImage','meta_description','views'];
-    public function setTitleAttribute($title)
+    protected $fillable = ['title','post','post_excerpt','slug','user_id','featuredImage','meta_description','views','jsonData'];
+    public function setSlugAttribute($title)
     {
         $this->attributes['slug'] = $this->uniqueSlug($title);
     }
@@ -18,5 +18,13 @@ class Blog extends Model
        $count = Blog::where('slug','like',"{$slug}%")->count();
        $newCount = $count > 0 ? ++$count : 0;
        return $newCount > 0 ? "$slug-$newCount" : $slug;
+    }
+    public function tag()
+    {
+        return $this->belongsToMany('App\Tag','blogtags');
+    }
+    public function cat()
+    {
+        return $this->belongsToMany('App\Category','blogcategories');
     }
 }

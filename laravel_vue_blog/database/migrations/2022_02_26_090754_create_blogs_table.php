@@ -21,8 +21,9 @@ class CreateBlogsTable extends Migration
             $table->string('slug')->unique();
             $table->integer('user_id');
             $table->string('featured_image');
-            $table->string('meta_description');
+            $table->text('meta_description');
             $table->integer('views')->default(0);
+            $table->text('jsonData');
             $table->timestamps();
         });
     }
