@@ -43,8 +43,10 @@ Route::prefix('app')->middleware(Admincheck::class)->group(function(){
     Route::post('/assign-roles',[RoleController::class,'assignRole']);
 
     Route::post('/create-blog',[BlogController::class,'createBlog']);
-    Route::get('/blog-data',[BlogController::class,'blogData']);
+    Route::get('/blog-data/{id?}',[BlogController::class,'blogData']);
     Route::post('/delete_blog',[BlogController::class,'deleteBlog']);
+    Route::post('/edit_blog/{id}',[BlogController::class,'editBlog']);
+
 
 });
 Route::post('/create-blog',[BlogController::class,'uploadEditorImage']);
@@ -54,7 +56,7 @@ Route::get('/slug',[BlogController::class,'slug']);
   Route::get('/',[AdminController::class,'index']);
     Route::get('/logout',[AdminController::class,'logout']);
     Route::any('{slug}',[AdminController::class,'index']);
-
+    Route::get('/editblogs/{id?}',[BlogController::class,'blogData']);
 /* Route::get('/', function () {
     return view('welcome');
 });

@@ -85,7 +85,12 @@ class BlogController extends Controller
     }
     public function blogData(Request $request)
     {
-        return $this->blog->with(['tag','cat'])->orderBy('id','desc')->get();
+        $blog = $this->blog->with(['tag','cat']);
+        if(!empty($request->id)) {
+           return  $blog->where('id','=',$request->id)->first();
+        }else {
+           return  $blog->orderBy('id','desc')->get();
+        }
     }
     public function deleteBlog(Request $request)
     {
