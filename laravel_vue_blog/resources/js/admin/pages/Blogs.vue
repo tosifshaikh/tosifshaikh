@@ -24,8 +24,6 @@
                 <div class="card">
                     <div class="card-header">
                           <Button @click="$router.push('/create-blog')"><Icon type="md-add" /> Create Blog</Button>
-                       <!--  <h5>Basic Table</h5>
-                        <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
@@ -37,7 +35,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(blog,i) in blogs" :key="i">
+                                    <tr v-for="(blog,i) in blogs" :key="i" >
                                         <td>{{i+1}}</td>
                                         <td>{{blog.title}}</td>
                                         <td ><span v-for="(c,j) in blog.cat" :key="j" > <Tag type="border">{{c.category_name}}</Tag></span></td>
@@ -50,7 +48,7 @@
                                             <Button type="error" size="small" @click="showDeletingModal(blog,i)"  v-if="isDeletePermitted">Delete</Button>
                                         </td>
                                     </tr>
-                                    <tr v-if="dataLength(blogs) <=0">
+                                    <tr v-show="noData">
                                         <td>No Data</td>
 
                                     </tr>
@@ -94,7 +92,8 @@ blogs:[],
             showDeleteModal : false,
             deleteItem : {},
             deleteIndex:-1,
-            modalLoading : false
+            modalLoading : false,
+            noData : false,
         }
     },
      mounted() {
@@ -124,6 +123,8 @@ blogs:[],
                 const res = await this.callApi('get','/app/blog-data');
                 if (res.status == 200) {
                     this.blogs = res.data;
+                }else {
+                  noData = true;
                 }
             },
              dataLength(data){

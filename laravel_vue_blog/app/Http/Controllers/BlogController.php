@@ -96,4 +96,54 @@ class BlogController extends Controller
     {
        return $this->blog->where('id',$request->id)->delete();
     }
+    public function editBlog(Request $request,$id = 0)
+    {
+        $this->validate($request,[
+            'title' => 'required',
+            'slug' => 'required',
+            'post' => 'required',
+            'post_excerpt' => 'required',
+            'meta_description' => 'required',
+            'jsonData' => 'required',
+            'category_id' => 'required',
+            'tag_id' => 'required'
+        ]);
+        $categories = $request->category_id;
+        $tags = $request->tag_id;
+        DB::beginTransaction();
+        try {
+            $this->blog->where('id',$id)->update([
+                'title' => $request->title,
+                'slug' => $request->title,
+                'post' => $request->post,
+                'post_excerpt' => $request->post_excerpt,
+                'user_id' => Auth::user()->id,
+                'meta_description' => $request->meta_description,
+                'jsonData' => $request->jsondata
+           ]);
+
+            if (!empty($categories)) {
+                $blogCategories = array_map(function ($v) use ($id) {
+                    return ['category_id' => $v, 'blog_id' =>$id];
+                }, $categories);
+                 //Delete all previous category and tags
+                $this->blogCategory->where('blog_id',$id)->delete();
+                $this->blogCategory->insert($blogCategories);
+            }
+
+            if (!empty($tags)) {
+                $blogTags = array_map(function ($v) use ($id) {
+                    return ['tag_id' => $v, 'blog_id' => $id];
+                }, $tags);
+                 //Delete all previous category and tags
+                $this->blogTag->where('blog_id',$id)->delete();
+                $this->blogTag->insert($blogTags);
+            }
+            DB::commit();
+            return 'donje';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return 'Not done';
+        }
+    }
 }

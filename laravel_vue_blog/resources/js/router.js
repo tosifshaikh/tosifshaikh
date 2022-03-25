@@ -65,8 +65,8 @@ const routes = [
     },
     {
         path: "*",
-        name: "notfound",
-        component: notfound,
+        name: "*",
+        component: login,
     },
 ];
 
