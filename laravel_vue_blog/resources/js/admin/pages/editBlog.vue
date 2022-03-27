@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- [ breadcrumb ] start
-    https://github.com/ChangJoo-Park/vue-editor-js
+
     -->
 
     <div class="page-header">
@@ -26,11 +26,7 @@
     <!-- [ basic-table ] start -->
 
     <div class="card">
-      <div class="card-header">
-        <!--   <Button @click="addData"><Icon type="md-add" />Add {{headerText}}</Button> -->
-        <!--  <h5>Basic Table</h5>
-                        <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
-      </div>
+      <div class="card-header"></div>
       <div class="card-body table-border-style">
         <div class="input_field">
           <input
@@ -41,8 +37,8 @@
             placeholder="Title"
           />
         </div>
-        <div class="table-responsive blog_editor">
-          <editor v-if="initData" ref="editor" :config="config" autofocus   :initialized="onInitialized"/>
+        <div class="table-responsive blog_editor" id="editorjs">
+          <!--   <editor v-if="initData" ref="editor" :config="config" autofocus   :initialized="onInitialized"/> -->
         </div>
         <div class="input_field">
           <Input
@@ -100,10 +96,22 @@
 </template>
 
 <script>
+//https://github.com/ChangJoo-Park/vue-editor-js
+//https://codesandbox.io/s/eosbi?file=/src/components/HelloWorld.vue:1360-1370
+import EditorJS from "@editorjs/editorjs";
 import ImageTool from "@editorjs/image";
-const Paragraph = require("@editorjs/paragraph");
-const Header = require("@editorjs/header");
-const Marker = require("@editorjs/marker");
+import Header from "@editorjs/header";
+import Paragraph from "@editorjs/paragraph";
+import InlineCode from "@editorjs/inline-code";
+import Code from "@editorjs/code";
+import Linktool from "@editorjs/link";
+import Checklist from "@editorjs/checklist";
+import Raw from "@editorjs/raw";
+import Warning from "@editorjs/warning";
+import Personality from "@editorjs/personality";
+import Quote from "@editorjs/quote";
+import Marker from "@editorjs/marker";
+import List from "@editorjs/list";
 export default {
   name: "editblog",
   data() {
@@ -117,14 +125,22 @@ export default {
         jsondata: null,
         tag_id: [],
       },
-
+      editor: null,
       articleHTML: "",
       category: [],
       tags: [],
-      blog:[],
       isLoading: false,
-      initData : [],
-      config: {
+    };
+  },
+  mounted() {
+    //this.myEditor();
+  },
+  methods: {
+    myEditor() {
+      this.editor = new EditorJS({
+        holder: "editorjs",
+        initialBlock: "paragraph",
+
         tools: {
           paragraph: {
             class: Paragraph,
@@ -133,44 +149,66 @@ export default {
 
           header: {
             class: Header,
-            placeholder: "Enter a header",
-            levels: [1, 2, 3, 4, 5, 6],
-            defaultLevel: 6,
+            config: {
+              placeholder: "Enter a header",
+              levels: [1, 2, 3, 4, 5, 6],
+              defaultLevel: 6,
+            },
           },
-          list: require("@editorjs/list"),
+          checkList: {
+            class: Checklist,
+          },
+          list: {
+            class: List,
+          },
 
-          InlineCode: require("@editorjs/inline-code"),
-          CodeTool: require("@editorjs/code"),
-          LinkTool: require("@editorjs/link"),
-          Checklist: require("@editorjs/checklist"),
-          RawTool: require("@editorjs/raw"),
-          marker: {
+          InlineCode: {
+            class: InlineCode,
+          },
+          CodeTool: {
+            class: Code,
+          },
+          LinkTool: {
+            class: Linktool,
+          },
+
+          Marker: {
             class: Marker,
           },
-          Warning: require("@editorjs/warning"),
-          Personality: require("@editorjs/personality"),
-          ImageTool: require("@editorjs/image"),
-          Quote: require("@editorjs/quote"),
-        },
-        image: {
-          // Like in https://github.com/editor-js/image#config-params
-          endpoints: {
-            byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-            byUrl: "http://localhost:8008/fetchUrl",
+          image: {
+            class: ImageTool,
+            // Like in https://github.com/editor-js/image#config-params
+            endpoints: {
+              byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+              byUrl: "http://localhost:8008/fetchUrl",
+            },
+            field: "image",
+            types: "image/*",
           },
-          field: "image",
-          types: "image/*",
+          RawTool: {
+            class: Raw,
+          },
+          Warning: {
+            class: Warning,
+          },
+          Personality: {
+            class: Personality,
+          },
+          Quote: {
+            class: Quote,
+          },
         },
-      },
-    };
-  },
-    mounted(){
-        //this.initDatafn();
-  },
-  methods: {
-       onInitialized() {
-           return this.initData;
-      },
+      });
+      this.editor.isReady
+        .then(() => {
+          /** Do anything you need after editor initialization */
+          this.renderData();
+        })
+        .catch((reason) => {
+          console.log(`Editor.js initialization failed because of ${reason}`);
+        });
+    },
+
     outputHTML(articleObj) {
       articleObj.map((obj) => {
         switch (obj.type) {
@@ -215,24 +253,29 @@ export default {
     async saveData(data) {
       this.data.post = this.articleHTML;
       this.data.jsondata = JSON.stringify(data);
-      if ( this.data.post.trim() == '') {
-          return this.error('Post is required');
+      if (this.data.post.trim() == "") {
+        return this.error("Post is required");
       }
-      if ( this.data.title.trim() == '') {
-          return this.error('Title is required');
+      if (this.data.title.trim() == "") {
+        return this.error("Title is required");
       }
-      if ( this.data.post_excerpt.trim() == '') {
-          return this.error('Post Excerpt is required');
+      if (this.data.post_excerpt.trim() == "") {
+        return this.error("Post Excerpt is required");
       }
-       if ( this.data.meta_description.trim() == '') {
-          return this.error('Meta Description is required');
+      if (this.data.meta_description.trim() == "") {
+        return this.error("Meta Description is required");
       }
-       if ( this.data.category_id.length<=0) {
-          return this.error('Category is required');
-      } if ( this.data.tag_id.length<=0) {
-          return this.error('Tag is required');
+      if (this.data.category_id.length <= 0) {
+        return this.error("Category is required");
       }
-      const res = await this.callApi("post", `app/editBlog/${this.$route.params.id}`, this.data);
+      if (this.data.tag_id.length <= 0) {
+        return this.error("Tag is required");
+      }
+      const res = await this.callApi(
+        "post",
+        `/app/edit_blog/${this.$route.params.id}`,
+        this.data
+      );
       if (res.status == 200) {
         this.success("Blog has been edited successfully!");
         this.$router.push("/blogs");
@@ -242,9 +285,9 @@ export default {
       this.isLoading = false;
       this.data = {};
     },
-    async save() {
+    save() {
       this.isLoading = true;
-      this.$refs.editor._data.state.editor
+      this.editor
         .save()
         .then((data) => {
           // Do what you want with the data here
@@ -255,40 +298,44 @@ export default {
           console.log(err);
         });
     },
+    async renderData() {
+      const id = parseInt(this.$route.params.id);
+      if (!id) {
+        return this.$router.push("/notfound");
+      }
+
+      const [blog, cat, tag] = await Promise.all([
+        this.callApi("get", `/app/blog-data/${id}`),
+        this.callApi("get", "/app/get_category"),
+        this.callApi("get", "/app/get_tag"),
+      ]);
+      if (blog.status == 200) {
+        this.category = cat.data;
+        this.tags = tag.data;
+        let blogData = blog.data;
+        this.data = blog.data;
+        let tempCategory = [],
+          tempTags = [];
+        for (let c in this.data.cat) {
+          if (this.data.cat[c].id) {
+            tempCategory.push(this.data.cat[c].id);
+          }
+        }
+        this.data.category_id = tempCategory;
+        for (let t in this.data.tag) {
+          if (this.data.tag[t].id) {
+            tempTags.push(this.data.tag[t].id);
+          }
+        }
+        this.data.tag_id = tempTags;
+        this.editor.render(JSON.parse(this.data.jsonData));
+      } else {
+        this.error();
+      }
+    },
   },
   async created() {
-
-    const id = parseInt(this.$route.params.id);
-    if (!id) {
-      return this.$router.push("/notfound");
-    }
-    const [blog, cat, tag] = await Promise.all([
-      this.callApi("get", `/app/blog-data/${id}`),
-      this.callApi("get", "/app/get_category"),
-      this.callApi("get", "/app/get_tag"),
-    ]);
-    if (cat.status == 200) {
-      this.category = cat.data;
-      this.tags = tag.data;
-      this.blog = blog.data;console.log(this.$refs.editor._data.state)
-      this.initData = JSON.parse(this.blog.jsonData);
-
-      for(let c in cat.data){
-          if(cat.data[c]) {
-            this.data.category_id.push(cat.data[c].id);
-          }
-
-      }
-       for(let t in tag.data){
-           if(tag.data[t]) {
-            this.data.tag_id.push(tag.data[t].id);
-           }
-
-      }
-       this.data = blog.data;
-    } else {
-      this.error();
-    }
+    this.myEditor();
   },
 };
 </script>
