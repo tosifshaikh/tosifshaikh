@@ -8,11 +8,11 @@ import editblog from "./admin/pages/editBlog.vue";
 import notfound from "./admin/pages/notfound.vue";
 Vue.use(Router);
 const routes = [
-    /*  {
+      {
          path: "/",
-         redirect : "/dashboard"
+         redirect : "/login"
      }
-     , */
+     ,
     {
         path: "/dashboard",
         name: "dashboard",

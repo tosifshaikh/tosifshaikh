@@ -11,15 +11,15 @@
 |
 */
 
-use App\Http\Controllers\AdminController;
+/* use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
-use App\Http\Middleware\Admincheck;
+use App\Http\Middleware\Admincheck; */
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('app')->middleware(Admincheck::class)->group(function(){
+/* Route::prefix('app')->middleware(Admincheck::class)->group(function(){
     Route::post('/create_tag',[TagController::class,'addTag']);
     Route::get('/get_tag',[TagController::class,'getTag']);
     Route::post('/edit_tag',[TagController::class,'editTag']);
@@ -56,7 +56,7 @@ Route::get('/slug',[BlogController::class,'slug']);
   Route::get('/',[AdminController::class,'index']);
     Route::get('/logout',[AdminController::class,'logout']);
     Route::any('{slug}',[AdminController::class,'index']);
-    Route::get('/editblogs/{id?}',[BlogController::class,'blogData']);
+    Route::get('/editblogs/{id?}',[BlogController::class,'blogData']); */
 /* Route::get('/', function () {
     return view('welcome');
 });
@@ -65,4 +65,6 @@ Route::get('/slug',[BlogController::class,'slug']);
     return view('welcome');
 });
  */
-
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where("any",'.*');

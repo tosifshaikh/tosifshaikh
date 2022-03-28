@@ -54,12 +54,12 @@ export default {
                     return this.error('Incorrect Login Details');
                 }
                 this.isLogging = true;
-                const res = await this.callApi('post','app/login',this.loginData);
-console.log(res)
+                const res = await this.callApi('post','auth/login',this.loginData);
+
                 if (res.status == 200) {
 
                   // this.$router.push('/')
-                  window.location = '/dashboard';
+                 // window.location = '/dashboard';
 
                    // this.success(res.data.msg);
                 }
