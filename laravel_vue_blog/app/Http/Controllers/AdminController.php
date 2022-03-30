@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
+use Laravel\Passport\AuthCode;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
@@ -105,12 +110,52 @@ class AdminController extends Controller
     }
     public function login(Request $request)
     {
+
         $this->validate( $request,[
             'email' => "required|email",
             'pass' => 'bail|required|min:6',
         ]);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->pass])) {
-            $user = Auth::user();
+        $user = Auth::user();
+      /*   if (!Auth::attempt(['email' => $request->email,
+            'password' => $request->pass, 'isActive' => 1])) {
+            return response()->json([
+                'msg' => 'Invalid Credentials'
+            ],Response::HTTP_UNAUTHORIZED);
+
+        }
+
+    $user = Auth::user();
+    if($user->role->isAdmin == 0) {
+        Auth::logout();
+        return response()->json([
+            'msg' => 'Incorrect Login Details'
+            ],Response::HTTP_UNAUTHORIZED);
+
+    }
+
+    if (!Auth::check()) {
+         return response()->json([
+            'msg' => 'You are not allowed to access this route directly'
+        ],Response::HTTP_FORBIDDEN);
+    } */
+    $tokenData = $user->createToken('Personal Access Token', [$user->role->roleName]);
+    $token = $tokenData->token;
+    if (!$token->save()) {
+        return \response()->json(['message' => 'Some Error Occur'], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+    $cookie = cookie('jwt',$token,60*24); //1 day
+    return response()->json([
+        'msg' => 'You are logged in',
+        'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission],
+        'token' => $token, 'userId' => $user->id],
+            /* 'acccess_token' => $tokenData->accessToken,
+            'token_type' => 'Bearer',
+            'token_scope' => $tokenData->token->scopes[0],
+            'expires_at' => Carbon::parse($tokenData->token->expires_at)->toDayDateTimeString(), */
+        ],Response::HTTP_OK)->withCookie( $cookie);
+
+       /*  if (Auth::attempt(['email' => $request->email, 'password' => $request->pass])) {
+
             if ( $user->userType == 2) {
                 Auth::logout();
                 return response()->json([
@@ -125,11 +170,12 @@ class AdminController extends Controller
             return response()->json([
                 'msg' => 'Incorrect Login Details'
                 ],401);
-        }
+        } */
     }
-    public function logout(Request $request)
+    public function logout()
     {
-       Auth::logout();
-       return redirect('/login');
+       $cookie = Cookie::forget('jwt');
+        //Auth::logout();
+       return response()->json(['msg' => 'success'])->withCookie($cookie);
     }
 }

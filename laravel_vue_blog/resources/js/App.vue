@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="$store.state.user">
+<!--    <div v-if="$store.state.user">
       <div class="loader-bg">
         <div class="loader-track">
           <div class="loader-fill"></div>
@@ -13,10 +13,11 @@
           <router-view :key="$route.fullPath"></router-view>
         </div>
       </div>
-    </div>
-
-      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
-      <router-view :key="$route.fullPath"></router-view>
+    </div>-->
+      <div >
+          <router-view ></router-view>
+<!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
+      <router-view :key="$route.fullPath"></router-view>-->
     </div>
   </div>
 </template>
@@ -29,10 +30,10 @@ export default {
     Header,
     Navbar,
   },
-  props: ["user",'permission'],
+  //props: ["user",'permission'],
   data() {
     return {
-      isLoggedIn: false,
+     // isLoggedIn: false,
     };
   },
   mounted() {
@@ -51,9 +52,9 @@ export default {
     });
   },
   created() {
-      this.$store.commit('updateUser',this.user);
+     /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);
-    /* console.log(this.permission); */
+     console.log(this.permission,this.user);*/
   },
 };
 </script>

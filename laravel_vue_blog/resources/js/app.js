@@ -1,6 +1,6 @@
 require('./bootstrap');
 import Vue from 'vue';
-import store from './store.js';
+import store from './store/store';
 import App from './App.vue';
 import router from './router.js';
 import ViewUI from 'view-design';
@@ -22,7 +22,7 @@ Vue.component('App', require('./App.vue').default);
         //el: "#app",
 
         router,store,
-      //  render : h => h(App)
+        render : h => h(App)
     }).$mount('#app')
 //}) ;
 /* const app = new Vue({

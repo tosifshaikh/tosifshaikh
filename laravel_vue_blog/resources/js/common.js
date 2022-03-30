@@ -82,5 +82,8 @@ export default {
         isDeletePermitted() {
             return this.checkUserPermission('delete');
         },
+        isLoggedIn() {
+            return document.cookie.split('; ') ;
+        }
     }
 }
