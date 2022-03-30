@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 /* Route::prefix('app')->middleware(Admincheck::class)->group(function(){
 Route::post('/login',[AdminController::class,'login']);
 }); */
-Route::group(['prefix' => 'auth','middleware' => loginCheck::class],function() {
+Route::group(['prefix' => 'app','middleware' => loginCheck::class],function() {
     Route::post('login',[AdminController::class,'login']);
 
 });

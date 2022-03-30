@@ -21,7 +21,7 @@ class loginCheck
 
         /* if ($request->path() == 'app/login') {
             return $next($request);
-        } */
+        }*/
 
         if (!Auth::attempt(['email' => $request->email,
         'password' => $request->pass, 'isActive' => 1])) {

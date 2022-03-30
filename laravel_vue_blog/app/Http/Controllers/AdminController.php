@@ -146,7 +146,8 @@ class AdminController extends Controller
     $cookie = cookie('jwt',$token,60*24); //1 day
     return response()->json([
         'msg' => 'You are logged in',
-        'user' => $user,
+        'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission],
+        'token' => $token, 'userId' => $user->id],
             /* 'acccess_token' => $tokenData->accessToken,
             'token_type' => 'Bearer',
             'token_scope' => $tokenData->token->scopes[0],

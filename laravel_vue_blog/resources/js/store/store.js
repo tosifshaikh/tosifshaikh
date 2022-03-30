@@ -1,7 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import auth from './modules/auth/index';
 Vue.use(Vuex);
 export default new Vuex.Store({
+    modules: {
+        auth
+    },
     state: {
         deleteModalObj: {
             showDeleteModal: false,
@@ -10,7 +14,7 @@ export default new Vuex.Store({
             deleteIndex: -1,
             isDeleted: false,
             msg : ''
-        }, user: false,
+        }, user: null,
         userPermission : null
     },
     getters: {
@@ -20,9 +24,9 @@ export default new Vuex.Store({
         getUserPermission(state) {
             return state.userPermission;
         },
-        /* loggedInUser(state) {
+         loggedInUser(state) {
             return state.user;
-        } */
+        },
     },
     mutations: {
         setDeleteModal(state, data) {
@@ -43,6 +47,9 @@ export default new Vuex.Store({
         },
         updateUser(state, data) {
              state.user =data;
+        },
+        setUser(state, data) {
+            state.user = data;
         },
         SetUserPermission(state, data) {
             state.userPermission = data;

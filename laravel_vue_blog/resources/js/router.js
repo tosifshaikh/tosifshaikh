@@ -66,7 +66,10 @@ const routes = [
     {
         path: "*",
         name: "*",
-        component: login,
+        component: () => import('./admin/pages/notfound.vue'),
+        /*beforeEnter(to, from ,next) {
+
+        }*/
     },
 ];
 

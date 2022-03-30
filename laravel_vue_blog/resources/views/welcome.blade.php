@@ -19,11 +19,13 @@
     </head>
     <body>
         <div id="app">
+<!--
             @if(Auth::check())
-            <App :user="{{Auth::user()}}" :permission="{{Auth::user()->role->permission}}"></App>
+            <App :user="{{--Auth::user()--}}" :permission="{{--Auth::user()->role->permission--}}"></App>
             @else
             <App :user="false" ></App>
-            @endif
+            @endif-->
+
         </div>
         <script src="{{mix('js/app.js')}}"  ></script>
         <script src="{{asset('js/vendor-all.min.js')}}"  ></script>

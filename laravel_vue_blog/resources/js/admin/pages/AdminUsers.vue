@@ -297,8 +297,7 @@ export default {
                 this.callApi('get','/app/get_user'),
                 this.callApi('get','/app/get_role')
             ]);
-               // const res = await this.callApi('get','/app/get_user');
-               // const resRole = await this.callApi('get','/app/get_role');
+
                 if (res.status == 200) {
                     this.dataList = res.data;
                 } else {
