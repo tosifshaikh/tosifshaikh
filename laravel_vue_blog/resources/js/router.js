@@ -6,7 +6,7 @@ import role from "./admin/pages/role.vue";
 import assignrole from "./admin/pages/AssignRoles.vue";
 import editblog from "./admin/pages/editBlog.vue";
 import notfound from "./admin/pages/notfound.vue";
-import store from './store/store';
+//import store from './store/store';
 Vue.use(Router);
 const routes = [
       {
@@ -82,7 +82,7 @@ const router = new Router({
     routes: routes,
     linkActiveClass: "active",
 });
-/* router.beforeEach(() => {
-console.log(store.state.auth,'store')
+ /* router.beforeEach(() => {
+console.log(store,'store')
 }); */
 export default router;

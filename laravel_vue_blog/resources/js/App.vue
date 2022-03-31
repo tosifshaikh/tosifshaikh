@@ -1,5 +1,12 @@
 <template>
   <div id="app">
+      <TheLoader v-if="showLoading"></TheLoader>
+      <div>
+          <router-view ></router-view>
+<!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
+      <router-view :key="$route.fullPath"></router-view>-->
+    </div>
+
 <!--    <div v-if="$store.state.user">
       <div class="loader-bg">
         <div class="loader-track">
@@ -14,21 +21,31 @@
         </div>
       </div>
     </div>-->
-      <div >
-          <router-view ></router-view>
+
 <!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
       <router-view :key="$route.fullPath"></router-view>-->
-    </div>
+
   </div>
 </template>
 <script>
 import Navbar from "./components/navbar.vue";
 import Header from "./components/header.vue";
+import TheLoader from "./components/TheLoader.vue";
+import { mapState,mapGetters } from "vuex";
+import { IS_USER_AUTHENTICATE_GETTER } from './store/storeconstants';
 export default {
   name: "App",
+  computed : {
+      ...mapState({
+          showLoading : (state)  => state.showLoading
+      }),
+       ...mapGetters('auth', {
+              isAuthenticated : IS_USER_AUTHENTICATE_GETTER,
+          }),
+  },
   components: {
     Header,
-    Navbar,
+    Navbar,TheLoader
   },
   //props: ["user",'permission'],
   data() {
@@ -52,6 +69,7 @@ export default {
     });
   },
   created() {
+      console.log(this.isAuthenticated,'isAuthenticated333')
      /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);
      console.log(this.permission,this.user);*/

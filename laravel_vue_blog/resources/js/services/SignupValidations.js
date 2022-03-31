@@ -14,4 +14,16 @@ export default class SignupValidations {
         }
         return errors;
     }
+    static getErrorMessageFromCode(errorResponse) {
+        switch (errorResponse.status) {
+            case 401:
+                    return errorResponse.data.msg
+                break;
+            case 422:
+                    return errorResponse.data.errors
+                break;
+            default:
+                break;
+        }
+    }
 }

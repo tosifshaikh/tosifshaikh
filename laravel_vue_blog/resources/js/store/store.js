@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './modules/auth/index';
+import { LOADING_SPINNER_SHOW_MUTATION } from './storeconstants';
 Vue.use(Vuex);
 export default new Vuex.Store({
     modules: {
@@ -15,7 +16,8 @@ export default new Vuex.Store({
             isDeleted: false,
             msg : ''
         }, user: null,
-        userPermission : null
+        userPermission: null,
+        showLoading : false
     },
     getters: {
         getdeleteModalObj(state) {
@@ -29,6 +31,9 @@ export default new Vuex.Store({
         },
     },
     mutations: {
+        [LOADING_SPINNER_SHOW_MUTATION](state,payload) {
+            state.showLoading = payload;
+        },
         setDeleteModal(state, data) {
             console.log(state, data,'mutation');
              const   deleteModalObj= {
