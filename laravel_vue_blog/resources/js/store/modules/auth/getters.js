@@ -6,7 +6,7 @@ export default {
         return state.token;
     },
     [IS_USER_AUTHENTICATE_GETTER](state) {
-        console.log(state,'state')
-        return !!state.token;
+        console.log(state,'IS_USER_AUTHENTICATE_GETTER')
+        return state.token;
     }
 }

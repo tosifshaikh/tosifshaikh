@@ -1,26 +1,26 @@
 <template>
   <div id="app">
       <TheLoader v-if="showLoading"></TheLoader>
-      <div>
+      <div v-if="!isAuthenticated && this.$router.currentRoute.name == 'login' ">
           <router-view ></router-view>
 <!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
       <router-view :key="$route.fullPath"></router-view>-->
     </div>
 
-<!--    <div v-if="$store.state.user">
+  <div v-if="isAuthenticated">
       <div class="loader-bg">
         <div class="loader-track">
           <div class="loader-fill"></div>
         </div>
       </div>
-      <Navbar :permission="permission"/>
+      <Navbar />
       <Header />
       <div class="pcoded-main-container">
         <div class="pcoded-content">
           <router-view :key="$route.fullPath"></router-view>
         </div>
       </div>
-    </div>-->
+    </div>
 
 <!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
       <router-view :key="$route.fullPath"></router-view>-->
@@ -32,7 +32,7 @@ import Navbar from "./components/navbar.vue";
 import Header from "./components/header.vue";
 import TheLoader from "./components/TheLoader.vue";
 import { mapState,mapGetters } from "vuex";
-import { IS_USER_AUTHENTICATE_GETTER } from './store/storeconstants';
+import { GET_USER_TOKEN_GETTER, IS_USER_AUTHENTICATE_GETTER } from './store/storeconstants';
 export default {
   name: "App",
   computed : {
@@ -41,8 +41,10 @@ export default {
       }),
        ...mapGetters('auth', {
               isAuthenticated : IS_USER_AUTHENTICATE_GETTER,
+              tokenData : GET_USER_TOKEN_GETTER
           }),
   },
+
   components: {
     Header,
     Navbar,TheLoader
@@ -54,9 +56,9 @@ export default {
     };
   },
   mounted() {
-    //console.log(this.userData)
-    this.$nextTick(() => {
-      /*  var script = document.createElement('script');
+       console.log(this.isAuthenticated,'isAuthenticatedmounted',this.tokenData);
+      /* this.$nextTick(() => {
+     var script = document.createElement('script');
           script.setAttribute('src','/js/vendor-all.min.js');
 
           document.head.appendChild(script);
@@ -65,11 +67,11 @@ export default {
           document.head.appendChild(script);
           var script = document.createElement('script');
           script.setAttribute('src','/js/pcoded.min.js');
-          document.head.appendChild(script);  */
-    });
+          document.head.appendChild(script);
+    });*/
   },
   created() {
-      console.log(this.isAuthenticated,'isAuthenticated333')
+      console.log(this.isAuthenticated,'isAuthenticated333',this.tokenData)
      /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);
      console.log(this.permission,this.user);*/
