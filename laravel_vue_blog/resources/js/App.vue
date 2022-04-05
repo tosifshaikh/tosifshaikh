@@ -32,7 +32,7 @@ import Navbar from "./components/navbar.vue";
 import Header from "./components/header.vue";
 import TheLoader from "./components/TheLoader.vue";
 import { mapState,mapGetters } from "vuex";
-import { GET_USER_TOKEN_GETTER, IS_USER_AUTHENTICATE_GETTER } from './store/storeconstants';
+import { AUTO_LOGIN_ACTION, GET_USER_TOKEN_GETTER, IS_USER_AUTHENTICATE_GETTER } from './store/storeconstants';
 export default {
   name: "App",
   computed : {
@@ -56,6 +56,9 @@ export default {
     };
   },
   mounted() {
+     /*  if(!this.isAuthenticated && this.$router.currentRoute.name != 'login') {
+           location.reload= '/login';
+      } */
        console.log(this.isAuthenticated,'isAuthenticatedmounted',this.tokenData);
       /* this.$nextTick(() => {
      var script = document.createElement('script');
@@ -71,6 +74,7 @@ export default {
     });*/
   },
   created() {
+      this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
       console.log(this.isAuthenticated,'isAuthenticated333',this.tokenData)
      /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);

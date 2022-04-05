@@ -8,17 +8,21 @@ import { LOADING_SPINNER_SHOW_MUTATION } from './storeconstants';
 Vue.use(Vuex);
 const vuexPersist = new VuexPersistence({
   //  asyncStorage: true,
-    //key: "vuexPersistStorage_default",
-    paths: ['auth'],
+    key: "vuexPersistStorage_default",
+    modules: ['auth'],
     //storage: window.localStorage,
    //supportCircular: true,
     storage: {
-         getItem: (key) => ls.get(key),
+        getItem: (key) => {
+            ls.get(key);
+        },
         setItem: (key, value) => {
-            console.log(key, value,'log');
             ls.set(key, value)
         },
-         removeItem: (key) => ls.remove(key)
+        removeItem: (key) => {
+            console.log(key,'removestorage')
+            ls.remove(key)
+        }
     },
     //  saveState: async (key, state, storage) => {
     //     let data = state;
@@ -42,6 +46,9 @@ const vuexPersist = new VuexPersistence({
   })
 export default new Vuex.Store({
     plugins: [vuexPersist.plugin],
+   /*  mutations: {
+        RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION // this mutation **MUST** be named "RESTORE_MUTATION"
+      }, */
     modules: {
         auth
     },
@@ -96,7 +103,8 @@ export default new Vuex.Store({
         },
         SetUserPermission(state, data) {
             state.userPermission = data;
-        }
+        },
+
     }
 
 })
