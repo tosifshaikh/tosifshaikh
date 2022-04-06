@@ -8,6 +8,10 @@ export default {
         state.fullName = payload.fullName;
     },
     setDeleteState(state, payload) {
+        state.email = payload.email;
+        state.userID = payload.userID;
+        state.token = payload.token;
+        state.fullName = payload.fullName;
         console.log(state, payload,'setDeleteState')
     }
 

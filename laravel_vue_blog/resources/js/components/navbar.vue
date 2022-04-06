@@ -25,9 +25,9 @@
 				</div>
 
 				<ul class="nav pcoded-inner-navbar ">
-					<li class="nav-item pcoded-menu-caption">
+					<!-- <li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
-					</li>
+					</li> -->
 					<!-- <li class="nav-item" v-for="(menuItem,i) in permission" :key="i" v-if ="countPermission && menuItem.read">
 						<router-link :to="menuItem.name" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">{{menuItem.resourceName}}</span>
@@ -35,24 +35,24 @@
 
 
 					</li> -->
-					<li class="nav-item" v-for="(menuItem,i) in permission" :key="i" v-if ="menuItem.read">
+					<!-- <li class="nav-item" v-for="(menuItem,i) in permission" :key="i" v-if ="menuItem.read">
 						<router-link :to="menuItem.name" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">{{menuItem.resourceName}}</span>
 						</router-link>
 
 
-					</li>
+					</li> -->
 
-					<li class="nav-item">
+				<!-- 	<li class="nav-item">
 
 
-					    <!-- <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
+					     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
 					        <li><a href="layout-horizontal.html" target="_blank">Horizontal</a></li>
-					    </ul> -->
-					</li>
-					<!-- <li class="nav-item pcoded-menu-caption">
+					    </ul>
+					</li> -->
+					 <li class="nav-item pcoded-menu-caption">
 						<label>Admin</label>
 					</li>
 
@@ -80,7 +80,7 @@
 						</router-link></li>
                          <li  class="nav-item"><router-link to="/assign-roles" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Assign Roles</span>
-						</router-link></li> -->
+						</router-link></li>
 					<li class="nav-item">
 					    <a href="form_elements.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Forms</span></a>
 					</li>
@@ -151,7 +151,7 @@ export default {
           }),
           onLogout() {
               this.logout();
-             // this.$router.replace('/login');
+              this.$router.push('/login');
           }
       },
      /*  mounted() {

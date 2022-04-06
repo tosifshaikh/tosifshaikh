@@ -2,7 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import SecureLS from 'secure-ls';
-const ls = new SecureLS({isCompression :false});
+const ls = new SecureLS({encodingType: 'rc4',
+isCompression: false,
+encryptionSecret: 's3cr3t$@1'});
 import auth from './modules/auth/index';
 import { LOADING_SPINNER_SHOW_MUTATION } from './storeconstants';
 Vue.use(Vuex);
@@ -14,16 +16,37 @@ const vuexPersist = new VuexPersistence({
    //supportCircular: true,
     storage: {
         getItem: (key) => {
-            ls.get(key);
+            let data = (ls.get(key)) ? JSON.parse(ls.get(key)) : '';
+            console.log(key, 'key',data);
+            if (data && data.auth.token != '') {
+                return  ls.get(key);
+            } else {
+                vuexPersist.storage.removeItem(key);
+                //ls.remove(key);
+            }
+
         },
         setItem: (key, value) => {
-            ls.set(key, value)
+
+            ls.set(key, value);
+            console.log(key, JSON.parse(value),'setItem');
+           // if (!key) {
+                //ls.set(key, value)
+            //}
+
         },
         removeItem: (key) => {
-            console.log(key,'removestorage')
+            console.log(key,'removestoragerrrr')
             ls.remove(key)
         }
     },
+  /*   reducer(val) {
+        console.log(val,'reducer');
+        if(val.auth.token === null) { // val.user.token (your user token for example)
+          return {}
+        }
+        return val;
+      } */
     //  saveState: async (key, state, storage) => {
     //     let data = state;
 

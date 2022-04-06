@@ -2,7 +2,7 @@
   <div id="app">
       <TheLoader v-if="showLoading"></TheLoader>
       <div v-if="!isAuthenticated && this.$router.currentRoute.name == 'login' ">
-          <router-view ></router-view>
+          <router-view :key="$router.fullPath"></router-view>
 <!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
       <router-view :key="$route.fullPath"></router-view>-->
     </div>
@@ -17,7 +17,7 @@
       <Header />
       <div class="pcoded-main-container">
         <div class="pcoded-content">
-          <router-view :key="$route.fullPath"></router-view>
+          <router-view :key="$router.fullPath"></router-view>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ export default {
     });*/
   },
   created() {
-      this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
+    //  this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
       console.log(this.isAuthenticated,'isAuthenticated333',this.tokenData)
      /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);

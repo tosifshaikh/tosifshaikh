@@ -11,7 +11,7 @@ import {
 } from "../../storeconstants";
 export default {
     [LOGOUT_ACTION](context) {
-          context.commit(SET_USER_TOKEN_DATA_MUTATION, {
+        context.commit('setDeleteState',{
             email: '',
             userID: 0,
             token: '',
@@ -20,13 +20,22 @@ export default {
             fullName: '',
 
           });
+         /*  context.commit(SET_USER_TOKEN_DATA_MUTATION, {
+            email: '',
+            userID: 0,
+            token: '',
+           // refreshToken: response.data.user.email,
+            //expireIn: response.data.user.email,
+            fullName: '',
+
+          }); */
         console.log(context,'context')
 
     },
     [AUTO_LOGIN_ACTION](context) {
         let userData = this.getters[`auth/${GET_AUTH_DATA}`];
         if (userData) {
-            context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
+            // context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
         }
     },
     async [AUTH_ACTION](context, payload) {

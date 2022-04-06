@@ -5,6 +5,7 @@ export default {
         return state.token;
     },
     [IS_USER_AUTHENTICATE_GETTER](state) {
+        console.log(state.token,'IS_USER_AUTHENTICATE_GETTER');
         return state.token;
     },
     [GET_AUTH_DATA]: state => {

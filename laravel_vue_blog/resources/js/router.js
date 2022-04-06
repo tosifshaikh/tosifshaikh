@@ -95,21 +95,25 @@ const router = new Router({
 });
 
  router.beforeEach((to, from, next) => {
-    console.log(store.getters[`auth/${GET_AUTH_DATA}`],'store.restored')
+    console.log(store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`],'store.restored',to.meta,to.meta.auth)
     if (
         "auth" in to.meta &&
         to.meta.auth &&
         !store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`]
     ) {
-        next("/login");
+        console.log('1')
+        return next("/login");
     } else if (
         "auth" in to.meta &&
         !to.meta.auth &&
         store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`]
     ) {
-        next("/dashboard");
+        console.log('111')
+        return next("/dashboard");
     } else {
-        next();
+        console.log('122211')
+        //window.location.reload();
+        return next();
     }
 });
 export default router;
