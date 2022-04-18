@@ -10,8 +10,32 @@ import {
     SET_USER_TOKEN_DATA_MUTATION,
 } from "../../storeconstants";
 export default {
-    [LOGOUT_ACTION](context) {
-        context.commit('setDeleteState',{
+    async [LOGOUT_ACTION](context,payload) {
+        let response = "";
+        try {
+            response = await axios({
+                method: payload.method,
+                url: payload.URL,
+                //responseType: 'json',
+
+            });
+        } catch (error) {
+            throw error;
+        }
+        if (response.status == 200) {
+            context.commit('setDeleteState',{
+                email: '',
+                userID: 0,
+                token: '',
+               // refreshToken: response.data.user.email,
+                //expireIn: response.data.user.email,
+                fullName: '',
+
+              });
+        }
+
+
+       /*  context.commit('setDeleteState',{
             email: '',
             userID: 0,
             token: '',
@@ -19,7 +43,7 @@ export default {
             //expireIn: response.data.user.email,
             fullName: '',
 
-          });
+          }); */
          /*  context.commit(SET_USER_TOKEN_DATA_MUTATION, {
             email: '',
             userID: 0,
@@ -42,16 +66,16 @@ export default {
         let response = "";
         //  context.commit(LOADING_SPINNER_SHOW_MUTATION,true,{root : true});
         try {
-            // axiosInstance({
-            //     method: payload.method,
-            //     url: payload.URL,
-            //      data: payload.data,
-            //      //responseType: 'json',
+            response =  await axiosInstance({
+                method: payload.method,
+                 url: payload.URL,
+                 data: payload.data,
+                 //responseType: 'json',
             //      headers: {
             //         //'Content-Type': 'multipart/form-data'
             //       }
-            // });
-            response = await axios({
+            });
+          /*   response = await axios({
                 method: payload.method,
                 url: payload.URL,
                 data: payload.data,
@@ -59,7 +83,7 @@ export default {
                 headers: {
                     //'Content-Type': 'multipart/form-data'
                 },
-            });
+            }); */
         } catch (error) {
             // context.commit(LOADING_SPINNER_SHOW_MUTATION,false,{root : true});
             let errorMessage = SignupValidations.getErrorMessageFromCode(
@@ -77,7 +101,9 @@ export default {
                 expireIn: "",
                 fullName: response.data.user.fullName,
             }
+
             context.commit(SET_USER_TOKEN_DATA_MUTATION, tokenData);
+
         }
     },
     async [LOGIN_ACTION](context, payload) {

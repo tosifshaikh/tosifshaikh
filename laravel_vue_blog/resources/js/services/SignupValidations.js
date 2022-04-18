@@ -15,15 +15,19 @@ export default class SignupValidations {
         return errors;
     }
     static getErrorMessageFromCode(errorResponse) {
+        let msg = '';
         switch (errorResponse.status) {
             case 401:
-                    return errorResponse.data.msg
+                msg = (errorResponse.data.message) ? errorResponse.data.message : errorResponse.data.msg ;
                 break;
             case 422:
-                    return errorResponse.data.errors
+                msg= errorResponse.data.errors
                 break;
             default:
+                msg = 'Some Error is occured!Please Refresh and Check'
                 break;
         }
+       
+        return msg;
     }
 }

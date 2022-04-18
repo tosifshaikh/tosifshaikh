@@ -2,7 +2,7 @@
   <div id="app">
       <TheLoader v-if="showLoading"></TheLoader>
       <div v-if="!isAuthenticated && this.$router.currentRoute.name == 'login' ">
-          <router-view :key="$router.fullPath"></router-view>
+          <router-view :key="$router.currentRoute.fullPath"></router-view>
 <!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
       <router-view :key="$route.fullPath"></router-view>-->
     </div>
@@ -17,7 +17,15 @@
       <Header />
       <div class="pcoded-main-container">
         <div class="pcoded-content">
-          <router-view :key="$router.fullPath"></router-view>
+            <keep-alive>
+                <router-view :key="$route.fullPath"></router-view>
+            </keep-alive>
+<!--            <router-view v-slot="{ Component, route }">
+                <transition name="fade">
+                    <component :is="Component" :key="route.path" />
+                </transition>
+            </router-view>-->
+<!--          <router-view :key="$router.currentRoute.fullPath"></router-view>-->
         </div>
       </div>
     </div>
@@ -59,7 +67,8 @@ export default {
      /*  if(!this.isAuthenticated && this.$router.currentRoute.name != 'login') {
            location.reload= '/login';
       } */
-       console.log(this.isAuthenticated,'isAuthenticatedmounted',this.tokenData);
+      // console.log(this.isAuthenticated,'isAuthenticatedmounted',this.tokenData);
+      console.log(this.$router.currentRoute.fullPath,'kkkk',this.$route.fullPath);
       /* this.$nextTick(() => {
      var script = document.createElement('script');
           script.setAttribute('src','/js/vendor-all.min.js');

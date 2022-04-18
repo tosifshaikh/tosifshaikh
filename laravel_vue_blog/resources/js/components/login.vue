@@ -124,9 +124,12 @@ export default {
           }
         }
       });
+      //  console.log(response,'response');
       this.showLoading(false);
-      this.$router.push('/dashboard');
+
       this.isLogging = false;
+      location.href = '/dashboard';
+      //await this.$router.push('/dashboard');
     },
   },
   computed: {

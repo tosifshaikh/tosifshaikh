@@ -19,7 +19,8 @@
 						<ul class="list-unstyled">
 							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
 							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item" ><a href="#" @click.prevent="onLogout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+							<!-- <li class="list-group-item" ><a href="#" @click.prevent="onLogout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li> -->
+							<li class="list-group-item" ><router-link to="logout"><i class="feather icon-log-out m-r-5"></i>Logout</router-link></li>
 						</ul>
 					</div>
 				</div>
@@ -131,7 +132,7 @@ import {mapGetters,mapActions} from 'vuex';
 import { IS_USER_AUTHENTICATE_GETTER, LOGOUT_ACTION } from '../store/storeconstants';
 export default {
     name : "Navbar",
-      props: ['permission'],
+     // props: ['permission'],
       created() {
 
       },computed: {
@@ -146,13 +147,13 @@ export default {
 		  } */
       },
       methods : {
-          ...mapActions('auth', {
+          /* ...mapActions('auth', {
               logout: LOGOUT_ACTION,
           }),
           onLogout() {
-              this.logout();
-              this.$router.push('/login');
-          }
+             // this.logout();
+              //this.$router.push('/login');
+          } */
       },
      /*  mounted() {
           console.log(this.isAuthenticated,'isAuthenticated')

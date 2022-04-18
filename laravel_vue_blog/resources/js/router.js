@@ -73,7 +73,13 @@ const routes = [
         name: "editblogs",
         component: editblog,
         meta: { auth: true },
+    },{
+        path: "/logout",
+        name: "logout",
+        component: () => import("./components/logout.vue"),
+        meta: { auth: false },
     },
+
     {
         path: "*",
         name: "*",
