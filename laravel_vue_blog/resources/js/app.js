@@ -23,14 +23,13 @@ Vue.use(Editor)
 //     config.params = params;
 //     return config;
 // });
-Vue.component('App', require('./App.vue').default);
+//Vue.component('App', App.default);
  //window.addEventListener('load', function () {
     const app = new Vue({
-        //el: "#app",
-
+        el: "#app",
         router,store,
-        render : h => h(App)
-    }).$mount('#app')
+        render : h => h(App),
+    })//.$mount('#app')
 //}) ;
 /* const app = new Vue({
     el: "#app",

@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div>
       <TheLoader v-if="showLoading"></TheLoader>
-      <div v-if="!isAuthenticated && this.$router.currentRoute.name == 'login' ">
+      <div v-if="!isAuthenticated && $router.currentRoute.name == 'login' ">
           <router-view :key="$router.currentRoute.fullPath"></router-view>
 <!--      <div v-if="$store.state.user == false && this.$router.currentRoute.name == 'login' ">
       <router-view :key="$route.fullPath"></router-view>-->
@@ -17,15 +17,15 @@
       <Header />
       <div class="pcoded-main-container">
         <div class="pcoded-content">
-            <keep-alive>
+<!--            <keep-alive>
                 <router-view :key="$route.fullPath"></router-view>
-            </keep-alive>
+            </keep-alive>-->
 <!--            <router-view v-slot="{ Component, route }">
                 <transition name="fade">
                     <component :is="Component" :key="route.path" />
                 </transition>
             </router-view>-->
-<!--          <router-view :key="$router.currentRoute.fullPath"></router-view>-->
+          <router-view :key="$router.currentRoute.fullPath"></router-view>
         </div>
       </div>
     </div>
@@ -64,6 +64,18 @@ export default {
     };
   },
   mounted() {
+      /*document.addEventListener('DOMContentLoaded', function () {
+          var script = document.createElement('script');
+          script.setAttribute('src','/js/vendor-all.min.js');
+
+          document.head.appendChild(script);
+          var script = document.createElement('script');
+          script.setAttribute('src','/js/bootstrap.min.js');
+          document.head.appendChild(script);
+          var script = document.createElement('script');
+          script.setAttribute('src','/js/pcoded.min.js');
+          document.head.appendChild(script);
+      });*/
      /*  if(!this.isAuthenticated && this.$router.currentRoute.name != 'login') {
            location.reload= '/login';
       } */
@@ -83,7 +95,7 @@ export default {
     });*/
   },
   created() {
-    //  this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
+      this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
       console.log(this.isAuthenticated,'isAuthenticated333',this.tokenData)
      /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);

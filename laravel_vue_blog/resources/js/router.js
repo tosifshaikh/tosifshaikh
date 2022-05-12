@@ -77,7 +77,7 @@ const routes = [
         path: "/logout",
         name: "logout",
         component: () => import("./components/logout.vue"),
-        meta: { auth: false },
+        meta: { auth: true },
     },
 
     {
@@ -95,31 +95,34 @@ const router = new Router({
     //to remove # from URL
     //before : http://127.0.0.1:8000/#/home
     //after : http://127.0.0.1:8000/home
+    history: true,
     mode: "history",
     routes: routes,
     linkActiveClass: "active",
 });
 
- router.beforeEach((to, from, next) => {
+ router.beforeEach(async(to, from, next) => {
     console.log(store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`],'store.restored',to.meta,to.meta.auth)
     if (
         "auth" in to.meta &&
         to.meta.auth &&
         !store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`]
     ) {
-        console.log('1')
-        return next("/login");
+        console.log('1',to)
+         next({
+            path: '/login',
+            replace: true
+        });
     } else if (
         "auth" in to.meta &&
         !to.meta.auth &&
         store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`]
     ) {
-        console.log('111')
-        return next("/dashboard");
-    } else {
-        console.log('122211')
-        //window.location.reload();
-        return next();
+        console.log('111',to)
+         next({ path: "/dashboard",replace: true});
     }
+     console.log('122211')
+     //window.location.reload();
+     next();
 });
 export default router;

@@ -114,21 +114,28 @@ export default {
         method: "post",
         URL: "app/login",
         data: this.loginData,
+      }).then(()=> {
+          this.showLoading(false);
+          location.href = '/dashboard';
+          // this.$router.replace('/dashboard');
       }).catch((error) => {
         if (typeof error == "string") {
           this.error(error);
+            this.showLoading(false);
         } else {
           this.showLoading(false);
           for (let e in error) {
             this.error(error[e][0]);
           }
         }
+
       });
       //  console.log(response,'response');
-      this.showLoading(false);
+
 
       this.isLogging = false;
-      location.href = '/dashboard';
+
+     // location.href = '/dashboard';
       //await this.$router.push('/dashboard');
     },
   },

@@ -8,12 +8,16 @@ export default {
              logout: LOGOUT_ACTION,
         }),
         logout() {
-            //this.logout({method : 'post', URL : 'app/logout'});
-           // this.$router.push('/login');
+            console.log('logout');return
+            this.logout({method : 'post', URL : 'app/logout'});
+            this.$router.push('/login');
         }
 },
     mounted() {
 
+    },
+    created() {
+        console.log('sacascascascascsac');
     }
 }
 </script>

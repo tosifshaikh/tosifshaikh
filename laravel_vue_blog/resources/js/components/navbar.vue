@@ -19,8 +19,9 @@
 						<ul class="list-unstyled">
 							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
 							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<!-- <li class="list-group-item" ><a href="#" @click.prevent="onLogout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li> -->
-							<li class="list-group-item" ><router-link to="logout"><i class="feather icon-log-out m-r-5"></i>Logout</router-link></li>
+							 <li class="list-group-item" ><a href="#" @click.prevent="onLogout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+<!--							<li class="list-group-item" ><router-link to="/logout"><i
+                                class="feather icon-log-out m-r-5"></i>Logout</router-link></li>-->
 						</ul>
 					</div>
 				</div>
@@ -58,7 +59,7 @@
 					</li>
 
 					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
+						<a  class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
 						<ul class="pcoded-submenu">
 							<li><router-link to="/tags" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
@@ -147,13 +148,16 @@ export default {
 		  } */
       },
       methods : {
-          /* ...mapActions('auth', {
+           ...mapActions('auth', {
               logout: LOGOUT_ACTION,
           }),
-          onLogout() {
-             // this.logout();
+          async onLogout() {
+              await this.logout({method : 'post', URL : 'app/logout'}).then(()=> {
+                  location.href = '/login';
+              });
+
               //this.$router.push('/login');
-          } */
+          }
       },
      /*  mounted() {
           console.log(this.isAuthenticated,'isAuthenticated')

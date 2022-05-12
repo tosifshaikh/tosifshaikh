@@ -28,9 +28,11 @@
 
         </div>
         <script src="{{mix('js/app.js')}}"  ></script>
-        <script src="{{asset('js/vendor-all.min.js')}}"  ></script>
-        <script src="{{asset('js/bootstrap.min.js')}}"  ></script>
 
-        <script src="{{asset('js/pcoded.min.js')}}" ></script>
+        <script   src="{{asset('js/vendor-all.min.js')}}"  ></script>
+        <script  src="{{asset('js/bootstrap.min.js')}}"  ></script>
+
+        <script  src="{{asset('js/pcoded.min.js')}}" ></script>
+
     </body>
 </html>
