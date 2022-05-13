@@ -21,6 +21,7 @@ const vuexPersist = new VuexPersistence({
             if (data && data.auth.token != '') {
                 return  ls.get(key);
             } else {
+                console.log('vuexPersist.storage');
                 vuexPersist.storage.removeItem(key);
                 //ls.remove(key);
             }

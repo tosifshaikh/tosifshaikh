@@ -131,6 +131,7 @@
 <script>
 import {mapGetters,mapActions} from 'vuex';
 import { IS_USER_AUTHENTICATE_GETTER, LOGOUT_ACTION } from '../store/storeconstants';
+import store from '../store/store';
 export default {
     name : "Navbar",
      // props: ['permission'],
@@ -152,9 +153,8 @@ export default {
               logout: LOGOUT_ACTION,
           }),
           async onLogout() {
-              await this.logout({method : 'post', URL : 'app/logout'}).then(()=> {
-                  location.href = '/login';
-              });
+               console.log('onLogout');
+              await this.logout({method : 'post', URL : 'app/logout'});
 
               //this.$router.push('/login');
           }

@@ -3,22 +3,31 @@ import axiosInstance from "../../../services/AxiosTokenInstance";
 //LOADING_SPINNER_SHOW_MUTATION
 import {
     AUTH_ACTION,
-    AUTO_LOGIN_ACTION,
+    AUTO_LOGIN_ACTION, AUTO_LOGOUT_ACTION,
     GET_AUTH_DATA,
     LOGIN_ACTION,
     LOGOUT_ACTION,
     SET_USER_TOKEN_DATA_MUTATION,
-} from "../../storeconstants";
+} from '../../storeconstants';
 export default {
     async [LOGOUT_ACTION](context,payload) {
+
+        let userData = this.getters[`auth/${GET_AUTH_DATA}`];
         let response = "";
         try {
             response = await axios({
                 method: payload.method,
                 url: payload.URL,
+                data : userData
                 //responseType: 'json',
-
-            });
+                ,headers: {
+                    Accept:'application/json',
+                }
+                    //         //'Content-Type': 'multipart/form-data'
+                    //       }
+            })/*.then(()=> {
+                location.href = '/login';
+            });;*/
         } catch (error) {
             throw error;
         }
@@ -32,6 +41,7 @@ export default {
                 fullName: '',
 
               });
+            //location.href = '/login';
         }
 
 
@@ -56,11 +66,14 @@ export default {
         console.log(context,'context')
 
     },
+    async [AUTO_LOGOUT_ACTION](context) {
+       return  context.dispatch(LOGOUT_ACTION,{method : 'post', URL : 'app/logout'});
+    },
     [AUTO_LOGIN_ACTION](context) {
         let userData = this.getters[`auth/${GET_AUTH_DATA}`];
         if (userData) {
             console.log(SET_USER_TOKEN_DATA_MUTATION,'SET_USER_TOKEN_DATA_MUTATION22',userData);
-            // context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
+             //context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
         }
     },
     async [AUTH_ACTION](context, payload) {
