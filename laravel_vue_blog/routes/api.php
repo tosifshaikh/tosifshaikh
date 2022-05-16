@@ -23,8 +23,16 @@ use Illuminate\Support\Facades\Route;
 /* Route::prefix('app')->middleware(Admincheck::class)->group(function(){
 Route::post('/login',[AdminController::class,'login']);
 }); */
-Route::group(['prefix' => 'app','middleware' => loginCheck::class],function() {
-    Route::post('login',[AdminController::class,'login']);
+Route::group(['prefix' => 'app'],function() {
+    Route::post('login',[AdminController::class,'login'])->middleware(loginCheck::class);
+    //Route::post('/logout',[AdminController::class,'logout'])->middleware('auth:api');
+    //Route::post('logout',[AdminController::class,'logout']);
+    Route::group(['middleware' => ['auth',loginCheck::class]],function () {
+       // Route::post('logout',[AdminController::class,'logout']);
+
+    });
+
+
 
 });
 //Route::post('/login',[AdminController::class,'login']);

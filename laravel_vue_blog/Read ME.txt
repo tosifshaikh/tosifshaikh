@@ -1,0 +1,1 @@
+1) mounted () : it will executed before creating the component. created () : it will executed after creating the component for render

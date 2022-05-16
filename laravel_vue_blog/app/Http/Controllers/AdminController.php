@@ -143,7 +143,7 @@ class AdminController extends Controller
     if (!$token->save()) {
         return \response()->json(['message' => 'Some Error Occur'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-    $cookie = cookie('jwt',$token,60*24); //1 day
+    $cookie = cookie('jwt',$token->id,60*24); //1 day
     return response()->json([
         'msg' => 'You are logged in',
         'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission],
@@ -172,10 +172,14 @@ class AdminController extends Controller
                 ],401);
         } */
     }
-    public function logout()
+    public function logout(Request $request)
     {
-       $cookie = Cookie::forget('jwt');
+        $accessToken = Auth::user()->token();
+        dd($accessToken);
+       // $token= $request->user()->tokens->find($accessToken);
+       // $token->revoke();
+       $cookie = cookie('jwt',null,0);
         //Auth::logout();
-       return response()->json(['msg' => 'success'])->withCookie($cookie);
+       return response()->json(['msg' => 'success','token'=> $token])->withCookie($cookie);
     }
 }

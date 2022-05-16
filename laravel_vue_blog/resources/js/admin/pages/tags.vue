@@ -106,6 +106,7 @@
 <script>
 import deleteModal from '../components/DeleteModal.vue';
 import { mapGetters } from 'vuex';
+import { GET_USER_TOKEN_GETTER } from '../../store/storeconstants';
 
 export default {
     name : "tag",
@@ -128,7 +129,7 @@ export default {
         }
     },
      mounted() {
-
+ console.log(this.isReadPermitted,'isReadPermitted',this.token)
          this.getdata();
      },
     methods: {
@@ -207,8 +208,8 @@ export default {
 
     },
        created() {
-           console.log(this.isReadPermitted,'isReadPermitted')
-            this.getdata();
+
+            //this.getdata();
        /*  const res = await this.callApi('get','/app/get_tag');
         if (res.status == 200) {
             this.tags = res.data;
@@ -218,8 +219,12 @@ export default {
         deleteModal,
     },computed: {
   ...mapGetters([
-            'getdeleteModalObj',
-        ])
+            'getdeleteModalObj'
+        ]),
+         ...mapGetters('auth',
+            {
+                token : GET_USER_TOKEN_GETTER
+            })
     },watch : {
             getdeleteModalObj(value) {
                  console.log(value,'valuetagout');

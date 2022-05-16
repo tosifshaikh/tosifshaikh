@@ -19,15 +19,17 @@
 						<ul class="list-unstyled">
 							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
 							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item"><a href="/logout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+							 <li class="list-group-item" ><a href="#" @click.prevent="onLogout"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+<!--							<li class="list-group-item" ><router-link to="/logout"><i
+                                class="feather icon-log-out m-r-5"></i>Logout</router-link></li>-->
 						</ul>
 					</div>
 				</div>
 
 				<ul class="nav pcoded-inner-navbar ">
-					<li class="nav-item pcoded-menu-caption">
+					<!-- <li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
-					</li>
+					</li> -->
 					<!-- <li class="nav-item" v-for="(menuItem,i) in permission" :key="i" v-if ="countPermission && menuItem.read">
 						<router-link :to="menuItem.name" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">{{menuItem.resourceName}}</span>
@@ -35,29 +37,29 @@
 
 
 					</li> -->
-					<li class="nav-item" v-for="(menuItem,i) in permission" :key="i" v-if ="menuItem.read">
+					<!-- <li class="nav-item" v-for="(menuItem,i) in permission" :key="i" v-if ="menuItem.read">
 						<router-link :to="menuItem.name" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">{{menuItem.resourceName}}</span>
 						</router-link>
 
 
-					</li>
+					</li> -->
 
-					<li class="nav-item">
+				<!-- 	<li class="nav-item">
 
 
-					    <!-- <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
+					     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
 					        <li><a href="layout-horizontal.html" target="_blank">Horizontal</a></li>
-					    </ul> -->
-					</li>
-					<!-- <li class="nav-item pcoded-menu-caption">
+					    </ul>
+					</li> -->
+					 <li class="nav-item pcoded-menu-caption">
 						<label>Admin</label>
 					</li>
 
 					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
+						<a  class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
 						<ul class="pcoded-submenu">
 							<li><router-link to="/tags" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
@@ -80,7 +82,7 @@
 						</router-link></li>
                          <li  class="nav-item"><router-link to="/assign-roles" class="nav-link">
 								<span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Assign Roles</span>
-						</router-link></li> -->
+						</router-link></li>
 					<li class="nav-item">
 					    <a href="form_elements.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Forms</span></a>
 					</li>
@@ -127,12 +129,18 @@
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex';
+import { IS_USER_AUTHENTICATE_GETTER, LOGOUT_ACTION } from '../store/storeconstants';
+import store from '../store/store';
 export default {
     name : "Navbar",
-      props: ['permission'],
+     // props: ['permission'],
       created() {
 
       },computed: {
+          ...mapGetters('auth', {
+              isAuthenticated: IS_USER_AUTHENTICATE_GETTER,
+          }),
 		  /* countPermission() {
 			  return this.permission.length;
 		  },
@@ -140,6 +148,20 @@ export default {
 			   return this.permission.filter(x => x.read === true)
 		  } */
       },
+      methods : {
+           ...mapActions('auth', {
+              logout: LOGOUT_ACTION,
+          }),
+          async onLogout() {
+               console.log('onLogout');
+              await this.logout({method : 'post', URL : 'app/logout'});
+
+              //this.$router.push('/login');
+          }
+      },
+     /*  mounted() {
+          console.log(this.isAuthenticated,'isAuthenticated')
+      } */
 }
 </script>
 

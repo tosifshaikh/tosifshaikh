@@ -7,17 +7,15 @@ export default {
     state() {
         return {
             name : 'auth',
-            user: {
-                token : '',
-                email : '',
-                userID: '',
-                refreshToken: '',
-                expireIn: '',
-                fullName : ''
-            }
+            token : '',
+            email : '',
+            userID: 0,
+            refreshToken: '',
+            expireIn: '',
+            fullName : ''
         }
     },
-    mutations : mutations,
-    actions : actions,
-    getters : getters,
+    mutations,
+    actions ,
+    getters,
 }
