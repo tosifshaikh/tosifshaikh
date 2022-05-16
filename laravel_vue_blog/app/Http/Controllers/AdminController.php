@@ -174,7 +174,7 @@ class AdminController extends Controller
     }
     public function logout(Request $request)
     {
-        $accessToken = Auth::user()->token();
+        $accessToken =$request->user()->token();
         dd($accessToken);
        // $token= $request->user()->tokens->find($accessToken);
        // $token->revoke();
