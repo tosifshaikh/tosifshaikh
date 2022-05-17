@@ -63,7 +63,6 @@ export default {
             fullName: '',
 
           }); */
-        console.log(context,'context')
 
     },
     async [AUTO_LOGOUT_ACTION](context) {
@@ -71,9 +70,8 @@ export default {
     },
     [AUTO_LOGIN_ACTION](context) {
         let userData = this.getters[`auth/${GET_AUTH_DATA}`];
-        if (userData) {
-            console.log(SET_USER_TOKEN_DATA_MUTATION,'SET_USER_TOKEN_DATA_MUTATION22',userData);
-             //context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
+        if (userData.token) {
+            context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
         }
     },
     async [AUTH_ACTION](context, payload) {
@@ -106,16 +104,20 @@ export default {
             throw errorMessage;
         }
         // context.commit(LOADING_SPINNER_SHOW_MUTATION,false,{root : true});
+
         if (response.status == 200) {
+            let expirationTime = +3600 * 1000;
+            setTimeout(()=> {
+                context.dispatch(AUTO_LOGOUT_ACTION);
+            },expirationTime);
             let tokenData = {
                 email: response.data.user.email,
                 userID: response.data.user.userId,
                 token: response.data.user.token,
                 refreshToken: "",
-                expireIn: "",
+                expireIn: expirationTime,
                 fullName: response.data.user.fullName,
             }
-
             context.commit(SET_USER_TOKEN_DATA_MUTATION, tokenData);
 
         }

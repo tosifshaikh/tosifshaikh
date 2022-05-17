@@ -28,7 +28,7 @@ Route::group(['prefix' => 'app'],function() {
    // Route::post('/logout',[AdminController::class,'logout'])->middleware('auth:api');
     //Route::post('logout',[AdminController::class,'logout']);
     Route::group(['middleware' => ['auth:api']],function () {
-        Route::post('/logout',[AdminController::class,'logout']);
+        Route::post('logout',[AdminController::class,'logout']);
 
     });
 

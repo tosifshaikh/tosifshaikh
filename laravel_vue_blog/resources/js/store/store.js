@@ -30,7 +30,7 @@ const vuexPersist = new VuexPersistence({
         setItem: (key, value) => {
 
             ls.set(key, value);
-            console.log(key, JSON.parse(value),'setItem');
+            console.log(key, value,'setItem');
            // if (!key) {
                 //ls.set(key, value)
             //}
