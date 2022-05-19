@@ -117,7 +117,7 @@ export default {
       }).then(()=> {
           this.showLoading(false);
           location.href = '/dashboard';
-          // this.$router.replace('/dashboard');
+          //this.$router.push('/dashboard');
       }).catch((error) => {
         if (typeof error == "string") {
           this.error(error);

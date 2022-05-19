@@ -1,13 +1,29 @@
 import Vue from "vue";
 import Router from "vue-router";
-import adminusers from "./admin/pages/AdminUsers.vue";
+//import adminusers from "./admin/pages/AdminUsers.vue";
 import login from "./components/login.vue";
-import role from "./admin/pages/role.vue";
-import assignrole from "./admin/pages/AssignRoles.vue";
-import editblog from "./admin/pages/editBlog.vue";
-import notfound from "./admin/pages/notfound.vue";
+//import role from "./admin/pages/role.vue";
+//import assignrole from "./admin/pages/AssignRoles.vue";
+//import editblog from "./admin/pages/editBlog.vue";
+//import notfound from "./admin/pages/notfound.vue";
 import store from "./store/store";
 import { GET_AUTH_DATA, IS_USER_AUTHENTICATE_GETTER } from "./store/storeconstants";
+
+// Lazy Load components dynamically when required
+
+//webpackChunkName: "Login  will display custom name of js.
+//const login = () => import(/* webpackChunkName: "Login" */"./components/login.vue");
+const dashboard = () => import("./components/dashboard.vue");
+const tags = () => import("./admin/pages/tags.vue");
+const category = () => import("./admin/pages/category.vue");
+const adminusers = () => import("./admin/pages/AdminUsers.vue");
+const role = () => import("./admin/pages/role.vue");
+const assignrole = () => import("./admin/pages/AssignRoles.vue");
+const createBlog = () => import("./admin/pages/createBlog.vue");
+const blogs = () => import("./admin/pages/Blogs.vue");
+const editblog = () => import("./admin/pages/editBlog.vue");
+const logout = () => import("./components/logout.vue");
+const notfound = () => import("./admin/pages/notfound.vue");
 Vue.use(Router);
 const routes = [
     {
@@ -17,19 +33,19 @@ const routes = [
     {
         path: "/dashboard",
         name: "dashboard",
-        component: () => import("./components/dashboard.vue"),
+        component: dashboard,
         meta: { auth: true },
     },
     {
         path: "/tags",
         name: "tags",
-        component: () => import("./admin/pages/tags.vue"),
+        component: tags,
         meta: { auth: true },
     },
     {
         path: "/category",
         name: "category",
-        component: () => import("./admin/pages/category.vue"),
+        component: category,
         meta: { auth: true },
     },
     {
@@ -59,13 +75,13 @@ const routes = [
     {
         path: "/create-blog",
         name: "create-blog",
-        component: () => import("./admin/pages/createBlog.vue"),
+        component: createBlog,
         meta: { auth: true },
     },
     {
         path: "/blogs",
         name: "blogs",
-        component: () => import("./admin/pages/Blogs.vue"),
+        component: blogs,
         meta: { auth: true },
     },
     {
@@ -76,14 +92,14 @@ const routes = [
     },{
         path: "/logout",
         name: "logout",
-        component: () => import("./components/logout.vue"),
+        component: logout,
         meta: { auth: true },
     },
 
     {
         path: "*",
         name: "*",
-        component: () => import("./admin/pages/notfound.vue"),
+        component: notfound,
         meta: { auth: false },
         /*beforeEnter(to, from ,next) {
 
@@ -102,13 +118,13 @@ const router = new Router({
 });
 
  router.beforeEach(async(to, from, next) => {
-    console.log(store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`],'store.restored',to.meta,to.meta.auth)
+    //console.log(store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`],'store.restored',to.meta,to.meta.auth)
     if (
         "auth" in to.meta &&
         to.meta.auth &&
         !store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`]
     ) {
-        console.log('1',to)
+       // console.log('1',to)
          next({
             path: '/login',
             replace: true
@@ -118,10 +134,10 @@ const router = new Router({
         !to.meta.auth &&
         store.getters[`auth/${IS_USER_AUTHENTICATE_GETTER}`]
     ) {
-        console.log('111',to)
+        //console.log('111',to)
          next({ path: "/dashboard",replace: true});
     }
-     console.log('122211')
+    // console.log('122211')
      //window.location.reload();
      next();
 });

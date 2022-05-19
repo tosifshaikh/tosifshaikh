@@ -45,13 +45,21 @@ export default {
   name: "App",
   computed : {
       ...mapState({
-          showLoading : (state)  => state.showLoading
+          showLoading : (state)  => state.showLoading,
+          autoLogout : state => state.auth.autoLogout
       }),
        ...mapGetters('auth', {
               isAuthenticated : IS_USER_AUTHENTICATE_GETTER,
               tokenData : GET_USER_TOKEN_GETTER
           }),
   },
+    watch : {
+        autoLogout(curValue, oldValue) {
+            if(curValue && curValue != oldValue) {
+                this.$router.replace('/login');
+            }
+        }
+    },
 
   components: {
     Header,

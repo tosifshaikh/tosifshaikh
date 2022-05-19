@@ -8,3 +8,5 @@ export const AUTH_ACTION = '[actions] Do User Auth';
 export const AUTO_LOGIN_ACTION = '[actions] Auth auto login';
 export const GET_AUTH_DATA = '[getters] get auth data';
 export const AUTO_LOGOUT_ACTION = '[actions] auto logout';
+export const SET_AUTO_LOGOUT_MUTATION = '[mutations] set auto logout';
+

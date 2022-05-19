@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminController extends Controller
 {
     private $user;
+    // 3600000 miliseconds = 1 hour expiry time for token
+    const TOKEN_EXPIRY_TIME = 3600;
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -147,8 +149,7 @@ class AdminController extends Controller
     $cookie = cookie('jwt',$token,60*24); //1 day
     return response()->json([
         'msg' => 'You are logged in',
-        'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission],
-        'token' => $token, 'userId' => $user->id],
+        'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission], 'token' => $token, 'userId' => $user->id,'expireIn' => self::TOKEN_EXPIRY_TIME],
             /* 'acccess_token' => $tokenData->accessToken,
             'token_type' => 'Bearer',
             'token_scope' => $tokenData->token->scopes[0],
