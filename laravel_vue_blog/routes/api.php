@@ -46,17 +46,19 @@ Route::group(['prefix' => 'app'],function() {
             $uri = $request->path();
             if(!empty($uri)) {
                     $params = explode('/', $uri);
-                    \array_splice(  $params,0,2);
+                    \array_splice(  $params,0,3);
             }
             $controller = $app->make( $pathArr[$controller]);
+           // dd($params);
+
             return $controller->callAction($action, [$request,$params] );
-        });  
+        });
      /*  Route::any('{controller}/{action?}/{params1?}/{params2?}',function($controller, $action = 'index', $params1 = '',$params2 = ''){
         dd($controller);
 
         });  */
         //Route::get('/menu-category',[MenuCategoryController::class,'getData']);
-        
+
        // get-menu-category
         /* Tag Module */
         Route::post('/create_tag',[TagController::class,'addTag']);

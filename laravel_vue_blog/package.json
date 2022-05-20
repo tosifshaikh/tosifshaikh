@@ -20,7 +20,7 @@
         "@editorjs/quote": "^2.4.0",
         "@editorjs/raw": "^2.3.0",
         "@editorjs/warning": "^1.2.0",
-        "axios": "^0.19",
+        "axios": "^0.27.2",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",

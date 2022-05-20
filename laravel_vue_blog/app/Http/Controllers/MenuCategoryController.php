@@ -14,15 +14,16 @@ class MenuCategoryController extends Controller
     {
         $this->menucategories = $menucategories;
     }
-    public function show($request)
+    public function show($request = null, $params = [])
     {
-       dd($request);
+      return $this->menucategories->orderBy('id', 'desc')->get();
     }
-    public function save(Request $request)
+    public function add($request = null, $params = [])
     {
         $this->validate($request,[
              'categoryName' => 'required'
          ]);
+
          $data= $this->menucategories->create([
             'category_name' => $request->categoryName,
         ]);
