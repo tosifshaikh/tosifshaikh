@@ -174,7 +174,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.isReadPermitted, "isReadPermitted", this.token);
+   // console.log(this.isReadPermitted, "isReadPermitted", this.token);
     this.getdata();
   },
   methods: {
@@ -241,7 +241,7 @@ export default {
       this.$store.commit("setDeletingModalObj", deleteModalObj);
     },
     async getdata() {
-      this.token = window.Laravel.csrfToken;
+      //this.token = window.Laravel.csrfToken;
       const res = await this.callApi("get", "/app/get_tag");
       if (res.status == 200) {
         this.tags = res.data;
@@ -266,10 +266,10 @@ export default {
   },
   watch: {
     getdeleteModalObj(value) {
-      console.log(value, "valuetagout");
+     // console.log(value, "valuetagout");
       if (value.isDeleted) {
         this.tags.splice(value.deleteIndex, 1);
-        console.log(value, "valuetag", value.deleteIndex);
+        //console.log(value, "valuetag", value.deleteIndex);
       }
     },
   },

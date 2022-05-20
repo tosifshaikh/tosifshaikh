@@ -72,7 +72,7 @@
                     </div>
                     <div class="space">
                     <Select v-model="adminUserData.role_id" style="width:200px" placeholder="Select Role Type">
-                    <Option  :value="r.id" v-for="(r,i) in roles" :key="i" v-if="roles.length">{{r.roleName}}</Option>
+                    <Option  :value="r.id" v-for="(r,i) in roles" :key="i">{{r.roleName}}</Option>
                     </Select>
                     </div>
                     <div slot="footer">
@@ -96,7 +96,7 @@
                     </div>
                     <div class="space">
                      <Select v-model="adminUserData.role_id" style="width:200px" placeholder="Select Role Type">
-                    <Option  :value="r.id" v-for="(r,i) in roles" :key="i" v-if="roles.length">{{r.roleName}}</Option>
+                    <Option  :value="r.id" v-for="(r,i) in roles" :key="i">{{r.roleName}}</Option>
                     </Select>
                     </div>
 
@@ -291,7 +291,7 @@ export default {
         },
          async getdata() {
 
-                this.token = window.Laravel.csrfToken;
+               // this.token = window.Laravel.csrfToken;
                 //it will run both the API's at once instead of one by one
             const [res ,resRole] = await Promise.all([
                 this.callApi('get','/app/get_user'),

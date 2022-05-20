@@ -67,7 +67,7 @@ class AdminController extends Controller
     }
     public function getUser()
     {
-        return $this->user->where('role_id','!=',4)->orderBy('id','desc')->get();
+        return $this->user->with(['role'])->orderBy('id','desc')->get();
     }
     public function create(Request $request)
     {
