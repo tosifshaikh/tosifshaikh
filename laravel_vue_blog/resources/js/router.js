@@ -24,6 +24,8 @@ const blogs = () => import("./admin/pages/Blogs.vue");
 const editblog = () => import("./admin/pages/editBlog.vue");
 const logout = () => import("./components/logout.vue");
 const notfound = () => import("./admin/pages/notfound.vue");
+const menu = () => import("./admin/pages/MenuMaster.vue");
+const menucategory = () => import("./admin/pages/MenuCategory.vue");
 Vue.use(Router);
 const routes = [
     {
@@ -93,6 +95,17 @@ const routes = [
         path: "/logout",
         name: "logout",
         component: logout,
+        meta: { auth: true },
+    },
+    {
+        path: "/menu-master",
+        name: "menu-master",
+        component: menu,
+        meta: { auth: true },
+    },{
+        path: "/menu-category",
+        name: "menu-category",
+        component: menucategory,
         meta: { auth: true },
     },
 

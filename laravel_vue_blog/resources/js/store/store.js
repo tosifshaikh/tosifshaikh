@@ -6,6 +6,7 @@ const ls = new SecureLS({encodingType: 'rc4',
 isCompression: false,
 encryptionSecret: 's3cr3t$@1'});
 import auth from './modules/auth/index';
+import menucategorymodule from './modules/menucategory/index';
 import { LOADING_SPINNER_SHOW_MUTATION } from './storeconstants';
 Vue.use(Vuex);
 const vuexPersist = new VuexPersistence({
@@ -74,7 +75,7 @@ export default new Vuex.Store({
         RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION // this mutation **MUST** be named "RESTORE_MUTATION"
       }, */
     modules: {
-        auth
+        auth,menucategorymodule
     },
     state: {
         deleteModalObj: {

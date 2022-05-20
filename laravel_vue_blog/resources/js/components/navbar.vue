@@ -27,6 +27,12 @@
 				</div>
 
 				<ul class="nav pcoded-inner-navbar ">
+					 <li class="nav-item pcoded-menu-caption">
+						<label>Navigation</label>
+					</li>
+					<li class="nav-item">
+					   <router-link to="/dashboard" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span>	</router-link>
+					</li>
 					<!-- <li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
 					</li> -->
@@ -59,18 +65,13 @@
 					</li>
 
 					<li class="nav-item pcoded-hasmenu">
-						<a  class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
+						<a  class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Master</span></a>
 						<ul class="pcoded-submenu">
-							<li><router-link to="/tags" class="nav-link">
-								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Tags</span>
-						</router-link></li>
-							<li><router-link to="/category" class="nav-link">
-								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Category</span>
-						</router-link></li>
-                        <li><router-link to="/admin-users" class="nav-link">
-								<span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Admin Users</span>
-						</router-link></li>
-
+							<li><router-link to="/tags">Tags</router-link></li>
+							<li><router-link to="/category">Category</router-link></li>
+                        	<li><router-link to="/admin-users">Admin Users</router-link></li>
+                        	<li><router-link to="/menu-category">Menu Category</router-link></li>
+                        	<li><router-link to="/menu-master">Menus</router-link></li>
 						</ul>
 					</li>
 

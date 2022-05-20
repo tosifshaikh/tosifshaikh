@@ -8,7 +8,7 @@ export default {
              logout: LOGOUT_ACTION,
         }),
         logout() {
-            console.log('logout');return
+           // console.log('logout');return
             this.logout({method : 'post', URL : 'app/logout'});
             this.$router.push('/login');
         }

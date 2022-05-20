@@ -88,7 +88,7 @@ export default {
            location.reload= '/login';
       } */
       // console.log(this.isAuthenticated,'isAuthenticatedmounted',this.tokenData);
-      console.log(this.$router.currentRoute.fullPath,'kkkk',this.$route.fullPath);
+      //console.log(this.$router.currentRoute.fullPath,'kkkk',this.$route.fullPath);
       /* this.$nextTick(() => {
      var script = document.createElement('script');
           script.setAttribute('src','/js/vendor-all.min.js');
@@ -104,7 +104,7 @@ export default {
   },
   created() {
       this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
-      console.log(this.isAuthenticated,'isAuthenticated333',this.tokenData)
+      //console.log(this.isAuthenticated,'isAuthenticated333',this.tokenData)
      /* this.$store.commit('updateUser',this.user);
       this.$store.commit('SetUserPermission',this.permission);
      console.log(this.permission,this.user);*/
