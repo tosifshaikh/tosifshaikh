@@ -25,6 +25,10 @@
                     <div class="card-header">
 <!--                           <Button @click="AddModal=true"><Icon type="md-add" /> Add Category</Button>
  -->                          <Button @click="addData"><Icon type="md-add" v-if="isWritePermitted"/> Add Category</Button>
+                                <div>Mixin Use {{ counter }}</div>
+                                <Button @click.prevent="onIncrement(10)"
+                                ><Icon type="md-add" /> Increment
+                                </Button>
                        <!--  <h5>Basic Table</h5>
                         <span class="d-block m-t-5">use class <code>table</code> inside table element</span> -->
                     </div>
@@ -159,9 +163,10 @@
 <script>
 import deleteModal from '../components/DeleteModal.vue';
 import { mapGetters } from 'vuex';
-
+import CounterMixin from "../../mixins/CounterMixin";
 export default {
     name : "category",
+     mixins : [CounterMixin],
     data() {
         return {
             categoryData : {

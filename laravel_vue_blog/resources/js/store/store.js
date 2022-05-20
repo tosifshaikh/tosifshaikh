@@ -17,11 +17,11 @@ const vuexPersist = new VuexPersistence({
     storage: {
         getItem: (key) => {
             let data = (ls.get(key)) ? JSON.parse(ls.get(key)) : '';
-            console.log(key, 'key',data);
+           // console.log(key, 'key',data);
             if (data && data.auth.token != '') {
                 return  ls.get(key);
             } else {
-                console.log('vuexPersist.storage');
+               // console.log('vuexPersist.storage');
                 vuexPersist.storage.removeItem(key);
                 //ls.remove(key);
             }
@@ -30,14 +30,14 @@ const vuexPersist = new VuexPersistence({
         setItem: (key, value) => {
 
             ls.set(key, value);
-            console.log(key, JSON.parse(value),'setItem');
+           // console.log(key, value,'setItem');
            // if (!key) {
                 //ls.set(key, value)
             //}
 
         },
         removeItem: (key) => {
-            console.log(key,'removestoragerrrr')
+            //console.log(key,'removestoragerrrr')
             ls.remove(key)
         }
     },
@@ -104,7 +104,6 @@ export default new Vuex.Store({
             state.showLoading = payload;
         },
         setDeleteModal(state, data) {
-            console.log(state, data,'mutation');
              const   deleteModalObj= {
                 showDeleteModal: false,
                 deleteURL: '',

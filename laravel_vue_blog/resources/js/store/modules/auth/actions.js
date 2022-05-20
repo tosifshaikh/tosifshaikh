@@ -6,9 +6,10 @@ import {
     AUTO_LOGIN_ACTION, AUTO_LOGOUT_ACTION,
     GET_AUTH_DATA,
     LOGIN_ACTION,
-    LOGOUT_ACTION,
+    LOGOUT_ACTION, SET_AUTO_LOGOUT_MUTATION,
     SET_USER_TOKEN_DATA_MUTATION,
 } from '../../storeconstants';
+let timer= '';
 export default {
     async [LOGOUT_ACTION](context,payload) {
 
@@ -37,11 +38,16 @@ export default {
                 userID: 0,
                 token: '',
                // refreshToken: response.data.user.email,
-                //expireIn: response.data.user.email,
+                expireIn: '',
                 fullName: '',
 
               });
-            //location.href = '/login';
+
+            if(timer) {
+                clearTimeout(timer);
+            }
+           // console.log(timer,'timer');return
+            location.href = '/login';
         }
 
 
@@ -63,17 +69,34 @@ export default {
             fullName: '',
 
           }); */
-        console.log(context,'context')
 
     },
     async [AUTO_LOGOUT_ACTION](context) {
-       return  context.dispatch(LOGOUT_ACTION,{method : 'post', URL : 'app/logout'});
-    },
+         context.dispatch(LOGOUT_ACTION,{method : 'post', URL : 'app/logout'});
+        context.commit(SET_AUTO_LOGOUT_MUTATION);
+         },
     [AUTO_LOGIN_ACTION](context) {
         let userData = this.getters[`auth/${GET_AUTH_DATA}`];
-        if (userData) {
-            console.log(SET_USER_TOKEN_DATA_MUTATION,'SET_USER_TOKEN_DATA_MUTATION22',userData);
-             //context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
+        if (userData.token) {
+            console.log(userData,'userData', new Date().getTime());
+
+            let expirationTime = +userData.expireIn - new Date().getTime();
+
+            if (expirationTime < 10000) {
+                //you can refresh the token or logout
+              // console.log(expirationTime,'expirationTime',userData.expireIn,new
+                // Date().getTime());return
+               //  context.dispatch(AUTO_LOGOUT_ACTION);
+            } else {
+                timer = setTimeout(() => {   context.dispatch(AUTO_LOGOUT_ACTION);}, expirationTime)
+                /*timer= new Promise(function(resolve, reject) {
+                    setTimeout(() => {
+                        console.log('10 seconds Timer expired!!!');
+                        context.dispatch(AUTO_LOGOUT_ACTION);
+                    }, expirationTime)
+                });*/
+            }
+            context.commit(SET_USER_TOKEN_DATA_MUTATION,userData);
         }
     },
     async [AUTH_ACTION](context, payload) {
@@ -106,16 +129,32 @@ export default {
             throw errorMessage;
         }
         // context.commit(LOADING_SPINNER_SHOW_MUTATION,false,{root : true});
+
         if (response.status == 200) {
+            let expirationTime = +response.data.user.expireIn * 1000;
+
+            timer = setTimeout(() => {   context.dispatch(AUTO_LOGOUT_ACTION);}, expirationTime)
+
+            /*timer= setTimeout(()=> {
+                 console.log('timeout')
+                 context.dispatch(AUTO_LOGOUT_ACTION);
+             },expirationTime);
+ */
+            /*timer= new Promise(function(resolve, reject) {
+                setTimeout(() => {
+                    console.log('10 seconds Timer expired!qqqq!!');
+                    context.dispatch(AUTO_LOGOUT_ACTION);
+                }, expirationTime)
+            });*/
+            console.log(expirationTime,'expirationTime',timer);
             let tokenData = {
                 email: response.data.user.email,
                 userID: response.data.user.userId,
                 token: response.data.user.token,
                 refreshToken: "",
-                expireIn: "",
+                expireIn: expirationTime,
                 fullName: response.data.user.fullName,
             }
-
             context.commit(SET_USER_TOKEN_DATA_MUTATION, tokenData);
 
         }

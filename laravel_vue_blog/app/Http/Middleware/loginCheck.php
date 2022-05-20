@@ -23,7 +23,7 @@ class loginCheck
             return $next($request);
         }*/
 
-        if (!Auth::attempt(['email' => $request->email,
+        if (!Auth::check() && !Auth::attempt(['email' => $request->email,
         'password' => $request->pass, 'isActive' => 1])) {
         return response()->json([
             'msg' => 'Invalid Credentials'

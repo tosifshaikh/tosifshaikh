@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RoleController;
 use App\Http\Middleware\loginCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,11 +26,18 @@ Route::post('/login',[AdminController::class,'login']);
 }); */
 Route::group(['prefix' => 'app'],function() {
     Route::post('login',[AdminController::class,'login'])->middleware(loginCheck::class);
-    //Route::post('/logout',[AdminController::class,'logout'])->middleware('auth:api');
+   // Route::post('/logout',[AdminController::class,'logout'])->middleware('auth:api');
     //Route::post('logout',[AdminController::class,'logout']);
-    Route::group(['middleware' => ['auth',loginCheck::class]],function () {
-       // Route::post('logout',[AdminController::class,'logout']);
-
+    Route::group(['middleware' => ['auth:api',loginCheck::class]],function () {
+        /* Tag Module */
+        Route::post('/create_tag',[TagController::class,'addTag']);
+        Route::get('/get_tag',[TagController::class,'getTag']);
+        Route::post('/edit_tag',[TagController::class,'editTag']);
+        Route::post('/delete_tag',[TagController::class,'deleteTag']);\
+        /* End Tag Module */
+        Route::post('logout',[AdminController::class,'logout']);
+        Route::get('/get_role',[RoleController::class,'getData']);
+        Route::post('/edit_role',[RoleController::class,'edit']);
     });
 
 

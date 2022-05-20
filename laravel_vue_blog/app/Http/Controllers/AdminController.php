@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminController extends Controller
 {
     private $user;
+    // 3600000 miliseconds = 1 hour expiry time for token
+    const TOKEN_EXPIRY_TIME = 3600;
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -138,16 +140,16 @@ class AdminController extends Controller
             'msg' => 'You are not allowed to access this route directly'
         ],Response::HTTP_FORBIDDEN);
     } */
-    $tokenData = $user->createToken('Personal Access Token', [$user->role->roleName]);
-    $token = $tokenData->token;
-    if (!$token->save()) {
+        $token = $user->createToken('Personal Access Token', [$user->role->roleName])->accessToken;
+    //dd($tokenData->accessToken);
+       // $tokenData= $tokenData->token;
+    /*if (!$tokenData->save()) {
         return \response()->json(['message' => 'Some Error Occur'], Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-    $cookie = cookie('jwt',$token->id,60*24); //1 day
+    }*/
+    $cookie = cookie('jwt',$token,60*24); //1 day
     return response()->json([
         'msg' => 'You are logged in',
-        'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission],
-        'token' => $token, 'userId' => $user->id],
+        'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission], 'token' => $token, 'userId' => $user->id,'expireIn' => self::TOKEN_EXPIRY_TIME],
             /* 'acccess_token' => $tokenData->accessToken,
             'token_type' => 'Bearer',
             'token_scope' => $tokenData->token->scopes[0],
@@ -174,12 +176,11 @@ class AdminController extends Controller
     }
     public function logout(Request $request)
     {
-        $accessToken = Auth::user()->token();
-        dd($accessToken);
-       // $token= $request->user()->tokens->find($accessToken);
+        Auth::user()->token()->delete();
        // $token->revoke();
-       $cookie = cookie('jwt',null,0);
+
+       $cookie = Cookie::forget('jwt');
         //Auth::logout();
-       return response()->json(['msg' => 'success','token'=> $token])->withCookie($cookie);
+       return response()->json(['msg' => 'success'])->withCookie($cookie);
     }
 }
