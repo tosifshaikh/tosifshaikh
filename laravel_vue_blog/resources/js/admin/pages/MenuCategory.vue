@@ -76,10 +76,8 @@
               style="width: 300px"
               placeholder="Status"
             >
-             <Option value="" :key="-1" >Select Status</Option>
-              <Option :value=i v-for="(r, i) in Active" :key="i">{{
-                r
-              }}</Option>
+              <Option value="1" key="1">Active</Option>
+              <Option value="0" key="0">Inactive</Option>
             </Select>
 
             <div slot="footer">
@@ -107,8 +105,8 @@
               placeholder="Edit Menu category Name"
             />
             <div class="space"></div>
-             <Select
-             v-model="data.is_active"
+            <Select
+              v-model="data.is_active"
               style="width: 300px"
               placeholder="Status"
             >
@@ -148,7 +146,7 @@ export default {
     return {
       data: {
         category_name: null,
-        is_active : -1
+        is_active: "0",
       },
       customFlags: {
         isAdding: false,
@@ -185,10 +183,14 @@ export default {
     this.getData();
   },
   methods: {
+    resetValues() {
+      this.data.category_name = null;
+      this.data.is_active = "0";
+    },
     showEditModal(data, index) {
-
       let obj = Object.assign({}, data);
       this.customFlags.isEditing = true;
+      obj.is_active = obj.is_active.toString();
       this.data = obj;
       this.customFlags.EditModalVisible = true;
       this.customFlags.index = index;
@@ -201,7 +203,8 @@ export default {
         data: { id: data.id },
         deleteIndex: index,
         isDeleted: false,
-        confirmMsg:"Are you sure you want to delete " + data.category_name + "?",
+        confirmMsg:
+          "Are you sure you want to delete " + data.category_name + "?",
         msg: "Menu Category has been deleted successfully!",
       };
       this.$store.commit("setDeletingModalObj", deleteModalObj);
@@ -214,7 +217,6 @@ export default {
     }), */
     addData() {
       this.customFlags.AddModalVisible = true;
-      // this.customFlags.isAdding = true;
     },
     showHideToggle(flag, value) {
       if (flag == 1) {
@@ -226,8 +228,8 @@ export default {
         this.customFlags.isEditing = value;
         this.showDeleteModal = value;
       }
-       this.data.category_name = "";
-       this.data.is_active = 0;
+      this.data.category_name = "";
+      this.data.is_active = "0";
     },
     save() {
       if (this.customFlags.AddModalVisible) {
@@ -242,7 +244,8 @@ export default {
           (response) => {
             this.customFlags.AddModalVisible = false;
             this.customFlags.isAdding = false;
-            this.data.category_name = "";
+            this.resetValues();
+
             this.dataList.unshift(response.data);
           }
         );
@@ -252,7 +255,7 @@ export default {
           (response) => {
             this.customFlags.EditModalVisible = false;
             this.customFlags.isEditing = false;
-            this.data.categoryName = "";
+            this.resetValues();
             this.dataList[this.customFlags.index] = response.data;
             this.customFlags.index = -1;
           }
