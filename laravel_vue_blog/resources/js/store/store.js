@@ -84,7 +84,8 @@ export default new Vuex.Store({
             data: null,
             deleteIndex: -1,
             isDeleted: false,
-            msg : ''
+            msg : '',
+            confirmMsg : ''
         }, user: null,
         userPermission: null,
         showLoading : false
@@ -111,7 +112,8 @@ export default new Vuex.Store({
                 data: null,
                 deleteIndex: state.deleteModalObj.deleteIndex,
                 isDeleted: data,
-                msg : ''
+                msg : '',
+                confirmMsg : ''
             }
             state.deleteModalObj= deleteModalObj;
 

@@ -63,12 +63,25 @@
           <Modal
             v-model="customFlags.AddModalVisible"
             title="Add Menu Category"
+            :mask-closable="false"
+            :closable="false"
           >
             <Input
               placeholder="Add Menu category Name"
-              v-model="data.categoryName"
+              v-model="data.category_name"
             />
             <div class="space"></div>
+            <Select
+              v-model="data.is_active"
+              style="width: 300px"
+              placeholder="Status"
+            >
+             <Option value="" :key="-1" >Select Status</Option>
+              <Option :value=i v-for="(r, i) in Active" :key="i">{{
+                r
+              }}</Option>
+            </Select>
+
             <div slot="footer">
               <Button type="default" @click="showHideToggle(1, false)"
                 >Close</Button
@@ -83,14 +96,30 @@
             </div>
           </Modal>
 
-          <Modal v-model="customFlags.EditModalVisible" title="Edit Menu Category">
+          <Modal
+            v-model="customFlags.EditModalVisible"
+            title="Edit Menu Category"
+            :mask-closable="false"
+            :closable="false"
+          >
             <Input
               v-model="data.category_name"
               placeholder="Edit Menu category Name"
             />
+            <div class="space"></div>
+             <Select
+             v-model="data.is_active"
+              style="width: 300px"
+              placeholder="Status"
+            >
+              <Option value="1" key="1">Active</Option>
+              <Option value="0" key="0">Inactive</Option>
+            </Select>
 
             <div slot="footer">
-              <Button type="default" @click="showHideToggle(2,false)">Close</Button>
+              <Button type="default" @click="showHideToggle(2, false)"
+                >Close</Button
+              >
               <Button
                 type="primary"
                 @click="save"
@@ -100,7 +129,7 @@
               >
             </div>
           </Modal>
-           <deleteModal />
+          <deleteModal />
         </div>
       </div>
     </div>
@@ -108,8 +137,8 @@
 </template>
 
 <script>
-import deleteModal from '../components/DeleteModal.vue';
-import { mapGetters } from 'vuex';
+import deleteModal from "../components/DeleteModal.vue";
+import { mapGetters } from "vuex";
 /* import { mapState, mapActions } from "vuex";
 import { SAVE_DATA } from "../../store/modules/menucategory/ActionConstants"; */
 export default {
@@ -118,7 +147,8 @@ export default {
   data() {
     return {
       data: {
-        categoryName: null,
+        category_name: null,
+        is_active : -1
       },
       customFlags: {
         isAdding: false,
@@ -138,34 +168,28 @@ export default {
       dataList: [],
     };
   },
-  components : {
-      deleteModal
+  components: {
+    deleteModal,
   },
   computed: {
-      ...mapGetters(['getdeleteModalObj'])
+    ...mapGetters(["getdeleteModalObj"]),
   },
-  watch :{
-   getdeleteModalObj(value) {
-                if (value.isDeleted) {
-                      this.dataList.splice(value.deleteIndex,1);
-                }
-            }
+  watch: {
+    getdeleteModalObj(value) {
+      if (value.isDeleted) {
+        this.dataList.splice(value.deleteIndex, 1);
+      }
     },
+  },
   created() {
     this.getData();
   },
-  mounted() {
-    console.log("mounted");
-  },
-
   methods: {
     showEditModal(data, index) {
-      /*  let obj = {
-                id:data.id,
-                categoryName : data.category_name
-            } */
+
+      let obj = Object.assign({}, data);
       this.customFlags.isEditing = true;
-      this.data = data;
+      this.data = obj;
       this.customFlags.EditModalVisible = true;
       this.customFlags.index = index;
     },
@@ -173,11 +197,12 @@ export default {
     showDeletingModal(data, index) {
       const deleteModalObj = {
         showDeleteModal: true,
-        deleteURL: "app/menu-category/delete/",
-        data: data,
+        deleteURL: "app/menu-category/delete",
+        data: { id: data.id },
         deleteIndex: index,
         isDeleted: false,
-        msg: "Category has been deleted successfully!",
+        confirmMsg:"Are you sure you want to delete " + data.category_name + "?",
+        msg: "Menu Category has been deleted successfully!",
       };
       this.$store.commit("setDeletingModalObj", deleteModalObj);
       /* this.deleteItem = tag;
@@ -189,21 +214,23 @@ export default {
     }), */
     addData() {
       this.customFlags.AddModalVisible = true;
-      this.customFlags.isAdding = true;
+      // this.customFlags.isAdding = true;
     },
-    showHideToggle (flag, value)  {
+    showHideToggle(flag, value) {
       if (flag == 1) {
         this.customFlags.AddModalVisible = value;
-        this.customFlags.isAdding =value;
+        this.customFlags.isAdding = value;
       }
-       if (flag == 2) {
+      if (flag == 2) {
         this.customFlags.EditModalVisible = value;
-         this.customFlags.isEditing = value;
+        this.customFlags.isEditing = value;
         this.showDeleteModal = value;
       }
+       this.data.category_name = "";
+       this.data.is_active = 0;
     },
     save() {
-      if (this.customFlags.isAdding) {
+      if (this.customFlags.AddModalVisible) {
         /*  this.saveAction({
             method: "post",
             URL: "app/add-menu-category",
@@ -211,28 +238,29 @@ export default {
             }).then(response => {
                 this.dataList = response.data;
             }); */
-        this.callApi("post", "app/menu-category/add/", this.data).then(
+        this.callApi("post", "app/menu-category/add", this.data).then(
           (response) => {
             this.customFlags.AddModalVisible = false;
             this.customFlags.isAdding = false;
-            this.data.categoryName = "";
+            this.data.category_name = "";
             this.dataList.unshift(response.data);
           }
         );
       }
-      if(this.customFlags.isEditing) {
-          this.callApi("post", "app/menu-category/edit/", this.data).then(
+      if (this.customFlags.isEditing) {
+        this.callApi("post", "app/menu-category/edit", this.data).then(
           (response) => {
-            this.customFlags.AddModalVisible = false;
+            this.customFlags.EditModalVisible = false;
             this.customFlags.isEditing = false;
             this.data.categoryName = "";
-            this.dataList.unshift(response.data);
+            this.dataList[this.customFlags.index] = response.data;
+            this.customFlags.index = -1;
           }
         );
       }
     },
     getData() {
-      this.callApi("GET", "app/menu-category/show/").then((response) => {
+      this.callApi("GET", "app/menu-category/show").then((response) => {
         this.dataList = response.data;
       });
     },
@@ -241,4 +269,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.space {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 </style>

@@ -20,6 +20,7 @@ class CreateMenu extends Migration
             $table->string('menu_name')->nullable();
             $table->tinyInteger('is_active')->default(0)->comment('0-Inactive,1-Active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

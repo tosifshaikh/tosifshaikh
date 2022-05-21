@@ -150,9 +150,8 @@ export default {
             },
             adminCheck(){
                 let index= this.roles.findIndex(role => role.id == this.data.id);
-                let permission= this.roles[index].permission;console.log(permission)
+                let permission= this.roles[index].permission;
                 if (!permission) {
-                    console.log(this.freshResource,'this.freshResource')
                     this.resource = this.freshResource;
                 } else {
                     this.resource = JSON.parse(permission);

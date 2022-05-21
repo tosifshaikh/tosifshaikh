@@ -191,7 +191,6 @@ export default {
                 email : data.email,
                 role_id : data.role_id
             }
-            console.log(obj,data,data.userType)
             this.customFlags.isEdit = true;
             this.adminUserData = obj;
             this.customFlags.EditModal =true;
