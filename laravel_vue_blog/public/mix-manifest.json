@@ -1,4 +1,18 @@
 {
-    "/js/app.js": "/js/app.js?id=c1b237b7de9f9138a571",
-    "/css/app.css": "/css/app.css?id=ea44818bc9bd653175e1"
+    "/js/app.js": "/js/app.js?id=b95a28f03719f458d180",
+    "/css/app.css": "/css/app.css?id=d25e275f92bed6f52ef9",
+    "/AdminUsers.js": "/AdminUsers.js?id=f80807f25a9dd66d1437",
+    "/AssignRoles.js": "/AssignRoles.js?id=8eb718919ab732054254",
+    "/Blogs.js": "/Blogs.js?id=9e21a3068a221a91546c",
+    "/MenuCategory.js": "/MenuCategory.js?id=c7be7acdd08e46d035ac",
+    "/MenuMaster.js": "/MenuMaster.js?id=900e9dea2be5040dda4e",
+    "/category.js": "/category.js?id=3f88f361edb49a02e642",
+    "/createBlog.js": "/createBlog.js?id=9f5e6ded261b3812faec",
+    "/dashboard.js": "/dashboard.js?id=ac72cf5400b9782aa013",
+    "/editBlog.js": "/editBlog.js?id=9b8ac7b6f20337f38ab6",
+    "/logout.js": "/logout.js?id=71825d94b9b6fe71ab4c",
+    "/notfound.js": "/notfound.js?id=a286c58613cfd1a24a61",
+    "/role.js": "/role.js?id=2c331226c0912efc82a3",
+    "/tags.js": "/tags.js?id=a3f22686324f57b99caf",
+    "/vendors~createBlog~editBlog.js": "/vendors~createBlog~editBlog.js?id=1ac51ffd9c132cc70a99"
 }

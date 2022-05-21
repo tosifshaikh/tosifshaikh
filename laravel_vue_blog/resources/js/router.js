@@ -13,19 +13,19 @@ import { GET_AUTH_DATA, IS_USER_AUTHENTICATE_GETTER } from "./store/storeconstan
 
 //webpackChunkName: "Login  will display custom name of js.
 //const login = () => import(/* webpackChunkName: "Login" */"./components/login.vue");
-const dashboard = () => import("./components/dashboard.vue");
-const tags = () => import("./admin/pages/tags.vue");
-const category = () => import("./admin/pages/category.vue");
-const adminusers = () => import("./admin/pages/AdminUsers.vue");
-const role = () => import("./admin/pages/role.vue");
-const assignrole = () => import("./admin/pages/AssignRoles.vue");
-const createBlog = () => import("./admin/pages/createBlog.vue");
-const blogs = () => import("./admin/pages/Blogs.vue");
-const editblog = () => import("./admin/pages/editBlog.vue");
-const logout = () => import("./components/logout.vue");
-const notfound = () => import("./admin/pages/notfound.vue");
-const menu = () => import("./admin/pages/MenuMaster.vue");
-const menucategory = () => import("./admin/pages/MenuCategory.vue");
+const dashboard = () => import(/* webpackChunkName: "dashboard" */"./components/dashboard.vue");
+const tags = () => import(/* webpackChunkName: "tags" */"./admin/pages/tags.vue");
+const category = () => import(/* webpackChunkName: "category" */"./admin/pages/category.vue");
+const adminusers = () => import(/* webpackChunkName: "AdminUsers" */"./admin/pages/AdminUsers.vue");
+const role = () => import(/* webpackChunkName: "role" */"./admin/pages/role.vue");
+const assignrole = () => import(/* webpackChunkName: "AssignRoles" */"./admin/pages/AssignRoles.vue");
+const createBlog = () => import(/* webpackChunkName: "createBlog" */"./admin/pages/createBlog.vue");
+const blogs = () => import(/* webpackChunkName: "Blogs" */"./admin/pages/Blogs.vue");
+const editblog = () => import(/* webpackChunkName: "editBlog" */"./admin/pages/editBlog.vue");
+const logout = () => import(/* webpackChunkName: "logout" */"./components/logout.vue");
+const notfound = () => import(/* webpackChunkName: "notfound" */"./admin/pages/notfound.vue");
+const menu = () => import(/* webpackChunkName: "MenuMaster" */"./admin/pages/MenuMaster.vue");
+const menucategory = () => import(/* webpackChunkName: "MenuCategory" */"./admin/pages/MenuCategory.vue");
 Vue.use(Router);
 const routes = [
     {

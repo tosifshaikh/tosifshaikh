@@ -7,7 +7,7 @@ import ViewUI from 'view-design';
 import common from './common';
 import jsonToHTML from './jsonToHTML';
 import store from './store/store';
-import  GlobalMixin  from './mixins/GlobalMixin';
+//import  GlobalMixin  from './mixins/GlobalMixin';
 import Editor from 'vue-editor-js/src/index'
 // import style
 import 'view-design/dist/styles/iview.css';
@@ -17,7 +17,7 @@ Vue.use(ViewUI);
 Vue.use(router);
 Vue.mixin(common);
 Vue.mixin(jsonToHTML);
-Vue.mixin(GlobalMixin);
+//Vue.mixin(GlobalMixin);
 
 //import Axios from 'axios';
 Vue.use(Editor)
@@ -34,7 +34,7 @@ const app = new Vue({
 
 app.$mount('#app');
  //window.addEventListener('load', function () {
-  
+
 //}) ;
 /* const app = new Vue({
     el: "#app",

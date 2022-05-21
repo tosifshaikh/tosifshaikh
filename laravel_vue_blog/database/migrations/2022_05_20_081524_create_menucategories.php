@@ -13,11 +13,13 @@ class CreateMenucategories extends Migration
      */
     public function up()
     {
-        Schema::create('menucategories1', function (Blueprint $table) {
+        Schema::create('menucategories', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned()->autoIncrement();
             $table->string('category_name')->nullable();
             $table->tinyInteger('is_active')->default(0)->comment('0-Inactive,1-Active');
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
