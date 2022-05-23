@@ -25,41 +25,32 @@
       <div class="col-xl-12">
         <div class="card">
              <div class="card-header">
-                  <Select
-             v-on:change="onChange1"
-              style="width: 300px"
-              placeholder="Menu"
-              v-model="optionSelected"
-            >
-              <Option :value="1" :key="1">Menu 1</Option>
-              <Option :value="0" :key="0">Menu 2</Option>
-            </Select>
             <Button @click="addData"><Icon type="md-add" />Add</Button>
           </div>
           <Modal
             v-model="customFlags.AddModalVisible"
             title="Add Menu"
-           
+
             :mask-closable="false"
             :closable="false"
           >
-            <!-- <Input
-              placeholder="Add Menu Name"
-              v-model="test"
-            /> -->
+            <div v-html="htmlContent"></div>
+            <!-- <i-select  @on-change = "onChange($event)"
+            style="width: 300px"
+            placeholder="Menu" key="key1">
+            v-model = "optionSelected">
+            <span id="menu1"><Input
+              v-model="data.menu1"
+              :v-show="show1"
+              placeholder="Add Menu name"
+            /></span>
+            <i-option  value="-1" key="-1">Enter Text</i-option>
+            <i-option  :value="r.value" v-for="(r, i) in active" :key="i">{{r.label}}</i-option>
+            </i-select> -->
             <div class="space"></div>
-            <Select
-             on-change="onChange1"
-              style="width: 300px"
-              placeholder="Menu"
-              v-model="optionSelected"
-            >
-              <Option :value="1" :key="1">Menu 1</Option>
-              <Option :value="0" :key="0">Menu 2</Option>
-            </Select>
 
             <div slot="footer">
-              
+
             </div>
           </Modal>
         </div>
@@ -75,6 +66,7 @@ export default {
   data() {
     return {
         optionSelected : '',
+        innerHTML : '',
         customFlags: {
         isAdding: false,
         AddModalVisible: false,
@@ -84,21 +76,49 @@ export default {
         isDeleteting: false,
         },
           dataList: [],
+          active : [
+            { value : '1', label : 'inactive'},
+            { value : '0', label : 'active'},
+          ],
     };
   },
  watch: {
         onChange1() {
-            console.log('sacascascacs');
+            console.log('11111');
         }
+ },
+ computed : {
+    htmlContent() {
+         return `${this.innerHTML}`;
+    }
+ },
+ created()  {
+    this.loadHtml();
  },
   mounted() {},
 
   methods: {
+    loadHtml() {
+        this.renderHtml();
+    },
+    renderHtml() {
+  this.innerHTML = `<Select  @on-change = "onChange($event)"
+            style="width: 300px"
+            placeholder="Menu" key="key1"
+            v-model = ${this.optionSelected}>
+            <Option  :value="" :key="-11">Select Menu</Option>
+            <Option  :value="-1" :key="-1">Enter Text</Option>
+
+            </Select>`;
+    },
     addData() {
       this.customFlags.AddModalVisible = true;
     },
-    onChange1() {
-      console.log('sacascasc');
+    onChange(e) {
+      if(e==-1) {
+
+      }
+      console.log('sacascasc',e);
     },
     save() {
 
