@@ -40,6 +40,7 @@ Route::group(['prefix' => 'app'],function() {
          Route::match(['get', 'post'], '{controller}/{action}/{params1?}/{params2?}', function ($controller, $action = 'index',Request $request) {
             static $pathArr = [
                 'menu-category' => App\Http\Controllers\MenuCategoryController::class,
+                'menu-master' => App\Http\Controllers\MenuController::class
             ];
           //  $request = new \Illuminate\Http\Request();
             $app = app();

@@ -34,8 +34,9 @@
             :mask-closable="false"
             :closable="false"
           >
-            <div v-html="htmlContent"></div>
-            <!-- <i-select  @on-change = "onChange($event)"
+
+            <MenuSelect  :data="dataList" :mydata="getData"></MenuSelect>
+            <!-- v-on:menu-change="onChange" <i-select  @on-change = "onChange($event)"
             style="width: 300px"
             placeholder="Menu" key="key1">
             v-model = "optionSelected">
@@ -60,6 +61,57 @@
 </template>
 
 <script>
+import {bus} from '../../event-bus';
+let dropHTML = {
+   props: {
+        data: Array,
+        mydata:Array
+    },
+   /* `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="childMenuChange">
+                <Option  value="-11" :key="-11">Select Menu</Option>
+                <Option  value="-1" :key="-1">Enter Text</Option>
+                <Option  :value="dt.id" :key="dt.id" v-for="dt in data">{{dt.name}}</Option>
+                </Select>`*/
+     template : `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="childMenuChange">
+                <Option  value="-11" :key="-11">Select Menu</Option>
+                <Option  value="-1" :key="-1">Enter Text</Option>
+                <Option  value="0">{{mydata}}</Option>
+                </Select>`,
+    data() {
+        return {
+            innerHTML : ''
+        }
+
+
+    }, computed : {
+        /*htmlContent() {
+            return
+        }*/
+    },
+     methods: {
+         childMenuChange(e) {
+             bus.$emit('menu-change',e);
+                  console.log('child event');
+
+         },
+          /* renderHtml() {
+               //@on-change="$emit('menu-change',$event)"
+               this.innerHTML = `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="testchange">
+           <Option  value="-11" :key="-11">Select Menu</Option>
+            <Option  value="-1" :key="-1">Enter Text</Option>
+
+            </Select>`
+           }*/
+     },
+      created()  {
+         // this.renderHtml();
+          console.log('child name',this.data);
+     /*  bus.$on('onChange', () => {
+     console.log('onchange444');
+    }) */
+   // this.loadHtml();
+ }
+}
 export default {
   name: "menuComponent",
 
@@ -75,12 +127,22 @@ export default {
         index: -1,
         isDeleteting: false,
         },
-          dataList: [],
+          dataList: [
+             /* {id:1,name:'test1',parent : 0},
+              {id:2,name:'test2',parent : 0},
+              {id:3,name:'test3',parent : 0},
+              {id:4,name:'test4',parent : 0},
+              {id:5,name:'test5',parent : 0},*/
+
+          ],
           active : [
             { value : '1', label : 'inactive'},
             { value : '0', label : 'active'},
           ],
     };
+  },
+  components : {
+        'MenuSelect' : dropHTML
   },
  watch: {
         onChange1() {
@@ -88,37 +150,67 @@ export default {
         }
  },
  computed : {
-    htmlContent() {
-         return `${this.innerHTML}`;
-    }
+    /*htmlContent() {
+         return this.innerHTML;
+    }*/
+     getData() {
+         return this.dataList;
+     }
  },
  created()  {
-    this.loadHtml();
+      bus.$on('menu-change', (data) => {
+     console.log('onchange parent',data);
+    })
+    this.callApi('get','app/menu-master/getmenu/').then((response) => {
+        this.filterData(response.data);
+    }) ;
  },
-  mounted() {},
+  /*mounted() {},
+  render() {
+    return (<App>
+      <span >
+       hello
+      </span></App>
+    )
+  },*/
 
   methods: {
-    loadHtml() {
+   /* loadHtml() {
         this.renderHtml();
     },
     renderHtml() {
-  this.innerHTML = `<Select  @on-change = "onChange($event)"
-            style="width: 300px"
-            placeholder="Menu" key="key1"
-            v-model = ${this.optionSelected}>
-            <Option  :value="" :key="-11">Select Menu</Option>
-            <Option  :value="-1" :key="-1">Enter Text</Option>
+        this.innerHTML = `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="testchange">
+           <Option  value="-11" :key="-11">Select Menu</Option>
+            <Option  value="-1" :key="-1">Enter Text</Option>
 
             </Select>`;
-    },
+    },*/
     addData() {
       this.customFlags.AddModalVisible = true;
     },
-    onChange(e) {
-      if(e==-1) {
+    testchange() {
+        console.log('eemmit');
+    },
+    filterData(data) {
+        let counter = 0;
+        for(let d in data) {
+            if(!this.dataList[data[d].pid]) {
+                this.dataList[data[d].pid]= [];
+                counter = 0;
+            }
+            this.dataList[data[d].pid][counter++]=data[d];
+        }
+        console.log(this.dataList,'filterData')
+    },
+    recursivefunction() {
 
-      }
-      console.log('sacascasc',e);
+    },
+    onChange(e) {
+      /* if(e==-1) {
+
+      } */
+        console.log('55555',e);
+    // this.$emit('onChange');
     },
     save() {
 
