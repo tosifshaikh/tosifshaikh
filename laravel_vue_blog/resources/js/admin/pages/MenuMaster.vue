@@ -75,7 +75,7 @@ let dropHTML = {
                 <Option  :value="dt.id" :key="dt.id" v-for="dt in data">{{dt.name}}</Option>
                 </Select>`*/
      template :`<div>
-    <Select  v-for="(row, level) in data" style="width: 300px" placeholder="Menu" :key="level" :id="'select_'+level" @on-change="childMenuChange($event,level)">
+    <Select  v-for="(row, level) in data" style="width: 300px" placeholder="Menu" :key="level" ref="select_level" @on-change="childMenuChange($event,level)">
     <Option  value="-11" :key="-11">Select Menu</Option>
     <Option  value="-1" :key="-1">Enter Text</Option>
     <Option  :value="column.id+'|'+column.pid"  :key="idx2"  v-for="(column, idx2) in row">{{column.menu_name}}</Option>
@@ -104,9 +104,14 @@ let dropHTML = {
         },
     },
      methods: {
-         childMenuChange(e,idx) {
-             bus.$emit('menu-change',e,idx);
-                  console.log('child event');
+         childMenuChange(event,idx) {
+             this.$nextTick(()=>{
+                   console.log('child event',event,idx,this.$refs,this.$refs.select_level.length);
+                    bus.$emit('menu-change',{selectedVal : event,level :idx, refs : this.$refs});
+
+             });
+
+
 
          },
         loadObj(parent) {
@@ -187,9 +192,9 @@ export default {
      }
  },
  created()  {
-      bus.$on('menu-change', (data,idx) => {
-          this.onChange(data,idx);
-     console.log('onchange parent',data,idx);
+      bus.$on('menu-change', (event) => {
+         this.onChange(event);
+     console.log('onchange parent',event);
     })
 
     this.callApi('get','app/menu-master/getmenu/').then((response) => {
@@ -289,18 +294,18 @@ export default {
         });
         console.log(  this.localDataList,this.dataList,'  this.localDataList');*/
     },
-    onChange(data,level) {
-        if(data) {
-            let dataSplit = data.split('|');
+    onChange(event) {
+        if(event) {
+            let dataSplit = event.selectedVal.split('|');
             let parentID =  dataSplit[0];
              this.localDataList =[];
 
-            console.log(parentID,'parentID',data,level);
+            console.log(parentID,'parentID',Object.keys(event.refs),event.refs);
             if(!this.dataList) {
                // this.recursivefunction(parentID, this.responseData);
             }
 
-            this.filterData(parentID,(level+1));
+            this.filterData(parentID,(event.level+1));
 
         }
     },
