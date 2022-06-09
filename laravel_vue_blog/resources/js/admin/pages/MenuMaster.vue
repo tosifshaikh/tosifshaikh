@@ -26,6 +26,7 @@
         <div class="card">
              <div class="card-header">
             <Button @click="addData"><Icon type="md-add" />Add</Button>
+                 <MenuSelect  :data="getData"></MenuSelect>
           </div>
           <Modal
             v-model="customFlags.AddModalVisible"
@@ -34,8 +35,9 @@
             :mask-closable="false"
             :closable="false"
           >
-            <div v-html="htmlContent"></div>
-            <!-- <i-select  @on-change = "onChange($event)"
+
+<!--            <MenuSelect  :data="getData"></MenuSelect>-->
+            <!-- v-on:menu-change="onChange" <i-select  @on-change = "onChange($event)"
             style="width: 300px"
             placeholder="Menu" key="key1">
             v-model = "optionSelected">
@@ -60,6 +62,84 @@
 </template>
 
 <script>
+import {bus} from '../../event-bus';
+let dropHTML = {
+   props: {
+        data: Array
+
+
+    },
+   /* `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="childMenuChange">
+                <Option  value="-11" :key="-11">Select Menu</Option>
+                <Option  value="-1" :key="-1">Enter Text</Option>
+                <Option  :value="dt.id" :key="dt.id" v-for="dt in data">{{dt.name}}</Option>
+                </Select>`*/
+     template :`<div>
+    <Select  v-for="(row, level) in data" style="width: 300px" placeholder="Menu" :key="level" ref="select_level" @on-change="childMenuChange($event,level)">
+    <Option  value="-11" :key="-11">Select Menu</Option>
+    <Option  value="-1" :key="-1">Enter Text</Option>
+    <Option  :value="column.id+'|'+column.pid"  :key="idx2"  v-for="(column, idx2) in row">{{column.menu_name}}</Option>
+    </Select>
+    </div>`  ,
+    data() {
+        return {
+            innerHTML : '',
+        }
+
+
+    }, computed : {
+         recurObj() {
+
+            //console.log(this.localData,'this.localData')
+             //return this.localData;
+         }
+        /*htmlContent() {
+            return
+        }*/
+    },
+
+    watch: {
+        data: function (oldValue, newValue) {
+            //console.log(newValue,oldValue, 'watch');
+        },
+    },
+     methods: {
+         childMenuChange(event,idx) {
+             this.$nextTick(()=>{
+                   console.log('child event',event,idx,this.$refs,this.$refs.select_level.length);
+                    bus.$emit('menu-change',{selectedVal : event,level :idx, refs : this.$refs});
+
+             });
+
+
+
+         },
+        loadObj(parent) {
+           // this.localData = this.data
+        }
+          /* renderHtml() {
+               //@on-change="$emit('menu-change',$event)"
+               this.innerHTML = `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="testchange">
+           <Option  value="-11" :key="-11">Select Menu</Option>
+            <Option  value="-1" :key="-1">Enter Text</Option>
+
+            </Select>`
+           }*/
+     },
+    mounted() {
+       // this.localData = JSON.parse(JSON.stringify(this.data))
+       // console.log('mounted child',this.localData,this.data);
+    },
+    created()  {
+       // this.loadObj(0);
+        // this.renderHtml();
+         // console.log('child name',this.localData,this.data);
+     /*  bus.$on('onChange', () => {
+     console.log('onchange444');
+    }) */
+   // this.loadHtml();
+ }
+}
 export default {
   name: "menuComponent",
 
@@ -75,12 +155,27 @@ export default {
         index: -1,
         isDeleteting: false,
         },
-          dataList: [],
+        levelCounter : 0,
+        num : 0,
+        childIndex : 0,
+        localDataList : [],
+        responseData : [],
+          dataList: [
+           /*  [{id:1,name:'test1',parent : 0},{id:11,name:'test21',parent : 0}],
+              [{id:2,name:'test2',parent : 0},{id:22,name:'test22',parent : 0}],
+              {id:3,name:'test3',parent : 0},
+              {id:4,name:'test4',parent : 0},
+              {id:5,name:'test5',parent : 0},
+*/
+          ],
           active : [
             { value : '1', label : 'inactive'},
             { value : '0', label : 'active'},
           ],
     };
+  },
+  components : {
+        'MenuSelect' : dropHTML
   },
  watch: {
         onChange1() {
@@ -88,37 +183,131 @@ export default {
         }
  },
  computed : {
-    htmlContent() {
-         return `${this.innerHTML}`;
-    }
+    /*htmlContent() {
+         return this.innerHTML;
+    }*/
+     getData() {
+         console.log(this.localDataList);
+         return this.localDataList;
+     }
  },
  created()  {
-    this.loadHtml();
+      bus.$on('menu-change', (event) => {
+         this.onChange(event);
+     console.log('onchange parent',event);
+    })
+
+    this.callApi('get','app/menu-master/getmenu/').then((response) => {
+        this.dataList =[];
+        this.responseData = response.data;
+         this.recursivefunction(0, this.responseData);
+          this.filterData(0,0);
+        // this.localDataList = [...this.localDataList];
+        //this.filterData(response.data);
+    }) ;
  },
-  mounted() {},
+  /*mounted() {},
+  render() {
+    return (<App>
+      <span >
+       hello
+      </span></App>
+    )
+  },*/
 
   methods: {
-    loadHtml() {
+   /* loadHtml() {
         this.renderHtml();
     },
     renderHtml() {
-  this.innerHTML = `<Select  @on-change = "onChange($event)"
-            style="width: 300px"
-            placeholder="Menu" key="key1"
-            v-model = ${this.optionSelected}>
-            <Option  :value="" :key="-11">Select Menu</Option>
-            <Option  :value="-1" :key="-1">Enter Text</Option>
+        this.innerHTML = `<Select style="width: 300px" placeholder="Menu" key="key1" @on-change="testchange">
+           <Option  value="-11" :key="-11">Select Menu</Option>
+            <Option  value="-1" :key="-1">Enter Text</Option>
 
             </Select>`;
-    },
+    },*/
     addData() {
       this.customFlags.AddModalVisible = true;
     },
-    onChange(e) {
-      if(e==-1) {
+    testchange() {
+        console.log('eemmit');
+    },
+    filterData(pid,level) {
+        for(const index in this.dataList) {
+            if(index <= level) {
+                for (const dd in this.dataList[index]) {
+                      if(pid ==this.dataList[index][dd].pid) {
+                          if(! this.localDataList[index]) {
+                               this.localDataList[index] = [];
+                          }
+                          this.localDataList[index].push(this.dataList[index][dd]);
+                      }
+                }
+               /*  console.log(index,'index',this.dataList); */
+            }
+        }
+        this.localDataList = [...this.localDataList];
+          /* this.localDataList = this.dataList.filter((data,index)=>{
+            if(index <= level  ) {
+                data.filter((data2,idx)=>{
+                    console.log(pid,data2.pid,'hhh');
+                        if(pid == data2.id) {
+                           return data2[idx];
+                        }
+                });
+                 return this.dataList[index];
 
-      }
-      console.log('sacascasc',e);
+
+
+            }
+        }); */
+         console.log(this.localDataList,'this.localDataList', this.dataList,pid,level);
+    },
+    recursivefunction(parent ,arr, levelnum) {
+        for(let d in arr) {
+            if(arr[d].pid == parent) {
+                if(parent == 0) {
+                levelnum = 0;
+                 this.levelCounter =0;
+                } else {
+                    levelnum = this.levelCounter;
+                }
+                 this.levelCounter++;
+               this.recursivefunction(arr[d].id,arr,levelnum);
+              // console.log(this.dataList[levelnum],'first')
+                if(!this.dataList[levelnum]) {
+                    this.dataList[levelnum]=[];
+                    //console.log('in');
+
+                }
+                  this.dataList[levelnum].push(arr[d]);
+
+            }
+        }
+
+        /*this.localDataList = this.dataList.filter((data,index,array)=>{
+            if(index <= parent) {
+                console.log(index,parent,'in');
+               return this.dataList[index];
+
+            }
+        });
+        console.log(  this.localDataList,this.dataList,'  this.localDataList');*/
+    },
+    onChange(event) {
+        if(event) {
+            let dataSplit = event.selectedVal.split('|');
+            let parentID =  dataSplit[0];
+             this.localDataList =[];
+
+            console.log(parentID,'parentID',Object.keys(event.refs),event.refs);
+            if(!this.dataList) {
+               // this.recursivefunction(parentID, this.responseData);
+            }
+
+            this.filterData(parentID,(event.level+1));
+
+        }
     },
     save() {
 
