@@ -8,18 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class UserDetail extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','email','gender','hobby_id','image'];
-    public $timestamp = true;
+    protected $fillable = ['name','email','gender','image'];
+    public $timestamps = true;
 
-    public function hobby()
-    {
-        return $this->belongsTo('App\Models\Hobby','userDetail_id');
-    }
+
     public function setbdateAttribute($value)
     {
          $this->attributes['bdate']=\Carbon\Carbon::parse($value)->format('Y-m-d');
     } public function getbdateAttribute($value)
     {
-         $this->attributes['bdate']=\Carbon\Carbon::parse($value)->format('D-m-Y');
+         $this->attributes['bdate']=\Carbon\Carbon::parse($value)->format('d-m-Y');
     }
 }
