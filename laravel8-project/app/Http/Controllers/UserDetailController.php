@@ -26,6 +26,7 @@ class UserDetailController extends Controller
     public function Save(Request $request)
     {
 
+
         $this->validate( $request,[
             'name' => 'required',
             'email' => 'bail|required|email|unique:App\Models\UserDetail,email',
@@ -33,8 +34,18 @@ class UserDetailController extends Controller
             'bdate' => 'required',
             'file' => 'required'
         ]);
-
+     //   DB::beginTransaction();
         try {
+           /*  $userDetail =new UserDetail();
+             $userDetail->name= $request->name;
+             $userDetail->email= $request->email;
+             $userDetail->gender = $request->gender;
+            $imageName = time().'.'.$request->file->extension();
+            $request->file->move(public_path().'/uploads/userdetail/',$imageName);
+            $userDetail->file = $imageName;
+            $userDetail->bdate = $request->bdate;
+             $userDetail->save(); */
+            // $userDetail =new UserDetail();
             $this->userDetail->name= $request->name;
             $this->userDetail->email= $request->email;
             $this->userDetail->gender = $request->gender;
@@ -42,21 +53,30 @@ class UserDetailController extends Controller
             $request->file->move(public_path().'/uploads/userdetail/',$imageName);
             $this->userDetail->file = $imageName;
             $this->userDetail->bdate = $request->bdate;
-
-            $data = $this->userDetail->insert();
+            //Mutator from model will not applied if any other method will be used except save()
+            $this->userDetail->save();
             if($request->has('hobbies') && !empty($request->hobbies)) {
-            $hobbies = [];
-            $hobbies = array_map(function ($v) use ($data) {
-                return ['userDetail_id' => $v, 'hobby_id' => $data->id];
-            }, $request->hobbies);
-            $this->hobby->insert($hobbies);
+                $hobbies =[];
+                $hobbies = array_map(function ($v) {
+                        //print_r($v);
+                        return ['userDetail_id' => $v, 'hobby_id' => $this->userDetail->id, 'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                    ];
+                    }, $request->hobbies);
+
+                //Insert doesn't insert timestamps
+                $this->hobby->insert($hobbies);
 
             }
-            DB::commit();
-            $this->getUserDetail($data->id);
-            return redirect()->json($data, HttpFoundationResponse::HTTP_OK);
+          $data=  $this->userDetail->with(['hobby'])->where('id','=',$this->userDetail->id)->first();
+          // $data=  $this->userDetail->find($this->userDetail->id)->get();
+           // DB::commit();
+           // dd( $data) ;
+            return response()->json($data, HttpFoundationResponse::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollBack();
+            dd($th);
+
         }
 
 
@@ -66,8 +86,9 @@ class UserDetailController extends Controller
 
     }
     private function getUserDetail($id= null) {
+        dd($this->userDetail->find($id)->get()) ;
         if(!empty($id)) {
-                dd($this->userDetail->find($id)->get()) ;
+
         }
         return $this->userDetail->all();
     }
