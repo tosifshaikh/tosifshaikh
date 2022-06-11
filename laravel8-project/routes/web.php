@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/user', [App\Http\Controllers\UserDetailController::class, 'index'])->name('user');
+Route::get('/user/list', [App\Http\Controllers\UserDetailController::class, 'Show'])->name('user.list');
+Route::post('/user/add', [App\Http\Controllers\UserDetailController::class, 'Save'])->name('user.add');
