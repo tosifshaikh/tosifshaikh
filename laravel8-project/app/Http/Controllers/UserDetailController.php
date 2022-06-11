@@ -20,8 +20,8 @@ class UserDetailController extends Controller
     }
     public function index(Request $request)
     {
-       // dd($request);
-       return Response()->view('userdetail');
+       // dd($this->getUserDetail());
+       return Response()->view('userdetail',['collection'=>$this->getUserDetail(),'Hobbies' =>  Hobby::HOBBIES]);
     }
     public function Save(Request $request)
     {
@@ -59,7 +59,7 @@ class UserDetailController extends Controller
                 $hobbies =[];
                 $hobbies = array_map(function ($v) {
                         //print_r($v);
-                        return ['userDetail_id' => $v, 'hobby_id' => $this->userDetail->id, 'created_at' => date('Y-m-d H:i:s'),
+                        return ['userDetail_id' =>$this->userDetail->id, 'hobby_id' => $v, 'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')
                     ];
                     }, $request->hobbies);
@@ -68,11 +68,11 @@ class UserDetailController extends Controller
                 $this->hobby->insert($hobbies);
 
             }
-          $data=  $this->userDetail->with(['hobby'])->where('id','=',$this->userDetail->id)->first();
+
           // $data=  $this->userDetail->find($this->userDetail->id)->get();
            // DB::commit();
            // dd( $data) ;
-            return response()->json($data, HttpFoundationResponse::HTTP_OK);
+            return response()->json($this->getUserDetail($this->userDetail->id), HttpFoundationResponse::HTTP_OK);
         } catch (\Throwable $th) {
             DB::rollBack();
             dd($th);
@@ -85,12 +85,12 @@ class UserDetailController extends Controller
     {
 
     }
-    private function getUserDetail($id= null) {
-        dd($this->userDetail->find($id)->get()) ;
-        if(!empty($id)) {
+    public function getUserDetail($id= null) {
 
+        if(!empty($id)) {
+            return $this->userDetail->with(['hobby'])->where('id','=',$id)->first();
         }
-        return $this->userDetail->all();
+        return $this->userDetail->with(['hobby'])->orderBy('id','desc')->get();
     }
 
 }

@@ -37,6 +37,7 @@
         </style>
 
 <script>
+
     $(function() {
      /*  $('#user_list').DataTable({
         processing: true,
@@ -49,7 +50,9 @@
             {data: 'action', name: 'action', orderable: false, searchable: false},
          ]
       }); */
-      $( "#datepicker" ).datepicker();
+      setUpToken();
+      submitForm();
+      $( "#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });
     });
    </script>
     </head>
@@ -143,6 +146,19 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        @foreach ($collection as $key => $item)
+                        <tr id="row_{{$item->id}}">
+                            <td>{{$key+1}}</td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->email}}</td>
+                            <td>{{$item->gender==1 ? 'Male' : "Female" }}</td>
+                            <td>@foreach ($item->hobby as $itemhobby)
+                                {{ $Hobbies[$itemhobby->hobby_id]}}
+                            @endforeach</td>
+                        </tr>
+                        {{$item}}
+                        @endforeach
                     </tbody>
                 </table>
 
@@ -151,11 +167,7 @@
     </body>
 </html>
 <script>
-    $(document).ready(function () {
-      //  $('.close').alert("close");
-        setUpToken();
-        submitForm();
-    });
+
     function setUpToken() {
         $.ajaxSetup({
         headers: {
