@@ -427,10 +427,66 @@
     <script>
         var datatable = '';
         $(function() {
-            datatable = $('#datatable').DataTable();
+            datatable = $('#datatable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{{ Route('user-list') }}",
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'name'
+                    },
+                    {
+                        data: 'email'
+                    },
+                    {
+                        data: 'genderFormated'
+                    },
+                    {
+                        data: 'bdate'
+                    },
+                    {
+                        data: 'formatedHobbies'
+                    },
+                    {
+                        data: 'file'
+                    },
+                    {
+                        data: 'action'
+                    },
+
+                ],
+                ///function to assign row id
+                'createdRow': function(nRow, aData, iDataIndex) {
+                    $(nRow).attr('id', 'rowData_' + aData.id + '_' +
+                    iDataIndex); // or if you prefer 'row' + aData.aid + aData.bid
+                },
+            });
+            //function to display index column
+            datatable.on('order.dt search.dt', function() {
+                let i = 1;
+
+                datatable.cells(null, 0, {
+                    search: 'applied',
+                    order: 'applied'
+                }).every(function(cell) {
+                    this.data(i++);
+                });
+            }).draw();
             setUpToken();
             datePicker();
             submitForm();
+
+            $('#datatable').on('click', 'tbody .edit', function() {
+                var data = datatable.row($(this).closest('tr')).data();
+                Edit(data);
+            });
+            $('#datatable').on('click', 'tbody .delete', function() {
+                var data = datatable.row($(this).closest('tr')).data();
+                var rowID = (this).closest('tr').id;
+                Delete(data.DT_RowId, rowID);
+            });
 
         });
     </script>
@@ -528,32 +584,11 @@
                     <th>Gender</th>
                     <th>Birthdate</th>
                     <th>Hobbies</th>
+                    <th>File</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id='tbody'>
-                @foreach ($collection as $key => $item)
-                    <tr id="rowID_{{ $item->id }}">
-                        <td><span id="indexID_{{ $item->id }}">{{ $key + 1 }}</span></td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td>{{ $item->gender }}</td>
-                        <td>{{ $item->bdate }}</td>
-                        <td>
-                            @foreach ($item->hobby as $itemhobby)
-                                {{ $itemhobby->hobby_id }}
-                            @endforeach
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-warning"
-                                onclick="Edit({{ $item }})">Edit</button>
-                            <button type="button" class="btn btn-danger"
-                                onclick="Delete({{ $item->id }})">Delete</button>
-                        </td>
-
-                    </tr>
-                @endforeach
-
+            <tbody>
             </tbody>
         </table>
 
@@ -593,16 +628,9 @@
                         '<strong>Success!</strong> Data Edited Successfully!' :
                         '<strong>Success!</strong> Data Added Successfully!';
                     alertDiv('alert-success', msg, 1);
-                    if (action == 'Edit') {
-                        $("#rowID_" + EditID).replaceWith(renderGrid(data));
-                    } else {
-                       // $("#tbody").prepend(renderGrid(data));
-                       datatable.ajax.url("{{ Route('user-list') }}").load();
-
-                    }
-
                     reset();
-                    action = '';
+                    datatable.draw();
+                    datatable.ajax.reload();
 
                 },
                 error: function(data) {
@@ -615,9 +643,16 @@
         });
     }
 
+    function datePicker(data) {
+        let DatepickerObj = {
+            dateFormat: 'dd-mm-yy',
+        }
+        $("#datepicker").datepicker(DatepickerObj);
+    }
+
     function Edit(data) {
         action = 'Edit';
-        EditID = data.id;
+        EditID = data.DT_RowId;
         $("#name").val(data.name);
         $("#email").val(data.email);
         $('input[name=gender][value=' + data.gender + ']').prop('checked', true);
@@ -633,23 +668,20 @@
         $('#datepicker').val(data.bdate)
     }
 
-    function datePicker(data) {
-        let DatepickerObj = {
-            dateFormat: 'dd-mm-yy',
-        }
-        $("#datepicker").datepicker(DatepickerObj);
-    }
-
-    function Delete(id) {
+    function Delete(id, rowid) {
         $.ajax({
             url: "{{ Route('user-delete') }}",
             type: 'GET',
-            data: {id:id},
+            data: {
+                id: id
+            },
             success: function(data) {
                 let msg = '<strong>Success!</strong> Data Deleted Successfully!';
                 alertDiv('alert-success', msg, 1);
-                $('#rowID_' + id).remove();
-
+                $('#' + rowid).remove();
+                reset();
+                datatable.ajax.reload();
+                datatable.draw();
             },
             error: function(data) {
                 displayError(data);
@@ -658,36 +690,12 @@
         });
     }
 
-    function renderGrid(data) {
-        let indexid = 0;
-        if (action == 'Edit') {
-            indexid = $("#indexID_" + data.id).html();
-        }
-
-        let tr = '';
-        tr += "<tr id='rowID_" + data.id + "'>";
-        tr += "<td><span id='indexID_" + data.id + "'>" + indexid + "</span></td>";
-        tr += "<td>" + data.name + "</td>";
-        tr += "<td>" + data.email + "</td>";
-        tr += "<td>" + data.gender + "</td>";
-        tr += "<td>" + data.bdate + "</td>";
-        tr += "<td>";
-        for (let l in data.hobby) {
-            tr += data.hobby[l].hobby_id
-        }
-        tr += "</td>"
-        tr += "<td>";
-        tr += "  <button type='button' class='btn btn-warning' onclick='Edit(" + data + ")'>Edit</button>";
-        tr += "  <button type='button' class='btn btn-danger' onclick='Delete(" + data.id + ")'>Delete</button>";
-        tr += "</td>";
-        tr += "</tr>";
-        return tr;
-
-    }
-
     function reset() {
-        $(':input', '#postForm').not(':button, :submit, :reset, :hidden').val('').prop('checked', false).removeAttr(
-            'selected');
+        EditID = 0;
+        action = '';
+        $("input[name=gender]").prop('checked', false);
+        $("input[name='hobbies[]']").removeAttr('selected');
+        $("#postForm").trigger('reset');
     }
 
     function displayError(data) {

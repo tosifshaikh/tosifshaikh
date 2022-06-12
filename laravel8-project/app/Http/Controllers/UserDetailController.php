@@ -21,8 +21,8 @@ class UserDetailController extends Controller
     }
     public function index(Request $request)
     {
-       // dd($this->getUserDetail());
-       return Response()->view('userdetail',['collection'=>$this->getUserDetail(),'Hobbies' =>  Hobby::HOBBIES]);
+       //return Response()->view('userdetail',['collection'=>$this->getUserDetail(),'Hobbies' =>  Hobby::HOBBIES]);
+       return Response()->view('userdetail');
     }
     public function Save(Request $request)
     {
@@ -82,9 +82,80 @@ class UserDetailController extends Controller
 
 
     }
-    public function Show()
+    public function Show(Request $request)
     {
-        return response()->json($this->getUserDetail(), HttpFoundationResponse::HTTP_OK);
+        ## Read value
+     $draw = $request->get('draw');
+     $start = $request->get("start");
+     $rowperpage = $request->get("length"); // Rows display per page
+
+     $columnIndex_arr = $request->get('order');
+     $columnName_arr = $request->get('columns');
+     $order_arr = $request->get('order');
+     $search_arr = $request->get('search');
+
+     $columnIndex = $columnIndex_arr[0]['column']; // Column index
+     $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+     $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+     $searchValue = $search_arr['value']; // Search value
+
+     // Total records
+     $totalRecords = $this->userDetail->select('count(*) as allcount')->count();
+     $totalRecordswithFilter = $this->userDetail->select('count(*) as allcount')->where('name', 'like', '%' .$searchValue . '%')->count();
+
+     // Fetch records
+     $records = $this->userDetail->with(['hobby'])->orderBy($columnName,$columnSortOrder)
+       ->where('user_details.name', 'like', '%' .$searchValue . '%')
+       ->select('user_details.*')
+       ->skip($start)
+       ->take($rowperpage)
+       ->get();
+
+     $data_arr = array();
+
+     foreach($records as $record){
+        $id = $record->id;
+        $name = $record->name;
+        $email = $record->email;
+        $gender = $record->gender;
+        $file = $record->file;
+        $bdate = $record->bdate;
+        $hobby = $record->hobby;
+        $data_arr[] = array(
+          "id" => $id,
+          'DT_RowId' => $id,
+          "name" => $name,
+          "email" => $email,
+          'gender' =>  $gender,
+          "genderFormated" => ( $gender == 1) ? 'Male' : 'Female',
+          "file" => $file,
+          "bdate" => $bdate,
+          "hobby" => $hobby,
+          'formatedHobbies' => $this->formatHobbies($hobby),
+          "action" => '<button type="button" class="btn btn-warning edit" >Edit</button>
+                <button type="button" class="btn btn-danger delete">Delete</button>'
+        );
+     }
+
+     $response = array(
+        "draw" => intval($draw),
+        "iTotalRecords" => $totalRecords,
+        "iTotalDisplayRecords" => $totalRecordswithFilter,
+        "aaData" => $data_arr
+     );
+
+     return json_encode($response);
+     //exit;
+
+        //return response()->json($this->getUserDetail(), HttpFoundationResponse::HTTP_OK);
+    }
+    public function formatHobbies($hobbies = [])
+    {
+        $hobbyarr = [];
+        foreach($hobbies as $k => $value) {
+            $hobbyarr[]=$value->hobby_id;
+        }
+        return implode(',',$hobbyarr);
     }
     public function getUserDetail($id= null) {
 
