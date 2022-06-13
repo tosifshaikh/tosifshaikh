@@ -10,9 +10,6 @@ class Hobby extends Model
     use HasFactory;
     protected $fillable = ['userDetail_id','hobby_id'];
     public $timestamps = true;
-    public function hobby()
-    {
-      //  return $this->belongsToMany(hobby::class,'userDetail_id');
-      return $this->belongsToMany(UserDetail::class);
-    }
+    const HOBBIES= [1 => 'Cricket' ,2 => 'Football', 3 => 'Rugby'];
+
 }
