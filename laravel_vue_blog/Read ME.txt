@@ -1,1 +1,8 @@
 1) mounted () : it will executed before creating the component. created () : it will executed after creating the component for render
+2) database backup file laravel_vue.blog is under database folder
+3) one user login might be abc@yahoo.com and password will be 123456
+4) list of commands required.
+ 1. php artisan serve
+ 2. npm install
+ 3. composer update
+ 4. npm run watch
