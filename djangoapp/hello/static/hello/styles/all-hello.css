@@ -1,0 +1,62 @@
+section {
+    max-width: 40rem;
+    margin: 3rem auto;
+  }
+  
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .hello-item {
+    margin: 1rem 0;
+    background-color: #350490;
+    padding: 2rem;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .hello-summary {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .hello-image {
+    margin-right: 2rem;
+  }
+  
+  .hello-image img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .hello-details h3 {
+    color: inherit;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
+  
+  .hello-details address {
+    font-style: italic;
+  }
+  
+  .hello-actions {
+    margin-top: 1.5rem;
+    text-align: right;
+  }
+  
+  .hello-actions .btn {
+    background-color: #cb82fb;
+    border-color: #cb82fb;
+    color: #350490;
+    padding: 0.75rem 2rem;
+  }
+  
+  .hello-actions .btn:hover {
+    background-color: #ba82fb;
+    border-color: #ba82fb;
+  }

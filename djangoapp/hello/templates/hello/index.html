@@ -1,0 +1,43 @@
+{% extends 'hello/base/base.html' %}
+{% load static %}
+
+   {% block title %} All Meet ups {% endblock %}
+   {% block css_site %} 
+   <link rel="stylesheet" href="{% static 'hello/styles/all-hello.css' %}">
+   {% endblock %}
+   
+   {% block main_heading %}
+   <p>Find one of the best suit for main</p>
+   {% endblock %}
+
+   {% block body %}
+   
+       
+    <section>
+        <ol>
+            {% for hello_data in hellodata %}
+            <li class="hello-item"> 
+                <article>
+                    <div class="hello-summary">
+                        <div class="hello-image">
+                            <img src="" alt="">
+                        </div>
+                        <div class="hello-details">
+                            <h3>{{ hello_data.title }}</h3>
+                            <address>{{ hello_data.location}}</address>
+                        </div>
+                    </div>
+                    <div class="hello-actions">
+                      <!-- 
+                            <a href="/hello/{#{ hello_data.slug }#}" class="btn">More Details</a>
+                      -->  
+                      <a href="{% url 'details' hello_data.slug %}" class="btn">More Details</a>
+                    </div>
+                </article>
+            </li>
+            {% endfor%}
+        </ol>
+    </section>
+
+    {% endblock %}
+   
