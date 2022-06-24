@@ -1,5 +1,0 @@
---------------------------------------
-SQL INJECTION
-Logging in with following details:
-Username : ' or ''='
-Password : ' or ''='
