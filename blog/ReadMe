@@ -1,7 +1,12 @@
 //reference
 1 .https://www.youtube.com/https://www.youtube.com/watch?v=lqDRlmzi5Dc&list=PL_99hMDlL4d3-n63bsNaaDRnTZdCOvU6q&index=3watch?v=lqDRlmzi5Dc&list=PL_99hMDlL4d3-n63bsNaaDRnTZdCOvU6q&index=3
 
-2. List of commands Required.
+2. Copy .env.example as .env
+   cp .env.example .env
+
+3. database : laravel
+
+4. List of commands Required.
     1. php artisan serve
     2. npm install
     3. npm run watch
@@ -10,4 +15,4 @@
     6.php artisan migrate:refresh --seed
     7.php artisan db:seed --class=UserTableSeeder //if required
 
-3. database : laravel
+
