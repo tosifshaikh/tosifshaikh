@@ -1,0 +1,55 @@
+{% extends '' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} All Meet ups {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'hello/styles/base.css' %}">
+    <link rel="stylesheet" href="{% static 'hello/styles/all-hello.css' %}">
+</head>
+<body>
+   <!-- <h1>All Meet Ups</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto unde temporibus inventore ex sequi doloribus. Dignissimos error, quis tempore repudiandae quasi laborum laudantium, rerum quae cumque saepe hic temporibus assumenda!
+    </p>
+    {#%for hello_data in hellodata%#}
+    <h5>{#{ hello_data.title }#}</h5>
+    {#%endfor%#}  <h2>Hello</h2>
+  --> 
+    <header id="main-header">
+         <nav><a href="/hello" id="main-logo">DjangoHello</a></nav>
+         <p>Find one of the best suit for main</p>
+    </header>
+    <main>
+       
+        <section>
+            <ol>
+                {% for hello_data in hellodata %}
+                <li class="hello-item"> 
+                    <article>
+                        <div class="hello-summary">
+                            <div class="hello-image">
+                                <img src="" alt="">
+                            </div>
+                            <div class="hello-details">
+                                <h3>{{ hello_data.title }}</h3>
+                                <address>{{ hello_data.location}}</address>
+                            </div>
+                        </div>
+                        <div class="hello-actions">
+                          <!-- 
+                                <a href="/hello/{#{ hello_data.slug }#}" class="btn">More Details</a>
+                          -->  
+                          <a href="{% url 'details' hello_data.slug %}" class="btn">More Details</a>
+                        </div>
+                    </article>
+                </li>
+                {% endfor%}
+            </ol>
+        </section>
+    </main>
+</body> 
+</html>
