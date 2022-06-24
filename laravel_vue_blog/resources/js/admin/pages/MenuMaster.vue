@@ -26,7 +26,7 @@
         <div class="card">
              <div class="card-header">
             <Button @click="addData"><Icon type="md-add" />Add</Button>
-                 <MenuSelect  :data="getData"></MenuSelect>
+                 <MenuSelect  :data="getData" ></MenuSelect>
           </div>
           <Modal
             v-model="customFlags.AddModalVisible"
@@ -75,11 +75,12 @@ let dropHTML = {
                 <Option  :value="dt.id" :key="dt.id" v-for="dt in data">{{dt.name}}</Option>
                 </Select>`*/
      template :`<div>
-    <Select  v-for="(row, level) in data" style="width: 300px" placeholder="Menu" :key="level" ref="select_level" @on-change="childMenuChange($event,level)">
-    <Option  value="-11" :key="-11">Select Menu</Option>
-    <Option  value="-1" :key="-1">Enter Text</Option>
+    <Select   v-for="(row, level) in data" style="width: 300px" placeholder="Menu" :key="level" ref="select_level" @on-change="childMenuChange($event,level)">
+    <Option  :value="-11+'|'+level" :key="-11">Select Menu</Option>
+    <Option  :value="-1+'|'+level" :key="-1">Enter Text</Option>
     <Option  :value="column.id+'|'+column.pid"  :key="idx2"  v-for="(column, idx2) in row">{{column.menu_name}}</Option>
     </Select>
+
     </div>`  ,
     data() {
         return {
@@ -106,8 +107,9 @@ let dropHTML = {
      methods: {
          childMenuChange(event,idx) {
              this.$nextTick(()=>{
-                   console.log('child event',event,idx,this.$refs,this.$refs.select_level.length);
-                    bus.$emit('menu-change',{selectedVal : event,level :idx, refs : this.$refs});
+                   console.log('child event',event,idx,this.$refs,this.$refs.select_level.length,this.data);
+
+                    bus.$emit('menu-change',{selectedVal : event,level :idx, refs : this.$refs,});
 
              });
 
@@ -187,7 +189,7 @@ export default {
          return this.innerHTML;
     }*/
      getData() {
-         console.log(this.localDataList);
+         console.log(this.localDataList,'getData');
          return this.localDataList;
      }
  },
@@ -261,7 +263,14 @@ export default {
 
             }
         }); */
-         console.log(this.localDataList,'this.localDataList', this.dataList,pid,level);
+          if(!this.dataList[parseInt(level)+1] &&  this.localDataList.length == 0) {
+               // this.localDataList[parseInt(level)+1]= [];
+                //this.localDataList.push([]);
+                 // this.localDataList=[...this.localDataList];
+                //return false;
+               // this.recursivefunction(parentID, this.responseData);
+            }
+         console.log(this.localDataList,'this.localDataList', this.dataList,pid,level,this.localDataList.length);
     },
     recursivefunction(parent ,arr, levelnum) {
         for(let d in arr) {
@@ -298,13 +307,15 @@ export default {
         if(event) {
             let dataSplit = event.selectedVal.split('|');
             let parentID =  dataSplit[0];
-             this.localDataList =[];
 
-            console.log(parentID,'parentID',Object.keys(event.refs),event.refs);
-            if(!this.dataList) {
+
+            console.log(parentID,'parentID',Object.keys(event.refs),event.refs, this.dataList,dataSplit,this.dataList[dataSplit[1]+1]);
+             if(!this.dataList[parseInt(dataSplit[1])+1]) {
+                 this.localDataList.push([]);
+                return false;
                // this.recursivefunction(parentID, this.responseData);
             }
-
+            this.localDataList =[];
             this.filterData(parentID,(event.level+1));
 
         }
