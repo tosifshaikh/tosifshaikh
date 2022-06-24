@@ -16,3 +16,12 @@ php artisan passport:install
 
 mail trap.io to send mail
 https://mailtrap.io/inboxes/1551956/messages/2498983565
+
+
+4. commands required
+ 1.php artisan serve
+ 2. npm install
+ 3. npm run watch
+
+5. database laravel_vue.sql is inside database folder
+6. credential for login abc@email/admin
