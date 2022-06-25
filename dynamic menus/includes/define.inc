@@ -1,0 +1,9 @@
+<?php
+error_reporting(0);
+if(!define('BASEPATH'))
+{
+	define('MODULES','modules/');
+	define('JS','js/');
+	date_default_timezone_set("Asia/Bangkok");
+}
+?>
