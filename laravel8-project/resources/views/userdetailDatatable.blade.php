@@ -427,66 +427,7 @@
     <script>
         var datatable = '';
         $(function() {
-            datatable = $('#datatable').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": "{{ Route('user-list') }}",
-                columns: [{
-                        data: 'id'
-                    },
-                    {
-                        data: 'name'
-                    },
-                    {
-                        data: 'email'
-                    },
-                    {
-                        data: 'genderFormated'
-                    },
-                    {
-                        data: 'bdate'
-                    },
-                    {
-                        data: 'formatedHobbies'
-                    },
-                    {
-                        data: 'file'
-                    },
-                    {
-                        data: 'action'
-                    },
-
-                ],
-                ///function to assign row id
-                'createdRow': function(nRow, aData, iDataIndex) {
-                    $(nRow).attr('id', 'rowData_' + aData.id + '_' +
-                    iDataIndex); // or if you prefer 'row' + aData.aid + aData.bid
-                },
-            });
-            //function to display index column
-            datatable.on('order.dt search.dt', function() {
-                let i = 1;
-
-                datatable.cells(null, 0, {
-                    search: 'applied',
-                    order: 'applied'
-                }).every(function(cell) {
-                    this.data(i++);
-                });
-            }).draw();
-            setUpToken();
-            datePicker();
-            submitForm();
-
-            $('#datatable').on('click', 'tbody .edit', function() {
-                var data = datatable.row($(this).closest('tr')).data();
-                Edit(data);
-            });
-            $('#datatable').on('click', 'tbody .delete', function() {
-                var data = datatable.row($(this).closest('tr')).data();
-                var rowID = (this).closest('tr').id;
-                Delete(data.DT_RowId, rowID);
-            });
+            init();
 
         });
     </script>
@@ -494,15 +435,12 @@
 
 <body>
     <div class="container">
-        <div class="alert alert-success alert-dismissible" id="alertDiv">
-            <button type="button" class="close" data-dismiss="alert" onclick="alertDiv()">×</button>
-            <span id="msg"></span>
-        </div>
         <form method="POST" enctype="multipart/form-data" id="postForm" name="postForm" class="form-horizontal">
             @csrf
             <div class="row">
                 <div class="col-4">
-                    <input type="text" class="form-control" placeholder="Name" name="name" aria-label="name" id="name">
+                    <input type="text" class="form-control" placeholder="Name" name="name" aria-label="name"
+                        id="name">
                 </div>
                 <div class="col-4">
                     <input type="text" class="form-control" placeholder="Email" aria-label="Email" name="email"
@@ -560,37 +498,27 @@
             <div class="row">
                 <div class="col-4">
                     <label for="formFile" class="form-label">Upload file</label>
+                    <span id="spnfile" style="display: none"></span>
                     <input class="form-control" type="file" id="formFile" name="file">
+
+
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <input class="btn btn-primary" type="reset" value="Reset" onclick="reset()">
+                    <br />
+                    <button type="button" class="btn btn-primary" id='btnAdd' onclick="addAction()">Add</button>
+                    <button type="submit" class="btn btn-primary" disabled=disabled id='btnSave'>Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetfn()">Reset</button>
                 </div>
             </div>
         </form>
 
     </div>
 
-
+    <br /><br />
     <div class="container">
-        <table class="table table-striped table-bordered table-hover" id="datatable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Birthdate</th>
-                    <th>Hobbies</th>
-                    <th>File</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <table class="table table-striped table-bordered table-hover" id="datatable"> </table>
 
 
     </div>
@@ -600,6 +528,86 @@
 <script>
     let action = '';
     let EditID = 0;
+
+    function init() {
+        resetfn();
+        $("input, select, option, textarea", "#postForm").prop('disabled', true);
+        datatable = $('#datatable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ Route('user-list') }}",
+
+            columns: [{
+                    data: 'id',
+                    title: 'ID'
+                },
+                {
+                    data: 'name',
+                    title: 'Name'
+                },
+                {
+                    data: 'email',
+                    title: 'Email'
+                },
+                {
+                    data: 'genderFormated',
+                    title: 'Gender'
+                },
+                {
+                    data: 'bdate',
+                    title: 'Birthdate'
+                },
+                {
+                    data: 'formatedHobbies',
+                    title: 'Hobbies'
+                },
+                {
+                    data: 'file',
+                    title: 'File'
+                },
+                {
+                    data: 'action',
+                    title: 'Actions'
+                },
+
+            ],
+            ///function to assign row id
+            'createdRow': function(nRow, aData, iDataIndex) {
+                $(nRow).attr('id', 'rowData_' + aData.id + '_' +
+                    iDataIndex); // or if you prefer 'row' + aData.aid + aData.bid
+            },
+        });
+        //function to display index column
+        datatable.on('order.dt search.dt', function() {
+            let i = 1;
+
+            datatable.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+        datePicker();
+        submitForm();
+
+        $('#datatable').on('click', 'tbody .edit', function() {
+            var data = datatable.row($(this).closest('tr')).data();
+            Edit(data);
+        });
+        $('#datatable').on('click', 'tbody .delete', function() {
+            var data = datatable.row($(this).closest('tr')).data();
+            var rowID = (this).closest('tr').id;
+            Delete(data.DT_RowId, rowID);
+        });
+
+    }
+
+    function addAction() {
+        $("#btnAdd").prop('disabled', true);
+        $("input, select, option, textarea, #btnSave", "#postForm").prop('disabled', false);
+    }
 
     function setUpToken() {
         $.ajaxSetup({
@@ -611,24 +619,22 @@
 
 
     function submitForm() {
-        alertDiv();
+        setUpToken();
         $("form#postForm").submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
             if (action == 'Edit') {
                 formData.append("id", EditID);
             }
-
             $.ajax({
                 type: 'POST',
                 url: (action == 'Edit') ? "{{ Route('user-edit') }}" : "{{ Route('user-add') }}",
                 data: formData,
                 success: function(data) {
-                    let msg = ((action == 'Edit')) ?
-                        '<strong>Success!</strong> Data Edited Successfully!' :
-                        '<strong>Success!</strong> Data Added Successfully!';
-                    alertDiv('alert-success', msg, 1);
-                    reset();
+                    let msg = ((action == 'Edit')) ? ' Data Edited Successfully!' :
+                        'Data Added Successfully!';
+                    alert(msg);
+                    resetfn();
                     datatable.draw();
                     datatable.ajax.reload();
 
@@ -651,6 +657,8 @@
     }
 
     function Edit(data) {
+        $("input, select, option, textarea ,#btnSave", "#postForm").prop('disabled', false);
+        $("#btnAdd").prop('disabled', true);
         action = 'Edit';
         EditID = data.DT_RowId;
         $("#name").val(data.name);
@@ -665,6 +673,7 @@
 
             });
         }
+        $('#spnfile').css('display', '').html(data.file)
         $('#datepicker').val(data.bdate)
     }
 
@@ -676,10 +685,10 @@
                 id: id
             },
             success: function(data) {
-                let msg = '<strong>Success!</strong> Data Deleted Successfully!';
-                alertDiv('alert-success', msg, 1);
+                let msg = 'Data Deleted Successfully!';
+                alert(msg);
                 $('#' + rowid).remove();
-                reset();
+                resetfn();
                 datatable.ajax.reload();
                 datatable.draw();
             },
@@ -690,12 +699,16 @@
         });
     }
 
-    function reset() {
+    function resetfn() {
         EditID = 0;
         action = '';
-        $("input[name=gender]").prop('checked', false);
-        $("input[name='hobbies[]']").removeAttr('selected');
+        /*  $("input[name=gender]").prop('checked', false);
+         $("input[name='hobbies[]']").removeAttr('selected'); */
         $("#postForm").trigger('reset');
+        $("input, select, option, textarea ,#btnSave", "#postForm").prop('disabled', true);
+        $('#spnfile').html('');
+        $("#btnAdd").prop('disabled', false);
+
     }
 
     function displayError(data) {
@@ -705,26 +718,12 @@
 
             for (let e in errors) {
                 for (let t in errors[e]) {
-                    errorStr += ' <br />';
-                    errorStr += ' <strong>Warning!</strong> ' + errors[e][t];
+                    errorStr += errors[e][t] + "\n";
                 }
             }
-            $('#msg').html(errorStr);
+            alert(errorStr);
         } else {
-            errorStr = '<strong>Opps!</strong> Something Went Wrong!'
+            alert('Opps!Something Went Wrong!');
         }
-        alertDiv('alert-danger', errorStr, 1);
-    }
-
-    function alertDiv(classValue, msg, display) {
-        if (display == 1) {
-            $('#alertDiv').show().addClass(classValue);
-            $('#msg').html(msg);
-        } else {
-            $('#alertDiv').hide()
-            $('#msg').html('');
-        }
-
-
     }
 </script>
