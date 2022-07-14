@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendEmail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -147,7 +148,8 @@ class AdminController extends Controller
         return \response()->json(['message' => 'Some Error Occur'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }*/
     $cookie = cookie('jwt',$token,60*24); //1 day
-    return response()->json([
+    event(new SendEmail($user,$token));
+    $response =  response()->json([
         'msg' => 'You are logged in',
         'user' => ['email' => $user->email,'fullName'=>$user->fullName,'role' => ['roleName' => $user->role->roleName,'permission' => $user->role->permission], 'token' => $token, 'userId' => $user->id,'expireIn' => self::TOKEN_EXPIRY_TIME],
             /* 'acccess_token' => $tokenData->accessToken,
@@ -156,6 +158,7 @@ class AdminController extends Controller
             'expires_at' => Carbon::parse($tokenData->token->expires_at)->toDayDateTimeString(), */
         ],Response::HTTP_OK)->withCookie( $cookie);
 
+        return $response;
        /*  if (Auth::attempt(['email' => $request->email, 'password' => $request->pass])) {
 
             if ( $user->userType == 2) {
