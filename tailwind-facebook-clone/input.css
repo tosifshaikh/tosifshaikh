@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+/* 
+it will place btn class between components and utility classes.
+.btn{
+    @apply bg-purple-800 px-3 py-2 rounded-2xl text-white hover:text-purple-900 active:bg-purple-500 hover:bg-white hover:border-2 mx-2 sm:hover:bg-purple-100;
+} */
+@tailwind utilities;
+
+/* If you define a layer then, class will be automatically sequenced.*/
+@layer components{
+    .btncls{
+        @apply bg-purple-800 px-3 py-2 rounded-2xl text-white hover:text-purple-900 active:bg-purple-500 hover:bg-white hover:border-2 mx-2 sm:hover:bg-purple-100;
+    }
+}
