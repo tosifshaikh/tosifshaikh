@@ -1,0 +1,15 @@
+{
+    "name": "hp-pc/toucan-tech",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "src/",
+            "App\\" : "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ToucanTech"
+        }
+    ],
+    "require": {}
+}

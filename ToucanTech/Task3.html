@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3</title>
+</head>
+<script>
+    function load() {
+        initCheck();
+    }
+    function initCheck() {
+        const START_NUM = 1;
+        const END_NUM = 100;
+        let str = '';
+        for (let index = START_NUM; index <= END_NUM; index++) {
+            if (index % 3 == 0 && index % 5 == 0) {
+                str += index + ":ToucanTech<br />";
+            } else {
+                if (index % 3 == 0) {
+                    str += index + ":Toucan<br />";
+                }
+                if (index % 5 == 0) {
+                    str += index + ":Tech<br />";
+                }
+            }
+
+
+        }
+        if(document.getElementById('result')) {
+            document.getElementById('result').innerHTML = str;
+        }
+    }
+</script>
+
+<body onload="load()">
+    <div id="result"></div>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+Task 4 
+Below is an example PHP function. Examine the code then fill in: 
+1. The 9 missing comments in the function to explain the logic/what the code is doing
+2. The description at the top that explains what the function does 
+3. Describe what each of the return values means 
+C/C++ 
+/* 
+* Add a function description here 
+* Add a description of the return values here 
+*/ 
+private function checkDefaultEmailValid($userId=null) { 
+// Add comment 1 here  
+//	condition to check if user id is null or 0 then return -1
+
+if(empty($userId)) { 
+return -1; 
+} 
+// Add comment 2 here 
+//pass the valid user id and get default email address.
+$defaultEmail = $this->getDefaultEmailByUserId($userId); 
+// Add comment 3 here
+//if default email address is empty or not set then set one.
+if(empty($defaultEmail)) 
+{ 
+$this->set_default_email($userId); 
+$defaultEmail = 
+$this->getDefaultEmailByUserId($userId);
+} 
+// Add comment 4 here 
+//if default address is null and still empty then return -1;
+if(empty($defaultEmail)) 
+{ 
+return -1; 
+} 
+// Add comment 5 here 
+//if default email is found and is valid email and validated on less than 12 months ago then return true;
+if($defaultEmail['valid']>=1 and 
+($defaultEmail['validated_on'] > (time() - strtotime('-12 months')))) 
+{ 
+return 1; 
+} 
+// Add comment 6 here 
+//assign default email to variable
+$email = $defaultEmail['email']; 
+// Add comment 7 here 
+/* check email varible is not null or 0,
+ * also check its a valid email email, if not then return 2
+*/
+if (empty($email) or !filter_var($email, 
+FILTER_VALIDATE_EMAIL)) { 
+return 2; 
+} 
+// Add comment 8 here 
+//check email is a valid email address or not.
+$validationResults = $this->checkIfValid($email); 
+// Add comment 9 here 
+//if results 0 or empty then return 0, 1 otherwise.
+if( ! $validationResults ) { 
+return 0; 
+} else { 
+return 1; 
+} 
+}

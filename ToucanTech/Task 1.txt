@@ -1,0 +1,4 @@
+SELECT 
+e.UserRefID,e.emailaddress,e.`default`emails
+FROM profiles p LEFT JOIN emails e ON e.UserRefID= p.UserRefID
+WHERE e.UserRefID = 100567 AND p.Deceased=0 GROUP BY e.emailaddress HAVING COUNT(e.emailID) > 1;
